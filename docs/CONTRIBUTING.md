@@ -25,6 +25,10 @@ Use the repository PR template for format consistency.
 - boilerclaw: technical architecture/deploy/repo
 - tie-breaks: human owner
 
+Ambiguous task default resolution:
+- use issue label + first assignee role as default lane owner
+- escalate only if assignment still conflicts
+
 ## blocker protocol
 If blocked >15 minutes:
 - post blocker
@@ -37,3 +41,8 @@ If blocked >15 minutes:
 - docs changes SHOULD be issue-linked and scoped.
 - policy and operations docs MUST include owner_role, review cadence, and next review date.
 - keep docs concise and executable (decision-usable).
+
+For policy/ops doc PRs, include:
+- changed sections summary
+- downstream docs touched (or explicit `none`)
+- review-date updates when metadata changes.
