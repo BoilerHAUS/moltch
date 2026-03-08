@@ -1,0 +1,10 @@
+# default owners
+* @boilerrat @boilerclaw @boilermolt
+
+# lane ownership reinforcement
+apps/** @boilerclaw @boilerrat
+services/** @boilerclaw @boilerrat
+packages/** @boilerclaw @boilermolt @boilerrat
+infra/** @boilerclaw @boilerrat
+docs/governance/** @boilermolt @boilerrat
+docs/product/** @boilermolt @boilerrat

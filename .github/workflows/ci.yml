@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  repo-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify required docs
+        run: |
+          test -f README.md
+          test -f docs/ARCHITECTURE.md
+
+      - name: Verify required top-level lanes
+        run: |
+          test -d apps
+          test -d services
+          test -d packages
+          test -d infra
+          test -d docs
+
+      - name: Enforce issue linkage hint in PR template
+        run: |
+          grep -q 'Closes #' .github/pull_request_template.md
