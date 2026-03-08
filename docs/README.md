@@ -1,0 +1,30 @@
+# moltch docs index
+
+## purpose
+Single navigation hub for product, governance, operations, and contribution docs.
+
+## navigation map
+- architecture: `docs/ARCHITECTURE.md`
+- repo structure: `docs/REPO_STRUCTURE.md`
+- branch protection: `docs/BRANCH_PROTECTION.md`
+
+### product
+- v1 boundary and launch gate: `docs/product/PRD_V1_BOUNDARY.md`
+
+### governance
+- governance policy v1: `docs/governance/GOVERNANCE_V1.md`
+- treasury lifecycle v1: `docs/governance/TREASURY_PROPOSAL_LIFECYCLE_V1.md`
+
+### operations
+- runbook v1: `docs/operations/RUNBOOK_V1.md`
+- metrics schema v1: `docs/operations/METRICS_V1.md`
+- weekly report template: `docs/operations/WEEKLY_REPORT_TEMPLATE.md`
+- staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
+
+### contribution
+- contributor guide: `docs/CONTRIBUTING.md`
+
+## doc ownership and cadence
+- owner_role: agent_product_governance
+- review_cadence: weekly
+- next_review_due: 2026-03-15
