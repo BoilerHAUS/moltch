@@ -94,4 +94,5 @@ docker compose --env-file infra/environments/staging/.env.staging -f docker-comp
 ## notes
 - This is a staging-first baseline, not production HA.
 - For immutable tag-based staging deploys, use `docker-compose.staging.images.yml` (see `docs/operations/STAGING_IMAGE_VERSIONING.md`).
+- Optional edge + TLS routing baseline: see `docs/operations/STAGING_EDGE_TLS.md`.
 - Add external secrets management before production.
