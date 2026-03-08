@@ -1,0 +1,38 @@
+name: moltch-staging-images
+
+services:
+  api:
+    image: ${API_IMAGE_REF:?set API_IMAGE_REF to immutable tag, e.g. ghcr.io/boilerhaus/moltch-api:gitsha-<sha>}
+    environment:
+      NODE_ENV: ${API_NODE_ENV:-production}
+      PORT: ${API_PORT:-8080}
+      APP_NAME: ${API_APP_NAME:-moltch-api}
+      READY_TOKEN: ${API_READY_TOKEN:-}
+    ports:
+      - "${API_HOST_PORT:-8080}:${API_PORT:-8080}"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:$${PORT}/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    pull_policy: always
+    restart: unless-stopped
+
+  web:
+    image: ${WEB_IMAGE_REF:?set WEB_IMAGE_REF to immutable tag, e.g. ghcr.io/boilerhaus/moltch-web:gitsha-<sha>}
+    environment:
+      PORT: ${WEB_PORT:-3000}
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${WEB_HOST_PORT:-3000}:${WEB_PORT:-3000}"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:$${PORT}/"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    pull_policy: always
+    restart: unless-stopped

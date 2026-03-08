@@ -30,7 +30,11 @@ Optional (with defaults):
 From repo root:
 
 ```bash
+# build-first baseline deploy
 docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.yml up -d --build
+
+# immutable image-ref deploy (no rebuild)
+docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.images.yml up -d
 ```
 
 ## post-deploy validation checklist
@@ -70,4 +74,5 @@ docker compose --env-file infra/environments/staging/.env.staging -f docker-comp
 
 ## notes
 - This is a staging-first baseline, not production HA.
-- Add registry-pinned immutable tags and external secrets management before production.
+- For immutable tag-based staging deploys, use `docker-compose.staging.images.yml` (see `docs/operations/STAGING_IMAGE_VERSIONING.md`).
+- Add external secrets management before production.
