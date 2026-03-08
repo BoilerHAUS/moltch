@@ -30,6 +30,11 @@ EDGE_HTTPS_PORT=443
 - point `STAGING_WEB_DOMAIN` A/AAAA records to the staging host
 - ensure ports `80` and `443` are reachable for certificate issuance/renewal
 
+## external exposure posture (recommended)
+- expose only `edge` externally (`80/443`)
+- keep direct web/api service ports for internal operations only when possible
+- if direct ports remain published, restrict with host firewall rules (allow trusted IPs only)
+
 ## deploy
 From repo root:
 
@@ -76,6 +81,16 @@ docker compose \
   rm -f edge
 ```
 
+## certificate issuance troubleshooting
+- DNS not propagated yet: verify `A/AAAA` records resolve to staging host before first deploy
+- firewall/network blocks: verify inbound `80` and `443` are reachable from internet
+- ACME rate limits: avoid repeated failing issuance loops; fix DNS/firewall first, then retry
+- check edge logs for certificate events:
+```bash
+docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.yml -f docker-compose.staging.edge.yml logs edge --tail=200
+```
+
 ## notes
 - for local/private non-public staging, you can use Caddy internal certs by replacing site address with `:443` and adding `tls internal` in Caddyfile.
+- baseline security headers are set at edge (`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`).
 - production hardening (WAF, stricter headers, rate limits) should be added separately.
