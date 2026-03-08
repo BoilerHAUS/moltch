@@ -42,22 +42,41 @@ docker compose --env-file infra/environments/staging/.env.staging -f docker-comp
 ```bash
 docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.yml ps
 ```
-2. API health endpoint:
+2. One-command smoke verification:
+```bash
+WEB_PORT=${WEB_HOST_PORT:-3000} API_PORT=${API_HOST_PORT:-8080} EXPECTED_READY_STATUS=200 ./scripts/staging/smoke.sh
+```
+Example for pre-token production check (`/ready` expected 503):
+```bash
+WEB_PORT=${WEB_HOST_PORT:-3000} API_PORT=${API_HOST_PORT:-8080} EXPECTED_READY_STATUS=503 ./scripts/staging/smoke.sh
+```
+3. Optional direct endpoint checks:
 ```bash
 curl -fsS http://localhost:${API_HOST_PORT:-8080}/health
-```
-3. API readiness endpoint (expects `ready` when token is set):
-```bash
 curl -fsS http://localhost:${API_HOST_PORT:-8080}/ready
-```
-4. Web shell reachable:
-```bash
 curl -fsS http://localhost:${WEB_HOST_PORT:-3000}/ | head -n 5
 ```
-5. Logs quick scan:
+4. Logs quick scan:
 ```bash
 docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.yml logs --tail=100
 ```
+
+### smoke script usage notes
+- default targets: `http://localhost:3000/`, `http://localhost:8080/health`, `http://localhost:8080/ready`
+- override host/port/path with env vars: `WEB_HOST`, `WEB_PORT`, `API_HOST`, `API_PORT`, `WEB_PATH`, `API_HEALTH_PATH`, `API_READY_PATH`
+- expected statuses are configurable:
+  - `EXPECTED_WEB_STATUS` (default `200`)
+  - `EXPECTED_HEALTH_STATUS` (default `200`)
+  - `EXPECTED_READY_STATUS` (default `200`)
+- retry/backoff knobs:
+  - `SMOKE_RETRIES` (default `1`)
+  - `SMOKE_RETRY_SLEEP_SECONDS` (default `2`)
+- output modes:
+  - `SMOKE_OUTPUT=plain` (default)
+  - `SMOKE_OUTPUT=json` (for CI artifact ingestion)
+- exit code contract:
+  - `0` = all checks matched expectations
+  - `1` = one or more checks failed
 
 ## rollback
 ### fast rollback (stop this staging stack)
