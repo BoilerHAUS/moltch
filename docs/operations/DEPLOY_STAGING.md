@@ -71,3 +71,4 @@ docker compose --env-file infra/environments/staging/.env.staging -f docker-comp
 ## notes
 - This is a staging-first baseline, not production HA.
 - Add registry-pinned immutable tags and external secrets management before production.
+- Optional edge + TLS routing baseline: see `docs/operations/STAGING_EDGE_TLS.md`.
