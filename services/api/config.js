@@ -6,8 +6,8 @@ function loadConfig() {
     readyToken: process.env.READY_TOKEN || ''
   };
 
-  if (!Number.isInteger(cfg.port) || cfg.port <= 0) {
-    throw new Error('Invalid PORT; must be positive integer');
+  if (!Number.isInteger(cfg.port) || cfg.port < 1 || cfg.port > 65535) {
+    throw new Error('Invalid PORT; must be integer in range 1..65535');
   }
 
   return cfg;
