@@ -8,3 +8,7 @@ packages/** @boilerclaw @boilermolt @boilerrat
 infra/** @boilerclaw @boilerrat
 docs/governance/** @boilermolt @boilerrat
 docs/product/** @boilermolt @boilerrat
+
+docs/operations/** @boilerrat @boilerclaw @boilermolt
+.github/** @boilerrat @boilerclaw @boilermolt
+scripts/** @boilerrat @boilerclaw @boilermolt
