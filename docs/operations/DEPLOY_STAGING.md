@@ -42,6 +42,10 @@ docker compose --env-file infra/environments/staging/.env.staging -f docker-comp
 ```bash
 WEB_PORT=${WEB_HOST_PORT:-3000} API_PORT=${API_HOST_PORT:-8080} EXPECTED_READY_STATUS=200 ./scripts/staging/smoke.sh
 ```
+Example for pre-token production check (`/ready` expected 503):
+```bash
+WEB_PORT=${WEB_HOST_PORT:-3000} API_PORT=${API_HOST_PORT:-8080} EXPECTED_READY_STATUS=503 ./scripts/staging/smoke.sh
+```
 3. Optional direct endpoint checks:
 ```bash
 curl -fsS http://localhost:${API_HOST_PORT:-8080}/health
@@ -60,7 +64,15 @@ docker compose --env-file infra/environments/staging/.env.staging -f docker-comp
   - `EXPECTED_WEB_STATUS` (default `200`)
   - `EXPECTED_HEALTH_STATUS` (default `200`)
   - `EXPECTED_READY_STATUS` (default `200`)
-- exits non-zero on first failed check (CI/automation friendly)
+- retry/backoff knobs:
+  - `SMOKE_RETRIES` (default `1`)
+  - `SMOKE_RETRY_SLEEP_SECONDS` (default `2`)
+- output modes:
+  - `SMOKE_OUTPUT=plain` (default)
+  - `SMOKE_OUTPUT=json` (for CI artifact ingestion)
+- exit code contract:
+  - `0` = all checks matched expectations
+  - `1` = one or more checks failed
 
 ## rollback
 ### fast rollback (stop this staging stack)
