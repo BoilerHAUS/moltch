@@ -27,3 +27,8 @@ moltch starts as a **monorepo** to keep shared contracts, policy logic, and inte
 2. permissions model (roles/capabilities)
 3. treasury proposal state machine
 4. first clickable UI stub
+
+
+## contributor quick links
+- `docs/REPO_STRUCTURE.md`
+- `docs/ARCHITECTURE.md`
