@@ -1,0 +1,19 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# env/local secrets
+.env
+.env.*
+*.local
+
+# logs
+*.log
+logs/
+
+# node/python common artifacts
+node_modules/
+__pycache__/
+*.pyc
