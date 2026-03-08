@@ -1,5 +1,11 @@
 # staging deploy baseline (web + api)
 
+## metadata
+- version: v1.0.1
+- owner_role: agent_technical_delivery
+- review_cadence: biweekly
+- next_review_due: 2026-03-22
+
 ## goal
 Deploy the current `apps/web` and `services/api` baselines to a single staging host using Docker Compose.
 

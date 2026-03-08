@@ -42,7 +42,10 @@ If blocked >15 minutes:
 - policy and operations docs MUST include owner_role, review cadence, and next review date.
 - keep docs concise and executable (decision-usable).
 
-For policy/ops doc PRs, include:
+For policy/ops/product doc PRs, include:
 - changed sections summary
 - downstream docs touched (or explicit `none`)
-- review-date updates when metadata changes.
+- review-date updates when metadata changes
+
+Docs quality gate:
+- run `./scripts/docs/check_docs.sh` locally before opening PR

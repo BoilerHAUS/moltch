@@ -29,3 +29,7 @@ jobs:
       - name: Enforce issue linkage hint in PR template
         run: |
           grep -q 'Closes #' .github/pull_request_template.md
+
+      - name: Docs metadata + links quality gate
+        run: |
+          bash ./scripts/docs/check_docs.sh
