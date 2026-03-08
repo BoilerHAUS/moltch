@@ -4,6 +4,7 @@ const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const root = __dirname;
+const resolvedRoot = path.resolve(root);
 
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -12,11 +13,15 @@ const mime = {
 };
 
 http.createServer((req, res) => {
-  const reqPath = req.url === '/' ? '/index.html' : req.url;
-  const file = path.join(root, reqPath);
-  if (!file.startsWith(root)) {
+  const host = req.headers.host || 'localhost';
+  const pathname = new URL(req.url, `http://${host}`).pathname;
+  const reqPath = pathname === '/' ? '/index.html' : pathname;
+  const file = path.resolve(root, `.${reqPath}`);
+
+  if (!(file === resolvedRoot || file.startsWith(`${resolvedRoot}${path.sep}`))) {
     res.writeHead(403); return res.end('forbidden');
   }
+
   fs.readFile(file, (err, data) => {
     if (err) {
       res.writeHead(404); return res.end('not found');
