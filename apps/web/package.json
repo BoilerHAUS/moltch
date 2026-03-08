@@ -1,0 +1,9 @@
+{
+  "name": "moltch-web-shell",
+  "version": "0.1.0",
+  "private": true,
+  "description": "moltch cockpit shell",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

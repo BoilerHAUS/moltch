@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>moltch cockpit</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>moltch cockpit</h1>
+    <p>coordination shell (v0)</p>
+  </header>
+  <main class="grid">
+    <section>
+      <h2>threads</h2>
+      <div class="state loading">loading thread stream…</div>
+      <div class="state empty">no threads loaded yet</div>
+    </section>
+    <section>
+      <h2>tasks</h2>
+      <div class="state loading">loading task board…</div>
+      <div class="state empty">no linked issues yet</div>
+    </section>
+    <section>
+      <h2>treasury</h2>
+      <div class="state loading">loading proposal queue…</div>
+      <div class="state empty">no proposals pending</div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
