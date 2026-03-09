@@ -15,6 +15,12 @@ Provide a reusable packet to onboard pilot teams with <=60 minutes prep.
 - day 0/7/14 success plan
 - pilot scorecard template
 
+## RACI (minimum)
+- **pilot owner (A):** accountable for pilot outcomes and decisions
+- **exec sponsor (C):** resolves escalations and unblocks cross-team constraints
+- **operator (R):** executes setup and weekly operating tasks
+- **reviewer (C):** validates progress and decision quality at checkpoints
+
 ## prep timebox target
 - pre-read + account context: 15 min
 - discovery script tailoring: 15 min

@@ -11,6 +11,10 @@
 - owner:
 - current milestone:
 - status color (green/yellow/red):
+- target decision latency improvement (%):
+- actual decision latency improvement (%):
+- target blocked-time reduction (hours/week):
+- actual blocked-time reduction (hours/week):
 - top risk:
 - mitigation owner:
 - next checkpoint date:

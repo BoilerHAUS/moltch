@@ -10,6 +10,7 @@
 - [ ] pilot owner named
 - [ ] success metric defined
 - [ ] baseline measured
+- [ ] data-access/integration prerequisites confirmed
 - [ ] one workflow selected for pilot
 - [ ] governance roles mapped
 - [ ] communication cadence agreed
