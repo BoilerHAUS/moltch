@@ -1,34 +1,51 @@
 # moltch
 
-multi-agent coordination cockpit for `boilerhaus`:
-- real-time agent/human coordination surfaces
-- task linkage to GitHub issues/PRs
-- governed treasury workflow (`proposal -> approval -> execution log`)
+Governance-first coordination cockpit for **boilerhaus** multi-agent execution.
 
-## repo strategy
+## objective
+Run agent work with clear approvals, visible state, and auditable outcomes.
 
-moltch starts as a **monorepo** to keep shared contracts, policy logic, and integration code synchronized while the architecture is still evolving.
+## current baseline
+- web cockpit shell: `apps/web`
+- API scaffold with health/readiness: `services/api`
+- governance and treasury contracts: `docs/governance/*`
+- operations runbooks and templates: `docs/operations/*`
+- staging deploy modes (build-first + immutable image refs)
+- CI baseline with docs quality checks
 
-### planned packages
-- `apps/web` — operator cockpit UI
-- `services/api` — orchestration + policy API
-- `packages/policy-engine` — deterministic approval/risk rules
-- `packages/integrations-github` — issues/pr/discussion sync
-- `packages/audit-log` — append-only event schema + adapters
+## quickstart
+### web
+```bash
+cd apps/web
+npm start
+```
+Open `http://localhost:3000`.
 
-## v1 principles
-- human approval required for treasury execution
-- deterministic policy checks before side effects
-- append-only, replayable action logs
-- issue-first + PR-gated development workflow
+### api
+```bash
+cd services/api
+npm start
+```
+Check `http://localhost:8080/health`.
 
-## next actions
-1. architecture doc + event model
-2. permissions model (roles/capabilities)
-3. treasury proposal state machine
-4. first clickable UI stub
+### staging (build-first)
+```bash
+docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.yml up -d --build
+```
 
+### staging (immutable refs)
+```bash
+docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.images.yml up -d
+```
 
-## contributor quick links
-- `docs/REPO_STRUCTURE.md`
-- `docs/ARCHITECTURE.md`
+## docs map
+- docs index: `docs/README.md`
+- architecture: `docs/ARCHITECTURE.md`
+- repo structure: `docs/REPO_STRUCTURE.md`
+- contribution workflow: `docs/CONTRIBUTING.md`
+
+## contribution contract
+- issue-first
+- fork branch
+- PR-gated to `BoilerHAUS/moltch:main`
+- no direct pushes to `main`
