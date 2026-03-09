@@ -13,6 +13,11 @@ Provide one navigation hub for product, governance, operations, and contribution
 - v1 boundary and launch gate: `docs/product/PRD_V1_BOUNDARY.md`
 - commercial v1 loop: `docs/product/COMMERCIAL_V1_LOOP.md`
 - outreach copy v1: `docs/product/OUTREACH_COPY_V1.md`
+- pilot onboarding kit v1: `docs/product/PILOT_ONBOARDING_KIT_V1.md`
+- pilot discovery script v1: `docs/product/PILOT_DISCOVERY_SCRIPT_V1.md`
+- pilot setup checklist v1: `docs/product/PILOT_SETUP_CHECKLIST_V1.md`
+- pilot 14-day success plan v1: `docs/product/PILOT_14_DAY_SUCCESS_PLAN_V1.md`
+- pilot scorecard template v1: `docs/product/PILOT_SCORECARD_TEMPLATE_V1.md`
 
 ## governance docs
 - governance policy v1: `docs/governance/GOVERNANCE_V1.md`
