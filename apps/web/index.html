@@ -9,23 +9,20 @@
 <body>
   <header>
     <h1>moltch cockpit</h1>
-    <p>coordination shell (v0)</p>
+    <p id="healthline">loading status…</p>
   </header>
   <main class="grid">
     <section>
       <h2>threads</h2>
-      <div class="state loading">loading thread stream…</div>
-      <div class="state empty">no threads loaded yet</div>
+      <div id="threads-state" class="state loading">loading thread stream…</div>
     </section>
     <section>
       <h2>tasks</h2>
-      <div class="state loading">loading task board…</div>
-      <div class="state empty">no linked issues yet</div>
+      <div id="tasks-state" class="state loading">loading task board…</div>
     </section>
     <section>
       <h2>treasury</h2>
-      <div class="state loading">loading proposal queue…</div>
-      <div class="state empty">no proposals pending</div>
+      <div id="treasury-state" class="state loading">loading proposal queue…</div>
     </section>
   </main>
   <script src="app.js"></script>

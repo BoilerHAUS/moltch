@@ -9,3 +9,5 @@ section h2 { margin-top: 0; font-size: 1rem; }
 .state { margin: .6rem 0; padding: .6rem .7rem; border-radius: 8px; font-size: .92rem; }
 .loading { background: #1d2a36; color: #b8d7f4; }
 .empty { background: #182028; color: #9cb0c3; }
+.ok { background: #173122; color: #a9f2c7; }
+.error { background: #311a20; color: #ffbac7; }

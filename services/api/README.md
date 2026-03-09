@@ -11,6 +11,7 @@ Endpoints:
 - `GET /health` -> 200
 - `GET /ready` -> 200 in non-prod, or when `READY_TOKEN` is set
 - `GET /sync/github` -> normalized open issues/PRs for one configured repo
+- `GET /cockpit/summary` -> pane summary contract for web shell (threads/tasks/treasury + health)
 
 `/sync/github` payload fields:
 - `ok`
