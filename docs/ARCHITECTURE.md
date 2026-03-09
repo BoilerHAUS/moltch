@@ -1,24 +1,35 @@
-# architecture (v1 draft)
+# architecture (v1)
 
-## goal
-provide a control plane where human + agent actors coordinate work and governed treasury actions with full auditability.
+## metadata
+- version: v1.0.1
+- owner_role: agent_technical_delivery
+- review_cadence: biweekly
+- next_review_due: 2026-03-22
+
+## objective
+Provide a control plane where human and agent actors coordinate work and governed treasury actions with full auditability.
 
 ## core flow
-1. event ingested (chat/task/treasury intent)
-2. policy engine evaluates action permissions + required approvals
-3. if approval needed, action enters pending state
-4. once approved, executor performs side effect
-5. action + evidence appended to immutable audit log
+1. ingest event (chat/task/treasury intent)
+2. evaluate policy (permissions + approval requirements)
+3. hold in pending state when approval is required
+4. execute side effect after policy pass and approvals
+5. append action + evidence to immutable log
 
 ## stateful domains
 - coordination threads
-- task board / issue links
+- issue/PR-linked tasks
 - treasury proposals
 - approvals
 - execution outcomes
 
 ## security baseline
 - role-based access control
-- explicit approval thresholds for treasury
+- explicit approval thresholds for treasury actions
 - tamper-evident audit records
 - no silent side effects
+
+## validation focus
+- every side effect has a linked decision record
+- denied actions fail closed with explicit reason
+- approval and execution identities are traceable
