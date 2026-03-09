@@ -52,6 +52,18 @@ Required fields:
 - reason_code
 - ts_utc
 
+## reason-code catalog (v1)
+| reason_code | meaning | remediation |
+|---|---|---|
+| `allow_ok` | all checks passed | execute action |
+| `actor_unmapped` | actor not found in role registry | map actor identity or escalate |
+| `actor_inactive` | actor exists but inactive | reactivate actor or reassign |
+| `approval_missing` | required approval not present | request required approver |
+| `approval_stale` | approval window expired | request fresh approval |
+| `sod_violation` | separation-of-duties failed | reassign approver/executor |
+| `idempotency_replay` | duplicate idempotency key/hash | generate new request with fresh key |
+| `payload_invalid` | schema or canonical hash mismatch | fix payload and resubmit |
+
 ## actor verification contract
 - Actor identity MUST map from GitHub actor to role-registry actor_id.
 - If actor mapping fails, decision MUST fail closed (`blocked_needs_human`).
@@ -63,6 +75,29 @@ Required fields:
   - sorted object keys
   - UTF-8 encoding
   - no transient fields (`ts`, `nonce`, `signature`)
+
+Canonicalization example:
+- input JSON: `{ "b":2, "a":1, "ts":"2026-03-08T10:00:00Z" }`
+- normalized string: `{"a":1,"b":2}`
+- hash input bytes: UTF-8(normalized string)
+- request_hash: `sha256(<normalized-bytes>)`
+
+## action envelope pseudo-schema (starter)
+```json
+{
+  "type": "object",
+  "required": ["action_id", "action_class", "proposer_actor_id", "payload", "idempotency_key", "request_hash", "created_at_utc"],
+  "properties": {
+    "action_id": {"type": "string"},
+    "action_class": {"enum": ["A0", "A1", "A2", "A3"]},
+    "proposer_actor_id": {"type": "string"},
+    "payload": {"type": "object"},
+    "idempotency_key": {"type": "string"},
+    "request_hash": {"type": "string"},
+    "created_at_utc": {"type": "string", "format": "date-time"}
+  }
+}
+```
 
 ## fixture set (required)
 - valid payloads: allow path examples
