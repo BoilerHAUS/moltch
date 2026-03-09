@@ -1,6 +1,7 @@
 const http = require('http');
 const { loadConfig } = require('./config');
 const { log } = require('./logger');
+const { fetchGithubSync } = require('./githubSync');
 
 let cfg;
 try {
@@ -19,12 +20,12 @@ function sendJson(req, res, status, payload) {
   res.end(JSON.stringify(payload));
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   const start = Date.now();
   const host = req.headers.host || 'localhost';
   const pathname = new URL(req.url, `http://${host}`).pathname;
 
-  if (pathname === '/health' || pathname === '/ready') {
+  if (pathname === '/health' || pathname === '/ready' || pathname === '/sync/github') {
     if (req.method !== 'GET' && req.method !== 'HEAD') {
       sendJson(req, res, 405, { error: 'method_not_allowed' });
       log('info', 'request', { method: req.method, path: pathname, status: res.statusCode, ms: Date.now() - start });
@@ -37,6 +38,19 @@ const server = http.createServer((req, res) => {
   } else if (pathname === '/ready') {
     const ready = Boolean(cfg.readyToken || cfg.nodeEnv !== 'production');
     sendJson(req, res, ready ? 200 : 503, { status: ready ? 'ready' : 'not_ready', requires: ready ? null : 'READY_TOKEN' });
+  } else if (pathname === '/sync/github') {
+    const sync = await fetchGithubSync(cfg);
+    if (!sync.ok) {
+      sendJson(req, res, 502, {
+        ok: false,
+        repo: cfg.githubSyncRepo,
+        fetched_at: new Date().toISOString(),
+        items: [],
+        error: sync.error
+      });
+    } else {
+      sendJson(req, res, 200, sync);
+    }
   } else {
     sendJson(req, res, 404, { error: 'not_found' });
   }
