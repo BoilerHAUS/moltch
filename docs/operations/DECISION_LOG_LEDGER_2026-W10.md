@@ -36,7 +36,7 @@
 - options considered: ad-hoc roadmap updates / issue-only tracking / canonical roadmap mapping with DoD
 - decision: use `docs/product/ROADMAP_V1.md` as canonical mapping source with weekly review ritual
 - tradeoffs: higher maintenance overhead, much better execution visibility and drift control
-- affected KPIs: planning_latency_hours, blocker_resolution_hours
+- affected KPIs: decision_latency_p50_hours, blocked_time_hours_weekly
 - expected_observation_date: 2026-03-16
 - review_date: 2026-03-16
 - outcome_status: pending

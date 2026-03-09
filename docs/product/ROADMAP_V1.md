@@ -81,6 +81,9 @@ When issues open/close/re-scope:
 - update roadmap mapping in the same PR when possible, or
 - ship follow-up update within 24h.
 
+## sequencing note
+- #64 (three-pane interaction contract freeze) should land before #63 implementation hardening to prevent API/UI wiring churn.
+
 ## critical path dependencies
 1. API sync contract stable
 2. cockpit pane contract frozen
