@@ -20,6 +20,11 @@
 - pilots_started:
 - conversion_rate_positive_reply:
 
+## metric formulas
+- `conversion_rate_positive_reply = positive_replies / outreaches_sent`
+- `call_booking_rate = calls_booked / positive_replies`
+- `pilot_start_rate = pilots_started / calls_booked`
+
 ## observations vs assumptions
 - assumption 1:
 - evidence:
@@ -43,6 +48,11 @@
 - ICP adjustments:
 - copy changes:
 - offer changes:
+
+## decision thresholds
+- **proceed:** positive_replies >= 3 and calls_booked >= 2 and pilots_started >= 1
+- **pause:** positive_replies between 1 and 2, or calls_booked < 2 with recoverable objections
+- **pivot:** positive_replies = 0 after 10 qualified outreaches, or repeated non-fit signals >= 5
 
 ## decision
 - proceed / pause / pivot
