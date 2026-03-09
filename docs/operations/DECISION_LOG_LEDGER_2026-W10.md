@@ -21,4 +21,7 @@
 - affected KPIs: decision_latency_p50_hours
 - expected_observation_date: 2026-03-15
 - review_date: 2026-03-15
+- outcome_status: pending
 - outcome: pending
+- evidence_link: TBD
+- artifact_link: TBD
