@@ -13,6 +13,8 @@ Provide one navigation hub for product, governance, operations, and contribution
 - v1 boundary and launch gate: `docs/product/PRD_V1_BOUNDARY.md`
 - commercial v1 loop: `docs/product/COMMERCIAL_V1_LOOP.md`
 - outreach copy v1: `docs/product/OUTREACH_COPY_V1.md`
+- commercial cycle #2 execution plan: `docs/product/COMMERCIAL_CYCLE_2_EXECUTION_PLAN.md`
+- commercial cycle #2 memo template: `docs/product/COMMERCIAL_CYCLE_2_MEMO_TEMPLATE.md`
 - pilot onboarding kit v1: `docs/product/PILOT_ONBOARDING_KIT_V1.md`
 - pilot discovery script v1: `docs/product/PILOT_DISCOVERY_SCRIPT_V1.md`
 - pilot setup checklist v1: `docs/product/PILOT_SETUP_CHECKLIST_V1.md`
