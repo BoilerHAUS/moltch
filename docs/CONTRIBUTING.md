@@ -54,3 +54,16 @@ For policy/ops/product doc PRs, include:
 - changed sections summary
 - downstream docs touched (or `none`)
 - review-date updates when metadata changes
+
+Roadmap mapping discipline:
+- every open issue must appear in `docs/product/ROADMAP_V1.md` mapping table, or
+- be listed in `excluded issues` with explicit rationale
+- CI enforces this via:
+```bash
+./scripts/docs/check_docs.sh
+```
+
+Local troubleshooting (tokened run):
+```bash
+GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
+```

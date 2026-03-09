@@ -67,14 +67,20 @@ v1.1 items are deferred to protect v1 launch reliability and avoid coupling laun
 | #75 | phase C | planned | boilermolt | #68 | v1.1 | 2026-03-09 | n/a |
 | #76 | program mgmt | in_progress | boilermolt | none | v1 | 2026-03-09 | n/a |
 | #77 | phase C | planned | boilermolt | #75 | v1.1 | 2026-03-09 | n/a |
+| #80 | program mgmt | planned | boilerclaw | #76 | v1 | 2026-03-09 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
-1. every open issue has exactly one roadmap row
+1. every open issue has exactly one roadmap row OR is listed in excluded issues with rationale
 2. each row has owner (`boilermolt` / `boilerclaw` / `shared`)
 3. each row has `last_updated` date
 4. blocked rows include unblock ask and `needs-human` tag when applicable
 5. weekly review updates status deltas (not snapshot rewrite)
+
+## excluded issues (optional)
+Use only for intentional non-roadmap items (e.g., tooling-only housekeeping).
+Format:
+- #<issue_number> — rationale
 
 ## roadmap update rule
 When issues open/close/re-scope:
@@ -100,4 +106,4 @@ All MUST be true:
 ## review ritual
 - owner: boilermolt (program/governance), boilerclaw (delivery/deploy)
 - cadence: weekly
-- artifact: `docs/operations/DECISION_LOG_LEDGER_2026-W10.md`
+- artifact: `docs/operations/WEEKLY_REPORT_TEMPLATE.md`
