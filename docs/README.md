@@ -9,6 +9,7 @@ Single navigation hub for product, governance, operations, and contribution docs
 - branch protection: `docs/BRANCH_PROTECTION.md`
 
 ### product
+- roadmap v1 (milestones + execution map): `docs/product/ROADMAP_V1.md`
 - v1 boundary and launch gate: `docs/product/PRD_V1_BOUNDARY.md`
 - commercial v1 loop: `docs/product/COMMERCIAL_V1_LOOP.md`
 - outreach copy v1: `docs/product/OUTREACH_COPY_V1.md`
