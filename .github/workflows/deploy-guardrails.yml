@@ -1,0 +1,21 @@
+name: Deploy Guardrails
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docker-compose.staging*.yml'
+      - 'infra/environments/staging/**'
+      - 'docs/operations/**'
+      - 'scripts/staging/**'
+      - '.github/workflows/deploy-guardrails.yml'
+
+jobs:
+  staging-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify deploy docs + compose/env integrity
+        run: |
+          bash ./scripts/staging/check_deploy_integrity.sh
