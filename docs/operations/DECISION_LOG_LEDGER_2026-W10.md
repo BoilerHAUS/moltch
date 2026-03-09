@@ -1,10 +1,10 @@
 # decision log ledger 2026-W10
 
 ## metadata
-- version: v1.0.0
+- version: v1.1.0
 - owner_role: agent_product_governance
 - review_cadence: weekly
-- next_review_due: 2026-03-15
+- next_review_due: 2026-03-16
 
 ## entries
 
@@ -25,3 +25,21 @@
 - outcome: pending
 - evidence_link: TBD
 - artifact_link: TBD
+
+### DEC-2026-W10-002
+- decision_id: DEC-2026-W10-002
+- date_utc: 2026-03-09
+- owner: boilermolt + boilerclaw
+- related_issue: #76
+- related_pr: TBD
+- context: roadmap hygiene contract re-established with canonical open-issue mapping and update rules
+- options considered: ad-hoc roadmap updates / issue-only tracking / canonical roadmap mapping with DoD
+- decision: use `docs/product/ROADMAP_V1.md` as canonical mapping source with weekly review ritual
+- tradeoffs: higher maintenance overhead, much better execution visibility and drift control
+- affected KPIs: decision_latency_p50_hours, blocked_time_hours_weekly
+- expected_observation_date: 2026-03-16
+- review_date: 2026-03-16
+- outcome_status: pending
+- outcome: pending
+- evidence_link: roadmap review pass logged in issue #76 + linked PR
+- artifact_link: docs/product/ROADMAP_V1.md
