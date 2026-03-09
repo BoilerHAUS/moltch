@@ -22,6 +22,8 @@ Provide one navigation hub for product, governance, operations, and contribution
 ## governance docs
 - governance policy v1: `docs/governance/GOVERNANCE_V1.md`
 - treasury lifecycle v1: `docs/governance/TREASURY_PROPOSAL_LIFECYCLE_V1.md`
+- policy registry schema v1.1: `docs/governance/POLICY_REGISTRY_SCHEMA_V1.md`
+- policy registry fixtures v1.1: `docs/governance/POLICY_REGISTRY_FIXTURES_V1.md`
 
 ## operations docs
 - runbook v1: `docs/operations/RUNBOOK_V1.md`
