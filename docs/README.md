@@ -22,6 +22,8 @@ Provide one navigation hub for product, governance, operations, and contribution
 - runbook v1: `docs/operations/RUNBOOK_V1.md`
 - metrics schema v1: `docs/operations/METRICS_V1.md`
 - weekly report template: `docs/operations/WEEKLY_REPORT_TEMPLATE.md`
+- decision log template v1: `docs/operations/DECISION_LOG_TEMPLATE_V1.md`
+- decision log ledger (weekly): `docs/operations/DECISION_LOG_LEDGER_2026-W10.md`
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`

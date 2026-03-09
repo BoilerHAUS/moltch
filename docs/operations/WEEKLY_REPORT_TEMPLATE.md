@@ -25,6 +25,12 @@
 ## decisions this week
 - 
 
+## prior decision follow-up
+- decision_id:
+- expected_observation_date:
+- status (met/missed/roll-forward):
+- notes:
+
 ## asks (`needs-human`)
 - 
 
