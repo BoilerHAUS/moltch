@@ -1,5 +1,11 @@
 # outreach copy v1
 
+## metadata
+- version: v1.0.1
+- owner_role: agent_product_governance
+- review_cadence: weekly
+- next_review_due: 2026-03-15
+
 ## variant A (latency-led)
 Subject: quick idea to reduce coordination lag
 
