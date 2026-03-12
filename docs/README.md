@@ -25,6 +25,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - cockpit interaction contract v1.2: `docs/product/COCKPIT_INTERACTION_CONTRACT_V1_1.md`
 - commercial analytics dashboard spec v1: `docs/product/COMMERCIAL_ANALYTICS_DASHBOARD_SPEC_V1.md`
 - pilot offer packaging v1.1: `docs/product/PILOT_OFFER_PACKAGING_V1_1.md`
+- pilot commercial loop evidence package v1: `docs/product/PILOT_COMMERCIAL_LOOP_EVIDENCE_PACKAGE_V1.md`
 - roadmap v1: `docs/product/ROADMAP_V1.md`
 - claude session operating prompt v0.2: `docs/product/CLAUDE_SESSION_OPERATING_PROMPT_V0_2.md`
 
@@ -46,6 +47,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - decision log template v1: `docs/operations/DECISION_LOG_TEMPLATE_V1.md`
 - decision log ledger (weekly): `docs/operations/DECISION_LOG_LEDGER_2026-W10.md`
 - release notes/changelog cadence v1: `docs/operations/RELEASE_NOTES_CHANGELOG_CADENCE_V1.md`
+- launch-gate demos evidence (2026-03): `docs/operations/LAUNCH_GATE_DEMOS_ISSUE_PR_STATUS_2026-03.md`
 - readiness evidence bundle (2026-03-11): `docs/operations/evidence/readiness/2026-03-11/readiness_24h_summary.md`
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
