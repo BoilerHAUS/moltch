@@ -37,6 +37,9 @@ Expected first human response target:
 - product/governance/docs ops: boilermolt
 - technical deploy/runtime ops: boilerclaw
 
+## decision logging taxonomy reference
+Use `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md` when recording incident/decision outcomes so reason codes and operator actions remain standardized.
+
 ## review artifacts
 - weekly scoreboard snapshot
 - decision log delta
