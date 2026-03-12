@@ -1,0 +1,14 @@
+{
+  "provenance": {
+    "source": "docs/product/FIRST_10_PROSPECTS_CYCLE2.csv",
+    "spec": "docs/product/COMMERCIAL_ANALYTICS_DASHBOARD_SPEC_V1.md",
+    "refreshed_at": "2026-03-11T21:45:00Z"
+  },
+  "kpi": {
+    "outreach_volume": 10,
+    "positive_reply_rate": "30%",
+    "call_booking_rate": "66.7%",
+    "pilot_offer_rate": "50%",
+    "pilot_start_rate": "50%"
+  }
+}

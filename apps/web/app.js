@@ -1,3 +1,5 @@
+window.ENABLE_COMMERCIAL_ANALYTICS = window.ENABLE_COMMERCIAL_ANALYTICS === true;
+
 const healthline = document.getElementById('healthline');
 const treasuryState = document.getElementById('treasury-state');
 
@@ -8,7 +10,8 @@ const state = {
 
 const el = {
   threads: document.getElementById('threads-content'),
-  tasks: document.getElementById('tasks-content')
+  tasks: document.getElementById('tasks-content'),
+  analytics: document.getElementById('analytics-content')
 };
 
 function setState(node, mode, text) {
@@ -134,4 +137,54 @@ async function loadTasks(threadId) {
   }
 }
 
+function renderAnalyticsState(mode, text) {
+  el.analytics.innerHTML = `<div class="state ${mode}">${text}</div>`;
+}
+
+function renderAnalytics(data) {
+  const kpi = data?.kpi || {};
+  const provenance = data?.provenance || {};
+
+  const rows = [
+    ['outreach_volume', kpi.outreach_volume ?? 'n/a'],
+    ['positive_reply_rate', kpi.positive_reply_rate ?? 'n/a'],
+    ['call_booking_rate', kpi.call_booking_rate ?? 'n/a'],
+    ['pilot_offer_rate', kpi.pilot_offer_rate ?? 'n/a'],
+    ['pilot_start_rate', kpi.pilot_start_rate ?? 'n/a']
+  ];
+
+  const items = rows
+    .map(([name, value]) => `<li class="row-item"><div><strong>${name}</strong></div><div class="right"><span class="pill">${value}</span></div></li>`)
+    .join('');
+
+  el.analytics.innerHTML = `
+    <div class="state ok">source=${provenance.source || 'n/a'} · refreshed_at=${provenance.refreshed_at || 'n/a'}</div>
+    <ul class="list">${items}</ul>
+  `;
+}
+
+async function loadAnalytics() {
+  if (window.ENABLE_COMMERCIAL_ANALYTICS !== true) {
+    renderAnalyticsState('empty', 'feature gated: available after v1 launch checkpoint');
+    return;
+  }
+
+  renderAnalyticsState('loading', 'loading analytics snapshot…');
+  try {
+    const res = await fetch('/artifacts/commercial_analytics_snapshot_v1.json', { headers: { Accept: 'application/json' } });
+    if (!res.ok) {
+      if (res.status === 404) {
+        renderAnalyticsState('empty', 'no analytics snapshot artifact found');
+        return;
+      }
+      throw new Error(`analytics unavailable (${res.status})`);
+    }
+    const data = await res.json();
+    renderAnalytics(data);
+  } catch (err) {
+    renderAnalyticsState('error', `${err.message} (explicit error state)`);
+  }
+}
+
 loadThreads();
+loadAnalytics();
