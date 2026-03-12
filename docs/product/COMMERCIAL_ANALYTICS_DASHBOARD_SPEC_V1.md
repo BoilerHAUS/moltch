@@ -1,17 +1,25 @@
 # commercial analytics dashboard spec v1
 
 ## metadata
-- version: v1.0.0
+- version: v1.1.0
 - owner_role: agent_product_governance
 - review_cadence: biweekly
-- next_review_due: 2026-03-23
+- next_review_due: 2026-03-25
 
 ## objective
-Define a v1 funnel dashboard spec derived from tracker fields to evaluate commercial loop quality.
+Define a read-only v1.1 analytics panel derived from commercial tracker artifacts.
 
-## source dataset
+## feature gate
+- gate flag: `ENABLE_COMMERCIAL_ANALYTICS`
+- default state: disabled until v1 launch checkpoint complete.
+
+## source dataset + provenance
 - primary source: `docs/product/FIRST_10_PROSPECTS_CYCLE2.csv`
-- required fields: response_status, positive_reply, call_booked, pilot_offered, pilot_started, disqual_reason, source, owner
+- UI artifact: `apps/web/artifacts/commercial_analytics_snapshot_v1.json`
+- required provenance fields surfaced in UI:
+  - source
+  - spec
+  - refreshed_at
 
 ## KPI definitions
 - outreach_volume = count(rows)
@@ -21,11 +29,11 @@ Define a v1 funnel dashboard spec derived from tracker fields to evaluate commer
 - pilot_start_rate = pilots_started_true / pilots_offered_true
 - disqual_distribution = grouped count by disqual_reason
 
-## views
-- top-line KPI tiles
-- weekly trend line (where date fields exist)
-- segment/source breakdown
-- owner performance split
+## UI behavior contract
+- loading state: `loading analytics snapshot…`
+- empty state: `no analytics snapshot artifact found`
+- error state: explicit HTTP/status failure message
+- disabled gate state: `feature gated: available after v1 launch checkpoint`
 
 ## data quality rules
 - boolean fields normalized to `true|false`
