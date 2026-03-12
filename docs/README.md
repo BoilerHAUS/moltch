@@ -48,6 +48,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - decision log ledger (weekly): `docs/operations/DECISION_LOG_LEDGER_2026-W10.md`
 - release notes/changelog cadence v1: `docs/operations/RELEASE_NOTES_CHANGELOG_CADENCE_V1.md`
 - launch-gate demos evidence (2026-03): `docs/operations/LAUNCH_GATE_DEMOS_ISSUE_PR_STATUS_2026-03.md`
+- readiness evidence bundle (2026-03-11): `docs/operations/evidence/readiness/2026-03-11/readiness_24h_summary.md`
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
