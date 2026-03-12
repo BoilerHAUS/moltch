@@ -12,6 +12,8 @@ Endpoints:
 - `GET /ready` -> 200 in non-prod, or when `READY_TOKEN` is set
 - `GET /sync/github` -> normalized open issues/PRs for one configured repo
 - `GET /cockpit/summary` -> pane summary contract for web shell (threads/tasks/treasury + health)
+- `GET /v1/threads` -> thread list + linked item counts (read-only)
+- `GET /v1/threads/:thread_id/tasks` -> linked issue/PR status for selected thread
 
 `/sync/github` payload fields:
 - `ok`

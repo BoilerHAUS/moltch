@@ -1,0 +1,47 @@
+{
+  "version": "v1.0.0",
+  "generated_at": "2026-03-11T23:00:00Z",
+  "threads": [
+    {
+      "thread_id": "thread-63",
+      "title": "Phase A: issue/PR sync adapter + tasks pane",
+      "source": "github",
+      "stale": false,
+      "updated_at": "2026-03-11T22:48:00Z",
+      "items": [
+        {
+          "type": "issue",
+          "number": 63,
+          "repo": "BoilerHAUS/moltch",
+          "title": "Phase A: Implement GitHub issue/PR sync adapter and wire tasks pane data",
+          "status": "open",
+          "url": "https://github.com/BoilerHAUS/moltch/issues/63"
+        },
+        {
+          "type": "pull_request",
+          "number": 67,
+          "repo": "BoilerHAUS/moltch",
+          "title": "wip: v1 issue/pr sync contract + tasks pane wiring",
+          "status": "draft",
+          "url": "https://github.com/BoilerHAUS/moltch/pull/67"
+        }
+      ]
+    },
+    {
+      "thread_id": "thread-64",
+      "title": "three-pane interaction contract",
+      "source": "github",
+      "stale": true,
+      "updated_at": "2026-03-10T18:16:00Z",
+      "items": []
+    },
+    {
+      "thread_id": "thread-missing",
+      "title": "unlinked triage thread",
+      "source": "internal",
+      "stale": false,
+      "updated_at": "2026-03-11T21:00:00Z",
+      "items": []
+    }
+  ]
+}

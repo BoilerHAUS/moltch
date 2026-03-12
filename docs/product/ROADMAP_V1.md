@@ -48,6 +48,9 @@ Allowed statuses:
 - #72 dashboard analytics view from commercial tracker
 - #75 release-note/changelog cadence
 - #77 policy/doc lifecycle refinement from weekly decision deltas
+- #83 stable policy-engine interface for future on-chain implementation
+- #84 on-chain policy enforcement + audit log (deferred)
+- #86 v0 smart-contract spec pack + audit checklist
 
 ### defer rationale
 v1.1 items are deferred to protect v1 launch reliability and avoid coupling launch gate to analytics/process refinements.
@@ -68,6 +71,9 @@ v1.1 items are deferred to protect v1 launch reliability and avoid coupling laun
 | #76 | program mgmt | in_progress | boilermolt | none | v1 | 2026-03-09 | n/a |
 | #77 | phase C | planned | boilermolt | #75 | v1.1 | 2026-03-09 | n/a |
 | #80 | program mgmt | planned | boilerclaw | #76 | v1 | 2026-03-09 | n/a |
+| #83 | phase C | planned | shared | #67 | v1.1 | 2026-03-12 | n/a |
+| #84 | phase C | planned | shared | #83 | v1.1 | 2026-03-12 | n/a |
+| #86 | phase C | planned | shared | #83, #84 | v1.1 | 2026-03-12 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
@@ -81,6 +87,8 @@ A roadmap update is done only when all are true:
 Use only for intentional non-roadmap items (e.g., tooling-only housekeeping).
 Format:
 - #<issue_number> — rationale
+
+- #88 — tooling preparation thread (agent environment setup), not part of v1 product/delivery critical path.
 
 ## roadmap update rule
 When issues open/close/re-scope:
