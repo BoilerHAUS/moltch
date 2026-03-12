@@ -46,6 +46,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - decision log template v1: `docs/operations/DECISION_LOG_TEMPLATE_V1.md`
 - decision log ledger (weekly): `docs/operations/DECISION_LOG_LEDGER_2026-W10.md`
 - release notes/changelog cadence v1: `docs/operations/RELEASE_NOTES_CHANGELOG_CADENCE_V1.md`
+- policy/doc lifecycle refinement v1: `docs/operations/POLICY_DOC_LIFECYCLE_REFINEMENT_V1.md`
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
