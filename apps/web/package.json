@@ -4,6 +4,7 @@
   "private": true,
   "description": "moltch cockpit shell",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test:contract": "node tests/pane-contract.test.js"
   }
 }
