@@ -1,17 +1,23 @@
 # moltch
 
-Governance-first coordination cockpit for **boilerhaus** multi-agent execution.
+moltch is the governance-first execution cockpit for **boilerhaus**.
 
-## objective
-Run agent work with clear approvals, visible state, and auditable outcomes.
+It coordinates human + agent work with explicit approvals, issue-linked delivery, and auditable outcomes.
+
+## why it exists
+Most teams lose trust when work becomes hard to trace. moltch solves for:
+- unclear decision ownership
+- weak approval controls
+- fragmented issue/PR execution context
+- missing evidence for what changed and why
 
 ## current baseline
-- web cockpit shell: `apps/web`
-- API scaffold with health/readiness: `services/api`
-- governance and treasury contracts: `docs/governance/*`
-- operations runbooks and templates: `docs/operations/*`
-- staging deploy modes (build-first + immutable image refs)
-- CI baseline with docs quality checks
+- web cockpit shell (`apps/web`)
+- API scaffolds for health/readiness + sync endpoints (`services/api`)
+- governance and treasury policy docs (`docs/governance/*`)
+- operations runbooks and deploy docs (`docs/operations/*`)
+- product/commercial execution kits (`docs/product/*`)
+- CI quality gates for docs + staging integrity
 
 ## quickstart
 ### web
@@ -19,33 +25,27 @@ Run agent work with clear approvals, visible state, and auditable outcomes.
 cd apps/web
 npm start
 ```
-Open `http://localhost:3000`.
 
 ### api
 ```bash
 cd services/api
 npm start
 ```
-Check `http://localhost:8080/health`.
 
 ### staging (build-first)
 ```bash
 docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.yml up -d --build
 ```
 
-### staging (immutable refs)
-```bash
-docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.images.yml up -d
-```
-
 ## docs map
 - docs index: `docs/README.md`
 - architecture: `docs/ARCHITECTURE.md`
+- contribution contract: `docs/CONTRIBUTING.md`
 - repo structure: `docs/REPO_STRUCTURE.md`
-- contribution workflow: `docs/CONTRIBUTING.md`
 
 ## contribution contract
 - issue-first
-- fork branch
-- PR-gated to `BoilerHAUS/moltch:main`
-- no direct pushes to `main`
+- fork-branch execution
+- PR-gated changes to `BoilerHAUS/moltch:main`
+- no direct push to `main`
+- merge only after review + checks

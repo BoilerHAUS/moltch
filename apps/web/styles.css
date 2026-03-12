@@ -10,7 +10,8 @@ section h2 { margin-top: 0; font-size: 1rem; }
 .state { margin: .6rem 0; padding: .6rem .7rem; border-radius: 8px; font-size: .92rem; }
 .loading { background: #1d2a36; color: #b8d7f4; }
 .empty { background: #182028; color: #9cb0c3; }
-.error { background: #3a161c; color: #ffd7dd; }
+.ok { background: #173122; color: #a9f2c7; }
+.error { background: #311a20; color: #ffbac7; }
 .stale { background: #35280e; color: #ffdca5; }
 
 .list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .55rem; }

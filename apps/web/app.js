@@ -1,3 +1,6 @@
+const healthline = document.getElementById('healthline');
+const treasuryState = document.getElementById('treasury-state');
+
 const state = {
   threads: [],
   selectedThreadId: null
@@ -7,6 +10,11 @@ const el = {
   threads: document.getElementById('threads-content'),
   tasks: document.getElementById('tasks-content')
 };
+
+function setState(node, mode, text) {
+  node.className = `state ${mode}`;
+  node.textContent = text;
+}
 
 function renderThreads() {
   if (!state.threads.length) {
@@ -59,7 +67,9 @@ function renderTasks(data) {
     ? '<div class="state stale">warning: linked data is stale, refresh adapter sync</div>'
     : '';
 
-  const listItems = items.map((item) => `
+  const listItems = items
+    .map(
+      (item) => `
     <li class="row-item">
       <div>
         <strong>${item.type === 'pull_request' ? 'pr' : 'issue'} #${item.number}</strong>
@@ -70,7 +80,9 @@ function renderTasks(data) {
         <a href="${item.url}" target="_blank" rel="noreferrer">open ↗</a>
       </div>
     </li>
-  `).join('');
+  `
+    )
+    .join('');
 
   el.tasks.innerHTML = `
     ${staleBanner}
@@ -81,7 +93,7 @@ function renderTasks(data) {
 async function loadThreads() {
   el.threads.innerHTML = '<div class="state loading">loading thread stream…</div>';
   try {
-    const res = await fetch('/api/v1/threads');
+    const res = await fetch('/api/v1/threads', { headers: { Accept: 'application/json' } });
     if (!res.ok) throw new Error('failed to load thread stream');
     const data = await res.json();
     state.threads = data.threads || [];
@@ -93,22 +105,27 @@ async function loadThreads() {
     } else {
       renderTasks({ items: [] });
     }
+
+    healthline.textContent = `source=api · sync=v1 thread links · fetched_at=${data.generated_at || 'n/a'}`;
+    setState(treasuryState, 'empty', 'pending proposals: 0');
   } catch (err) {
     el.threads.innerHTML = `<div class="state error">${err.message}</div>`;
     renderTasksError('tasks unavailable while thread stream is down');
+    healthline.textContent = `source=error · ${err.message}`;
+    setState(treasuryState, 'error', `error: ${err.message}`);
   }
 }
 
 async function loadTasks(threadId) {
   renderTasksLoading();
   try {
-    const res = await fetch(`/api/v1/threads/${threadId}/tasks`);
+    const res = await fetch(`/api/v1/threads/${threadId}/tasks`, { headers: { Accept: 'application/json' } });
     if (!res.ok) {
       if (res.status === 404) {
         renderTasks({ items: [] });
         return;
       }
-      throw new Error('failed to load task links');
+      throw new Error(`failed to load task links (${res.status})`);
     }
     const data = await res.json();
     renderTasks(data);

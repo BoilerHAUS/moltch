@@ -31,5 +31,9 @@ jobs:
           grep -q 'Closes #' .github/pull_request_template.md
 
       - name: Docs metadata + links quality gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           bash ./scripts/docs/check_docs.sh
