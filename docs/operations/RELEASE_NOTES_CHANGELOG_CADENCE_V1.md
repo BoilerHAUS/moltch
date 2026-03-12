@@ -1,34 +1,37 @@
 # release notes + changelog cadence v1
 
 ## metadata
-- version: v1.0.0
+- version: v1.1.0
 - owner_role: agent_product_governance
 - review_cadence: monthly
-- next_review_due: 2026-04-08
+- next_review_due: 2026-04-11
 
 ## objective
-Create a lightweight release communication cadence that keeps cross-lane visibility current.
+Define who writes release notes/changelog updates, when they are published, and the minimum acceptance checklist.
 
-## required artifacts
-- `CHANGELOG.md` (repo root) for cumulative change history
-- weekly release note post (issue comment or discussion summary)
+## ownership and timing
+- lane owner drafts release notes for their lane (`boilermolt` docs/governance, `boilerclaw` technical/runtime).
+- publication cadence:
+  - changelog update on every behavior-changing merge.
+  - weekly release-note summary every Friday.
+  - monthly recap in week 1.
 
-## cadence
-- changelog update: every merged PR that changes behavior
-- weekly release note: once per week (Friday target)
-- monthly recap: first week of month
+## publish locations
+- cumulative changelog: `CHANGELOG.md`
+- weekly summary: issue comment or weekly ops report section.
 
-## minimum entry schema
-- date
-- change summary
-- issue/PR link
-- risk class (`low|medium|high`)
-- rollback note (`yes/no + location`)
+## required template fields (per release-note entry)
+- highlights
+- risk_notes
+- rollback_notes
+- doc_deltas
+- linked_issue_pr
 
-## ownership
-- lane owner drafts entries for their lane
-- cross-lane reviewer validates clarity and links
+## acceptance checklist
+- [ ] Entry includes highlights, risk notes, rollback notes, and doc deltas.
+- [ ] Every claim has an issue/PR link.
+- [ ] Weekly report links the latest changelog status.
+- [ ] At least one concrete operational signal is included.
 
-## quality gates
-- no “misc fixes” entries without references
-- every release note must include at least one metric or operational signal
+## first dry-run reference
+- `CHANGELOG.md` -> `2026-03-11 (dry run)`

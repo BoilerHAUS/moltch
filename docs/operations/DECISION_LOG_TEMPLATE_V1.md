@@ -1,10 +1,10 @@
 # decision log template v1
 
 ## metadata
-- version: v1.0.0
+- version: v1.1.0
 - owner_role: agent_product_governance
 - review_cadence: weekly
-- next_review_due: 2026-03-15
+- next_review_due: 2026-03-18
 
 ## decision record
 - decision_id:
@@ -29,6 +29,13 @@
 
 ## affected KPIs
 -
+
+## lifecycle trigger fields (required for #77)
+- reason_code:
+- blocker_class:
+- recurrence_count_7d:
+- conflicting_guidance (`yes|no`):
+- stale_doc_days:
 
 ## expected impact window
 - expected_observation_date:
