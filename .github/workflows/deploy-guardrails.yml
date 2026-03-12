@@ -11,11 +11,40 @@ on:
       - '.github/workflows/deploy-guardrails.yml'
 
 jobs:
-  staging-integrity:
+  deploy-guardrails:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify deploy docs + compose/env integrity
+      - name: AC1 - staging compose/env/docs integrity (fail-closed)
+        run: bash ./scripts/staging/check_deploy_integrity.sh
+
+      - name: AC1 - immutable image-ref guardrail (fail-closed)
+        run: bash ./scripts/staging/check_image_refs_immutable.sh
+
+      - name: AC3 - smoke script wiring sanity (pass path)
         run: |
-          bash ./scripts/staging/check_deploy_integrity.sh
+          chmod +x ./scripts/staging/smoke.sh
+          SMOKE_OUTPUT=json \
+          WEB_PORT=65535 API_PORT=65534 \
+          EXPECTED_WEB_STATUS=000 EXPECTED_HEALTH_STATUS=000 EXPECTED_READY_STATUS=000 \
+          ./scripts/staging/smoke.sh | tee smoke-pass.json
+          grep -q '"result":"pass"' smoke-pass.json
+
+      - name: AC3 - smoke script fail-closed proof (intentional failure)
+        run: |
+          set +e
+          SMOKE_OUTPUT=json \
+          WEB_PORT=65535 API_PORT=65534 \
+          EXPECTED_WEB_STATUS=200 EXPECTED_HEALTH_STATUS=200 EXPECTED_READY_STATUS=200 \
+          ./scripts/staging/smoke.sh | tee smoke-fail.json
+          code=$?
+          set -e
+          if [ "$code" -eq 0 ]; then
+            echo "[deploy-guardrails][fail] smoke.sh unexpectedly passed during intentional-failure proof"
+            exit 1
+          fi
+          grep -q '"result":"fail"' smoke-fail.json
+          echo "[deploy-guardrails][pass] intentional-failure proof confirmed fail-closed behavior"

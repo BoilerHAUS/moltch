@@ -12,6 +12,7 @@ Apply these protections to `main`:
 - require at least 1 approval
 - require code owner review
 - require status check: `repo-baseline`
+- require status check: `deploy-guardrails` (for changes touching staging deploy/docs guardrail paths)
 - require linear history
 - disallow force pushes
 - disallow branch deletion
