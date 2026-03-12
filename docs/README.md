@@ -28,6 +28,9 @@ Provide one navigation hub for product, governance, operations, and contribution
 - roadmap v1: `docs/product/ROADMAP_V1.md`
 - claude session operating prompt v0.2: `docs/product/CLAUDE_SESSION_OPERATING_PROMPT_V0_2.md`
 
+## contracts docs
+- smart contract spec pack v0: `docs/contracts/SMART_CONTRACT_SPEC_PACK_V0.md`
+
 ## governance docs
 - governance policy v1: `docs/governance/GOVERNANCE_V1.md`
 - treasury lifecycle v1: `docs/governance/TREASURY_PROPOSAL_LIFECYCLE_V1.md`
