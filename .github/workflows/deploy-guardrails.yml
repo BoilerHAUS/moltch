@@ -35,6 +35,7 @@ jobs:
 
       - name: AC3 - smoke script fail-closed proof (intentional failure)
         run: |
+          set -o pipefail
           set +e
           SMOKE_OUTPUT=json \
           WEB_PORT=65535 API_PORT=65534 \
