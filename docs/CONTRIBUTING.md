@@ -40,11 +40,20 @@ If blocked >15 minutes:
 
 ## docs requirements
 - doc changes should be issue-linked and scoped
-- governance/product/operations docs must include metadata:
-  - `version`
-  - `owner_role`
-  - `review_cadence`
-  - `next_review_due`
+- governed docs scope (strict metadata enforcement):
+  - docs/governance/*V1*.md
+  - docs/product/*V1*.md
+  - docs/operations/*V1*.md
+- governed docs must include metadata block exactly:
+  - `## metadata`
+  - `- version: v<major>.<minor>.<patch>`
+  - `- owner_role: agent_product_governance|agent_technical_delivery`
+  - `- review_cadence: daily|weekly|biweekly|monthly|quarterly`
+  - `- next_review_due: YYYY-MM-DD`
+- docs index coverage rule:
+  - every docs markdown file (except docs/README.md) must be listed in docs/README.md
+- cross-link rule:
+  - any docs markdown link/path referenced in docs must resolve to an existing file
 - run docs quality gate before PR:
 ```bash
 ./scripts/docs/check_docs.sh

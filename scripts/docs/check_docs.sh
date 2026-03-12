@@ -6,10 +6,15 @@ cd "$ROOT"
 
 fail() { echo "[docs-check][fail] $1"; exit 1; }
 warn() { echo "[docs-check][warn] $1"; }
+pass() { echo "[docs-check][pass] $1"; }
 
 IGNORE_FILE="docs/.docs-check-ignore"
 DOCS_CHECK_ENFORCE_FRESHNESS="${DOCS_CHECK_ENFORCE_FRESHNESS:-0}"
 DOCS_CHECK_FRESHNESS_DAYS="${DOCS_CHECK_FRESHNESS_DAYS:-7}"
+
+ALLOWED_OWNER_ROLES_REGEX='^(agent_product_governance|agent_technical_delivery)$'
+ALLOWED_REVIEW_CADENCE_REGEX='^(daily|weekly|biweekly|monthly|quarterly)$'
+VERSION_REGEX='^v[0-9]+\.[0-9]+\.[0-9]+$'
 
 is_ignored() {
   local f="$1"
@@ -17,45 +22,109 @@ is_ignored() {
   grep -Ev '^\s*#|^\s*$' "$IGNORE_FILE" | grep -Fxq "$f"
 }
 
+extract_metadata_value() {
+  local key="$1" file="$2"
+  grep -E "^- ${key}:[[:space:]]*" "$file" | head -n1 | sed -E "s/^- ${key}:[[:space:]]*//"
+}
+
 check_metadata_file() {
   local f="$1"
   is_ignored "$f" && { warn "$f skipped via $IGNORE_FILE"; return 0; }
-  grep -Eq '(^## metadata|^\*\*metadata\*\*)' "$f" || { warn "$f has no metadata block; skipping metadata enforcement"; return 0; }
-  grep -Eq '(^- version:|\*\*version:\*\*)' "$f" || fail "$f missing metadata: version"
-  grep -Eq '(^- owner_role:|\*\*owner_role:\*\*|\*\*owner:\*\*)' "$f" || fail "$f missing metadata: owner_role/owner"
-  grep -Eq '(^- review_cadence:|\*\*review_cadence:\*\*|\*\*review cadence:\*\*)' "$f" || fail "$f missing metadata: review_cadence"
-  grep -Eq '(^- next_review_due:|\*\*next_review_due:\*\*|\*\*next review due:\*\*)' "$f" || fail "$f missing metadata: next_review_due"
 
-  local d
-  d=$(grep -E '(^- next_review_due:|^- \*\*next_review_due:\*\*|^- \*\*next review due:\*\*|\*\*next_review_due:\*\*|\*\*next review due:\*\*)' "$f" | head -n1 | sed -E 's/^- next_review_due:[[:space:]]*//; s/^- \*\*next_review_due:\*\*[[:space:]]*//; s/^- \*\*next review due:\*\*[[:space:]]*//; s/^\*\*next_review_due:\*\*[[:space:]]*//; s/^\*\*next review due:\*\*[[:space:]]*//')
-  [[ "$d" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || fail "$f invalid next_review_due date format: $d"
+  grep -Eiq '^## .*metadata' "$f" || fail "$f missing metadata block header (expected a section heading containing 'metadata')"
+
+  local version owner_role cadence due
+  version="$(grep -E '^- .*version.*:[[:space:]]*' "$f" | head -n1 | sed -E 's/^- .*version\*\*:[[:space:]]*//; s/^- .*version:[[:space:]]*//; s/\*//g')"
+  owner_role="$(grep -E '^- .*owner_role.*:[[:space:]]*' "$f" | head -n1 | sed -E 's/^- .*owner_role\*\*:[[:space:]]*//; s/^- .*owner_role:[[:space:]]*//; s/\*//g')"
+  cadence="$(grep -E '^- .*review_cadence.*:[[:space:]]*' "$f" | head -n1 | sed -E 's/^- .*review_cadence\*\*:[[:space:]]*//; s/^- .*review_cadence:[[:space:]]*//; s/\*//g')"
+  due="$(grep -E '^- .*next_review_due.*:[[:space:]]*' "$f" | head -n1 | sed -E 's/^- .*next_review_due\*\*:[[:space:]]*//; s/^- .*next_review_due:[[:space:]]*//; s/\*//g')"
+
+  version="$(echo "$version" | xargs)"
+  owner_role="$(echo "$owner_role" | xargs)"
+  cadence="$(echo "$cadence" | xargs)"
+  due="$(echo "$due" | xargs)"
+
+  [[ -n "$version" ]] || fail "$f missing metadata: version"
+  [[ -n "$owner_role" ]] || fail "$f missing metadata: owner_role"
+  [[ -n "$cadence" ]] || fail "$f missing metadata: review_cadence"
+  [[ -n "$due" ]] || fail "$f missing metadata: next_review_due"
+
+  [[ "$version" =~ $VERSION_REGEX ]] || fail "$f invalid version format: '$version' (expected v<major>.<minor>.<patch>)"
+  [[ "$owner_role" =~ $ALLOWED_OWNER_ROLES_REGEX ]] || fail "$f invalid owner_role: '$owner_role' (allowed: agent_product_governance|agent_technical_delivery)"
+  [[ "$cadence" =~ $ALLOWED_REVIEW_CADENCE_REGEX ]] || fail "$f invalid review_cadence: '$cadence' (allowed: daily|weekly|biweekly|monthly|quarterly)"
+  [[ "$due" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || fail "$f invalid next_review_due date format: '$due' (expected YYYY-MM-DD)"
 
   if [[ "$DOCS_CHECK_ENFORCE_FRESHNESS" == "1" ]]; then
     local due_epoch now_epoch diff_days
-    due_epoch=$(date -d "$d" +%s 2>/dev/null || true)
+    due_epoch=$(date -d "$due" +%s 2>/dev/null || true)
     now_epoch=$(date +%s)
-    if [[ -n "$due_epoch" ]]; then
-      diff_days=$(( (due_epoch - now_epoch) / 86400 ))
-      if (( diff_days < 0 )); then
-        fail "$f next_review_due is in the past: $d"
-      elif (( diff_days <= DOCS_CHECK_FRESHNESS_DAYS )); then
-        warn "$f next_review_due is within ${DOCS_CHECK_FRESHNESS_DAYS} days: $d"
-      fi
+    if [[ -z "$due_epoch" ]]; then
+      fail "$f next_review_due is not a valid calendar date: $due"
+    fi
+    diff_days=$(( (due_epoch - now_epoch) / 86400 ))
+    if (( diff_days < 0 )); then
+      fail "$f next_review_due is in the past: $due"
+    elif (( diff_days <= DOCS_CHECK_FRESHNESS_DAYS )); then
+      warn "$f next_review_due is within ${DOCS_CHECK_FRESHNESS_DAYS} days: $due"
     fi
   fi
 }
 
-while IFS= read -r f; do
-  check_metadata_file "$f"
-done < <(find docs/governance docs/product docs/operations -type f -name '*_V1*.md' | sort)
+check_metadata_scope() {
+  local files
+  mapfile -t files < <(find docs/governance docs/product docs/operations -type f -name '*V1*.md' | sort)
+  ((${#files[@]} > 0)) || fail "no governed docs found in docs/{governance,product,operations} matching *V1*.md"
 
-while IFS= read -r f; do
-  while IFS= read -r link; do
-    target=$(echo "$link" | sed -E 's/.*`([^`]+)`/\1/')
-    [[ "$target" == docs/* ]] || continue
-    [[ -f "$target" ]] || fail "$f references missing file: $target"
-  done < <(grep -oE '`docs/[^`]+\.md`' "$f" || true)
-done < <(find docs -type f -name '*.md' | sort)
+  for f in "${files[@]}"; do
+    check_metadata_file "$f"
+  done
+
+  pass "metadata rules validated on governed docs"
+}
+
+check_links() {
+  local f target
+  while IFS= read -r f; do
+    # backtick-wrapped doc paths
+    while IFS= read -r target; do
+      [[ "$target" == docs/* ]] || continue
+      [[ -f "$target" ]] || fail "$f references missing file: $target"
+    done < <(grep -oE '`docs/[^`]+\.md`' "$f" | sed -E 's/`//g' || true)
+
+    # markdown links with docs/ path
+    while IFS= read -r target; do
+      target="${target%%#*}"
+      [[ "$target" == docs/* ]] || continue
+      [[ -f "$target" ]] || fail "$f markdown link points to missing file: $target"
+    done < <(grep -oE '\]\((docs/[^)#]+\.md([#?][^)]*)?)\)' "$f" | sed -E 's/^\]\((docs\/[^)]*)\)$/\1/' || true)
+  done < <(find docs -type f -name '*.md' | sort)
+
+  pass "cross-link integrity checks passed"
+}
+
+check_docs_index_coverage() {
+  local index="docs/README.md"
+  [[ -f "$index" ]] || fail "$index missing"
+
+  declare -A indexed
+  while IFS= read -r docpath; do
+    indexed["$docpath"]=1
+  done < <(grep -oE '`docs/[^`]+\.md`' "$index" | sed -E 's/`//g' | sort -u)
+
+  local missing=()
+  while IFS= read -r f; do
+    [[ "$f" == "docs/README.md" ]] && continue
+    if [[ -z "${indexed[$f]:-}" ]]; then
+      missing+=("$f")
+    fi
+  done < <(find docs -type f -name '*.md' | sort)
+
+  if (( ${#missing[@]} > 0 )); then
+    fail "docs index coverage gaps in docs/README.md: ${missing[*]}"
+  fi
+
+  pass "docs index coverage ok"
+}
 
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
@@ -84,8 +153,7 @@ check_roadmap_issue_mapping() {
     in_ex==1 {print}
   ' "$roadmap" | grep -oE '#[0-9]+' | tr -d '#' | sort -u)
 
-  local missing=()
-  local n
+  local missing=() n
   for n in "${open_issue_nums[@]}"; do
     if [[ -z "${mapped[$n]:-}" && -z "${excluded[$n]:-}" ]]; then
       missing+=("#$n")
@@ -96,9 +164,12 @@ check_roadmap_issue_mapping() {
     fail "open issues missing roadmap mapping/exclusion: ${missing[*]}"
   fi
 
-  echo "[docs-check][pass] roadmap mapping coverage ok (${#open_issue_nums[@]} open issues)"
+  pass "roadmap mapping coverage ok (${#open_issue_nums[@]} open issues)"
 }
 
+check_metadata_scope
+check_links
+check_docs_index_coverage
 check_roadmap_issue_mapping
 
-echo "[docs-check][pass] metadata, links, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, and roadmap mapping checks passed"
