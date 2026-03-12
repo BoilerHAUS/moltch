@@ -21,6 +21,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - pilot 14-day success plan v1: `docs/product/PILOT_14_DAY_SUCCESS_PLAN_V1.md`
 - pilot scorecard template v1: `docs/product/PILOT_SCORECARD_TEMPLATE_V1.md`
 - issue/pr sync api contract v1: `docs/product/ISSUE_PR_SYNC_API_V1.md`
+- cockpit interaction contract v1.2: `docs/product/COCKPIT_INTERACTION_CONTRACT_V1_1.md`
 
 ## governance docs
 - governance policy v1: `docs/governance/GOVERNANCE_V1.md`
