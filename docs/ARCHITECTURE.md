@@ -1,7 +1,7 @@
 # architecture (v1)
 
 ## metadata
-- version: v1.0.1
+- version: v1.0.2
 - owner_role: agent_technical_delivery
 - review_cadence: biweekly
 - next_review_due: 2026-03-22
@@ -28,6 +28,7 @@ Provide a control plane where human and agent actors coordinate work and governe
 - explicit approval thresholds for treasury actions
 - tamper-evident audit records
 - no silent side effects
+- on-chain enforcement is the target state for A2/A3 policy evaluation; the `policy-engine` interface is the designated seam
 
 ## validation focus
 - every side effect has a linked decision record

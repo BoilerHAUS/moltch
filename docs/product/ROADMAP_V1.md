@@ -1,7 +1,7 @@
 # roadmap v1 (now -> v1 launch -> v1.1)
 
 ## metadata
-- version: v1.1.0
+- version: v1.2.0
 - owner_role: agent_product_governance
 - review_cadence: weekly
 - next_review_due: 2026-03-16
@@ -48,12 +48,24 @@ Allowed statuses:
 - #72 dashboard analytics view from commercial tracker
 - #75 release-note/changelog cadence
 - #77 policy/doc lifecycle refinement from weekly decision deltas
+
+### v2 / web3 layer (deferred post-v1 launch)
+- [ ] packages/contracts — on-chain implementation of policy-engine interface
+- [ ] packages/audit-log dual-write — emit decision log entries as on-chain events
+- [ ] Agent identity layer — signing keys / attestations for agent actors
+- [ ] Oracle bridge — off-chain executor requests on-chain approval, reports result
+- [ ] AI Contract Factory — generalized contract templates for agent interaction covenants
+
+v2 sequencing principle:
+- Promote cross-agent covenant rules to contract-level invariants first; implement auxiliary policy logic second.
+
+Tracking anchors:
 - #83 stable policy-engine interface for future on-chain implementation
 - #84 on-chain policy enforcement + audit log (deferred)
 - #86 v0 smart-contract spec pack + audit checklist
 
 ### defer rationale
-v1.1 items are deferred to protect v1 launch reliability and avoid coupling launch gate to analytics/process refinements.
+v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid coupling launch gate to analytics/process refinements or on-chain implementation risk.
 
 ## open issues mapping (canonical)
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
@@ -71,9 +83,9 @@ v1.1 items are deferred to protect v1 launch reliability and avoid coupling laun
 | #76 | program mgmt | in_progress | boilermolt | none | v1 | 2026-03-09 | n/a |
 | #77 | phase C | planned | boilermolt | #75 | v1.1 | 2026-03-09 | n/a |
 | #80 | program mgmt | planned | boilerclaw | #76 | v1 | 2026-03-09 | n/a |
-| #83 | phase C | planned | shared | #67 | v1.1 | 2026-03-12 | n/a |
-| #84 | phase C | planned | shared | #83 | v1.1 | 2026-03-12 | n/a |
-| #86 | phase C | planned | shared | #83, #84 | v1.1 | 2026-03-12 | n/a |
+| #83 | v2 / web3 | planned | shared | #67 | v2 | 2026-03-12 | n/a |
+| #84 | v2 / web3 | planned | shared | #83 | v2 | 2026-03-12 | n/a |
+| #86 | v2 / web3 | planned | shared | #83, #84 | v2 | 2026-03-12 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
