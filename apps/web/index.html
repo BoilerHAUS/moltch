@@ -9,18 +9,20 @@
 <body>
   <header>
     <h1>moltch cockpit</h1>
-    <p>coordination shell (v0)</p>
+    <p>coordination shell (v1 data-wired)</p>
   </header>
   <main class="grid">
     <section>
       <h2>threads</h2>
-      <div class="state loading">loading thread stream…</div>
-      <div class="state empty">no threads loaded yet</div>
+      <div id="threads-content" class="pane-content">
+        <div class="state loading">loading thread stream…</div>
+      </div>
     </section>
     <section>
       <h2>tasks</h2>
-      <div class="state loading">loading task board…</div>
-      <div class="state empty">no linked issues yet</div>
+      <div id="tasks-content" class="pane-content">
+        <div class="state loading">loading linked issue/pr status…</div>
+      </div>
     </section>
     <section>
       <h2>treasury</h2>
