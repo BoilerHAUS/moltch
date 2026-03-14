@@ -1,0 +1,48 @@
+{
+  "package_id": "lgep-20260314-demo1",
+  "generated_at_utc": "2026-03-14T01:30:00Z",
+  "prepared_by": "boilerclaw",
+  "scope_refs": ["#98", "#99"],
+  "target_environment": "staging",
+  "overall_result": "pass",
+  "traceability": {
+    "issue": "https://github.com/BoilerHAUS/moltch/issues/98",
+    "pull_request": "https://github.com/BoilerHAUS/moltch/pull/112",
+    "commit_sha": "80e49a1c0d6a0f5a4e8fce720ef36f4bbf4f44a7",
+    "runbook_refs": [
+      "docs/operations/RUNBOOK_V1.md",
+      "docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md"
+    ]
+  },
+  "ci": {
+    "workflow_name": "repo-baseline",
+    "run_url": "https://github.com/BoilerHAUS/moltch/actions",
+    "required_checks": [
+      {
+        "name": "repo-baseline",
+        "status": "green",
+        "evidence": "https://github.com/BoilerHAUS/moltch/actions"
+      }
+    ]
+  },
+  "runtime": {
+    "environment_snapshot": "staging web/api @ main",
+    "smoke": {
+      "status": "pass",
+      "script_ref": "scripts/staging/smoke.sh",
+      "artifact_ref": "docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.json"
+    },
+    "readiness": {
+      "status": "pass",
+      "endpoint_ref": "GET /ready",
+      "observed_at_utc": "2026-03-14T01:31:00Z"
+    }
+  },
+  "decision": {
+    "summary": "Launch-gate evidence package passes schema and readiness checks.",
+    "reason_codes": ["READINESS_GREEN", "EVIDENCE_SCHEMA_VALID"],
+    "risks": ["staging evidence only"],
+    "follow_ups": ["repeat checks before production promotion"],
+    "approver": "boilerrat"
+  }
+}
