@@ -66,6 +66,9 @@ Provide one navigation hub for product, governance, operations, and contribution
 - production-like soak validation plan (2026-03): `docs/operations/SOAK_VALIDATION_PLAN_2026-03.md`
 - soak evidence memo template: `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`
 - soak hold-path dry-run artifact (2026-03-14): `docs/operations/evidence/soak/SOAK_HOLD_PATH_DRY_RUN_2026-03-14.md`
+- review-ops scoreboard spec v1: `docs/operations/REVIEW_OPS_SCOREBOARD_SPEC_V1.md`
+- review-ops scoreboard sample input (2026-W11): `docs/operations/evidence/review-ops/2026-W11/review_ops_input.sample.json`
+- review-ops scoreboard baseline report (2026-W11): `docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md`
 
 ## doc status snapshot
 | doc | owner_role | next_review_due |
