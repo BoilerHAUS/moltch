@@ -88,6 +88,17 @@ Build one reviewer-ready packet from required evidence manifest:
 `python3 scripts/ops/build_launch_readiness_packet.py --manifest docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json --out-dir docs/operations/evidence/launch-readiness/2026-03-14-dry-run`
 
 - non-zero exit means required evidence input is missing or manifest fields are invalid
+- packet decision is computed from status signals (manifest rationale is non-authoritative)
+
+Decision derivation rules:
+1. Any of the following forces `no-go`: failed required checks, readiness fail, evidence incomplete, abort gate triggered.
+2. If no hard-fail but freshness/lineage checks fail, decision is `hold`.
+3. Only all-green signals produce `go`.
+
+Freshness/lineage contract:
+- `status_signals.source_data_age_hours` must be <= `freshness.max_source_age_hours` for `go`.
+- if `freshness.require_same_commit_lineage=true`, `status_signals.source_commit_sha` must match packet `source_commit_sha` for `go`.
+
 - outputs:
   - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.json`
   - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`

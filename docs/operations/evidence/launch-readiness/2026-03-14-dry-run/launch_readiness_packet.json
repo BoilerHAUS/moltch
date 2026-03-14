@@ -1,6 +1,9 @@
 {
   "decision": "go",
   "decision_rationale": "Core launch-gate artifacts are present and auditable; rollout remains controlled pending repeated runtime checks on latest main.",
+  "decision_reasons": [
+    "all_required_signals_green"
+  ],
   "evidence": {
     "demo1_evidence_doc": "docs/operations/evidence/LAUNCH_GATE_DEMO1_EVIDENCE_PACKAGE_2026-03-14.md",
     "demo2_evidence_doc": "docs/operations/evidence/LAUNCH_GATE_DEMO2_EDGE_EVIDENCE_PACKAGE_2026-03-14.md",
@@ -8,19 +11,69 @@
     "pilot_decision_memo_doc": "docs/product/PILOT_COMMERCIAL_LOOP_DECISION_MEMO_2026-03-14.md",
     "readiness_summary_json": "docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.json"
   },
-  "generated_at_utc": "2026-03-14T01:55:10Z",
-  "generator": {
-    "manifest_schema_version": "v1",
-    "manifest_sha256": "f4cd2f30001cb6dbdcee079c03e192136f931c5de068237ff88ac8245071eb62",
-    "script": "scripts/ops/build_launch_readiness_packet.py",
-    "script_git_blob_hash": "d91f420b5607175eb096d4d06f30f504d7f2c1c6",
-    "script_version": "v1.1.0"
+  "freshness": {
+    "max_source_age_hours": 24,
+    "require_same_commit_lineage": true
   },
-  "packet_id": "lrp-20260314-v1-closeout",
-  "source_commit_sha": "5d7910749ba79faee9e236f59d7ab4f46306f555",
+  "generated_at_utc": "2026-03-14T02:33:50Z",
+  "generator": {
+    "manifest_schema_version": "v2",
+    "manifest_sha256": "c668f35577715b0df1110c6352ad5ca055012920a565e921f3c15601c041719e",
+    "script": "scripts/ops/build_launch_readiness_packet.py",
+    "script_git_blob_hash": "4bba70c5a0ddba71909faaec3a5c3130ebf325c3",
+    "script_version": "v1.2.0"
+  },
+  "packet_id": "lrp-20260314-v2-closeout",
+  "signal_evaluation": [
+    {
+      "impact": "missing evidence => no-go",
+      "signal": "evidence_complete",
+      "status": "pass",
+      "value": true
+    },
+    {
+      "impact": "failed checks => no-go",
+      "signal": "ci_required_checks_passed",
+      "status": "pass",
+      "value": true
+    },
+    {
+      "impact": "readiness fail => no-go",
+      "signal": "readiness_overall_verdict",
+      "status": "pass",
+      "value": "pass"
+    },
+    {
+      "impact": "abort gate => no-go",
+      "signal": "abort_gate_triggered",
+      "status": "pass",
+      "value": false
+    },
+    {
+      "impact": "stale inputs => hold",
+      "signal": "source_data_age_hours",
+      "status": "pass",
+      "value": 2
+    },
+    {
+      "impact": "lineage mismatch => hold",
+      "signal": "same_commit_lineage",
+      "status": "pass",
+      "value": true
+    }
+  ],
+  "source_commit_sha": "deterministic-sha-v1",
+  "status_signals": {
+    "abort_gate_triggered": false,
+    "ci_required_checks_passed": true,
+    "evidence_complete": true,
+    "readiness_overall_verdict": "pass",
+    "source_commit_sha": "deterministic-sha-v1",
+    "source_data_age_hours": 2
+  },
   "target_environment": "staging",
   "traceability": {
-    "source_issue": "https://github.com/BoilerHAUS/moltch/issues/117",
+    "source_issue": "https://github.com/BoilerHAUS/moltch/issues/127",
     "source_pull_requests": [
       "https://github.com/BoilerHAUS/moltch/pull/109",
       "https://github.com/BoilerHAUS/moltch/pull/110",
