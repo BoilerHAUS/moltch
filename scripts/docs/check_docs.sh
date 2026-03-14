@@ -186,6 +186,24 @@ check_review_ops_scoreboard_generator() {
   pass "review-ops scoreboard generation validation passed"
 }
 
+check_policy_decision_conformance() {
+  local runner="scripts/ops/run_policy_decision_conformance.py"
+  local fixtures="docs/governance/fixtures/policy_decision_conformance_cases_v1.json"
+  local catalog="docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md"
+  local out_json="docs/governance/evidence/policy_decision_conformance_summary_2026-03-14.json"
+  local out_md="docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md"
+
+  [[ -f "$runner" ]] || fail "$runner missing"
+  [[ -f "$fixtures" ]] || fail "$fixtures missing"
+  [[ -f "$catalog" ]] || fail "$catalog missing"
+
+  python3 "$runner" --fixtures "$fixtures" --catalog "$catalog" --out-json "$out_json" --out-md "$out_md" >/dev/null
+  [[ -f "$out_json" ]] || fail "$out_json missing after conformance run"
+  [[ -f "$out_md" ]] || fail "$out_md missing after conformance run"
+
+  pass "policy decision conformance validation passed"
+}
+
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
   [[ -f "$roadmap" ]] || fail "$roadmap missing"
@@ -233,6 +251,7 @@ check_docs_index_coverage
 check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
 check_review_ops_scoreboard_generator
+check_policy_decision_conformance
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, evidence schema, launch-readiness packet, review-ops scoreboard, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"

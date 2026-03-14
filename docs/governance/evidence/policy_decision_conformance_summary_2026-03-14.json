@@ -1,0 +1,35 @@
+{
+  "generated_at_utc": "2026-03-14T02:22:28+00:00",
+  "suite_version": "v1.0.0",
+  "total_cases": 4,
+  "pass_cases": 4,
+  "fail_cases": 0,
+  "requires_human_cases": 1,
+  "overall_result": "pass",
+  "case_results": [
+    {
+      "id": "A0-validation-fail",
+      "action_class": "A0",
+      "result": "pass",
+      "errors": []
+    },
+    {
+      "id": "A1-allow-executed",
+      "action_class": "A1",
+      "result": "pass",
+      "errors": []
+    },
+    {
+      "id": "A2-threshold-unmet",
+      "action_class": "A2",
+      "result": "pass",
+      "errors": []
+    },
+    {
+      "id": "A3-requires-human",
+      "action_class": "A3",
+      "result": "pass",
+      "errors": []
+    }
+  ]
+}
