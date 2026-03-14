@@ -106,10 +106,19 @@ Operational requirement:
 - final memo must end in explicit `go` / `hold` / `no-go` plus one counterfactual that would flip the decision.
 - any abort gate trigger forces `no-go`; remediation requires a fresh full soak window.
 
+## policy decision conformance suite (A0-A3)
+Run policy decision conformance checks:
+
+`python3 scripts/ops/run_policy_decision_conformance.py --fixtures docs/governance/fixtures/policy_decision_conformance_cases_v1.json --catalog docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md --out-json docs/governance/evidence/policy_decision_conformance_summary_2026-03-14.json --out-md docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md --generated-at-utc 2026-03-14T00:00:00Z`
+
+- non-zero exit means conformance mismatch (missing reason code, unexpected decision tuple, or missing requires-human case)
+- include the generated markdown summary in reviewer signoff threads
+
 ## review artifacts
 - weekly review-ops scoreboard spec: `docs/operations/REVIEW_OPS_SCOREBOARD_SPEC_V1.md`
 - weekly scoreboard snapshot (generated): `docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md`
 - decision log delta
+- policy conformance summary: `docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md`
 - launch-gate evidence package (when release/pilot/demo checks are in scope): `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - launch-readiness packet (signoff assembly): `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
 - soak evidence memo (durability gate): `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`

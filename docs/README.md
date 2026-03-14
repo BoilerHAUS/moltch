@@ -40,6 +40,8 @@ Provide one navigation hub for product, governance, operations, and contribution
 - policy registry fixtures v1.1: `docs/governance/POLICY_REGISTRY_FIXTURES_V1.md`
 - issue drafts web3 seam: `docs/governance/ISSUE_DRAFTS_WEB3_SEAM.md`
 - policy decision reason-code catalog v1.2: `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md`
+- policy decision conformance matrix v1: `docs/governance/POLICY_DECISION_CONFORMANCE_MATRIX_V1.md`
+- policy decision conformance summary (2026-03-14): `docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md`
 
 ## operations docs
 - runbook v1: `docs/operations/RUNBOOK_V1.md`
