@@ -139,7 +139,11 @@ decision:
 - valid sample artifact: `docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
 
 Validation command:
-`python3 scripts/ops/validate_launch_gate_evidence.py --schema docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json --input docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
+`python3 scripts/ops/validate_launch_gate_evidence.py --schema docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json --input docs/operations/evidence/launch_gate_evidence_package_valid_v1.json --input docs/operations/evidence/launch_gate_evidence_package_valid_edge_v1.json`
+
+CI fixture coverage includes:
+- valid: canonical sample + edge variant
+- invalid: missing-required fixture + invalid-enum fixture (must fail)
 
 ## roadmap mapping
 - supports launch-gate evidence quality for issues `#68`, `#70`, and `#74`.
