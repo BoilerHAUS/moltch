@@ -129,6 +129,7 @@ def main():
     try:
         rows = read_rows(args.source_csv)
         payload = summarize(rows, args.threshold_pct, args.window_hours)
+        payload["source_csv"] = args.source_csv
     except Exception as e:
         print(f"[readiness-writer][fail] {e}", file=sys.stderr)
         sys.exit(1)
