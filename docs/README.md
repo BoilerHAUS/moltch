@@ -49,6 +49,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
+- launch-gate evidence package schema v1: `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 
 ## doc status snapshot
 | doc | owner_role | next_review_due |

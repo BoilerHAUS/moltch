@@ -43,4 +43,5 @@ Use `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md` when recording
 ## review artifacts
 - weekly scoreboard snapshot
 - decision log delta
+- launch-gate evidence package (when release/pilot/demo checks are in scope): `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - top 3 bottlenecks + planned fixes
