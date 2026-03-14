@@ -26,6 +26,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - commercial analytics dashboard spec v1: `docs/product/COMMERCIAL_ANALYTICS_DASHBOARD_SPEC_V1.md`
 - pilot offer packaging v1.1: `docs/product/PILOT_OFFER_PACKAGING_V1_1.md`
 - pilot commercial loop evidence package v1: `docs/product/PILOT_COMMERCIAL_LOOP_EVIDENCE_PACKAGE_V1.md`
+- pilot commercial loop decision memo (2026-03-14): `docs/product/PILOT_COMMERCIAL_LOOP_DECISION_MEMO_2026-03-14.md`
 - roadmap v1: `docs/product/ROADMAP_V1.md`
 - claude session operating prompt v0.2: `docs/product/CLAUDE_SESSION_OPERATING_PROMPT_V0_2.md`
 
