@@ -68,6 +68,14 @@ Every bottleneck must include:
 - due date
 - status on previous week actions (done/partial/not started)
 
+## validator limitations (v1)
+The generator validates required keys and allowed trend enums, but does not yet enforce:
+- numeric range bounds for metric values
+- date format validation beyond presence
+- semantic consistency between `status` and `missing_sources`
+
+If these constraints become required, add them in a follow-up contract version before expanding automation scope.
+
 ## artifact paths
 - spec: `docs/operations/REVIEW_OPS_SCOREBOARD_SPEC_V1.md`
 - generator: `scripts/ops/generate_review_ops_scoreboard.py`

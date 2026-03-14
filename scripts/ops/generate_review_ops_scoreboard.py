@@ -16,28 +16,54 @@ def fail(msg: str):
     raise SystemExit(f"[review-ops][fail] {msg}")
 
 
-def validate_payload(payload: dict):
+def fail_field(file_path: Path, field_path: str, expected: str, observed):
+    fail(
+        f"file={file_path} field={field_path} expected={expected} observed={repr(observed)}"
+    )
+
+
+def validate_payload(payload: dict, source_file: Path):
     for k in REQUIRED_KEYS:
         if k not in payload:
-            fail(f"missing key: {k}")
+            fail_field(source_file, f"$.{k}", "required key present", None)
 
-    if payload["status"] not in ("complete", "incomplete"):
-        fail("status must be complete|incomplete")
+    status = payload["status"]
+    if status not in ("complete", "incomplete"):
+        fail_field(source_file, "$.status", "'complete' or 'incomplete'", status)
 
     metrics = payload["metrics"]
+    if not isinstance(metrics, dict):
+        fail_field(source_file, "$.metrics", "object", type(metrics).__name__)
+
     for m in REQUIRED_METRICS:
         if m not in metrics:
-            fail(f"missing metric: {m}")
+            fail_field(source_file, f"$.metrics.{m}", "required metric present", None)
 
     for m_name, m in metrics.items():
+        if not isinstance(m, dict):
+            fail_field(source_file, f"$.metrics.{m_name}", "object", type(m).__name__)
+
         for field in ("label", "current", "prior", "trend", "slo_band"):
             if field not in m:
-                fail(f"metric {m_name} missing field: {field}")
-        if m["trend"] not in ("up", "down", "flat"):
-            fail(f"metric {m_name} trend must be up|down|flat")
+                fail_field(
+                    source_file,
+                    f"$.metrics.{m_name}.{field}",
+                    "required field present",
+                    None,
+                )
 
-    if len(payload["bottlenecks"]) == 0:
-        fail("bottlenecks must not be empty")
+        trend = m["trend"]
+        if trend not in ("up", "down", "flat"):
+            fail_field(
+                source_file,
+                f"$.metrics.{m_name}.trend",
+                "'up' | 'down' | 'flat'",
+                trend,
+            )
+
+    bottlenecks = payload["bottlenecks"]
+    if not isinstance(bottlenecks, list) or len(bottlenecks) == 0:
+        fail_field(source_file, "$.bottlenecks", "non-empty array", bottlenecks)
 
 
 def write_markdown(payload: dict, out_path: Path):
@@ -79,10 +105,10 @@ def main():
     out = Path(args.out)
 
     if not src.exists():
-        fail(f"source json not found: {src}")
+        fail_field(src, "$", "source file exists", "missing")
 
     payload = json.loads(src.read_text())
-    validate_payload(payload)
+    validate_payload(payload, src)
     write_markdown(payload, out)
     print(f"[review-ops][pass] wrote {out}")
 

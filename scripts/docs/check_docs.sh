@@ -166,6 +166,26 @@ check_launch_readiness_packet_builder() {
   pass "launch-readiness packet assembly passed"
 }
 
+check_review_ops_scoreboard_generator() {
+  local generator="scripts/ops/generate_review_ops_scoreboard.py"
+  local input="docs/operations/evidence/review-ops/2026-W11/review_ops_input.sample.json"
+  local invalid_input="docs/operations/evidence/review-ops/2026-W11/review_ops_input.invalid.json"
+  local out="docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md"
+
+  [[ -f "$generator" ]] || fail "$generator missing"
+  [[ -f "$input" ]] || fail "$input missing"
+  [[ -f "$invalid_input" ]] || fail "$invalid_input missing"
+
+  python3 "$generator" --source-json "$input" --out "$out" >/dev/null
+  [[ -f "$out" ]] || fail "$out missing after scoreboard generation"
+
+  if python3 "$generator" --source-json "$invalid_input" --out "$out" >/dev/null 2>&1; then
+    fail "invalid review-ops input unexpectedly passed scoreboard generator"
+  fi
+
+  pass "review-ops scoreboard generation validation passed"
+}
+
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
   [[ -f "$roadmap" ]] || fail "$roadmap missing"
@@ -212,6 +232,7 @@ check_links
 check_docs_index_coverage
 check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
+check_review_ops_scoreboard_generator
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, evidence schema, launch-readiness packet, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, evidence schema, launch-readiness packet, review-ops scoreboard, and roadmap mapping checks passed"
