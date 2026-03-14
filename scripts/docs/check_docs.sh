@@ -126,6 +126,22 @@ check_docs_index_coverage() {
   pass "docs index coverage ok"
 }
 
+check_launch_gate_evidence_schema() {
+  local schema="docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json"
+  local validator="scripts/ops/validate_launch_gate_evidence.py"
+  local sample="docs/operations/evidence/launch_gate_evidence_package_valid_v1.json"
+
+  [[ -f "$schema" ]] || fail "$schema missing"
+  [[ -f "$validator" ]] || fail "$validator missing"
+  [[ -f "$sample" ]] || fail "$sample missing"
+
+  python3 "$validator" \
+    --schema "$schema" \
+    --input "$sample" >/dev/null
+
+  pass "launch-gate evidence schema validation passed"
+}
+
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
   [[ -f "$roadmap" ]] || fail "$roadmap missing"
@@ -170,6 +186,7 @@ check_roadmap_issue_mapping() {
 check_metadata_scope
 check_links
 check_docs_index_coverage
+check_launch_gate_evidence_schema
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, evidence schema, and roadmap mapping checks passed"

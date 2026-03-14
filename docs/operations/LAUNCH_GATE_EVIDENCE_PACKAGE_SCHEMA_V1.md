@@ -133,6 +133,14 @@ decision:
 4. Confirm decision memo includes reason codes + approver.
 5. Set `overall_result=pass` only if all sections pass.
 
+## machine-validated companion schema
+- JSON Schema file: `docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json`
+- validator script: `scripts/ops/validate_launch_gate_evidence.py`
+- valid sample artifact: `docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
+
+Validation command:
+`python3 scripts/ops/validate_launch_gate_evidence.py --schema docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json --input docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
+
 ## roadmap mapping
 - supports launch-gate evidence quality for issues `#68`, `#70`, and `#74`.
 - designed to keep acceptance criteria auditable and repeatable across demo slices.

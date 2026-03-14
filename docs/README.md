@@ -59,6 +59,8 @@ Provide one navigation hub for product, governance, operations, and contribution
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
 - launch-gate evidence package schema v1: `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
+- launch-gate evidence JSON schema v1: `docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json`
+- launch-gate evidence valid sample (CI validation target): `docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
 
 ## doc status snapshot
 | doc | owner_role | next_review_due |

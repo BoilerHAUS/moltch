@@ -74,6 +74,14 @@ Artifact writer:
 - rollback: pin to last known-good deploy image and rerun readiness window.
 - escalation: post `needs-human` with failure slices and mitigation options.
 
+## launch-gate evidence schema validation
+Use this before opening/merging launch-gate evidence PRs:
+
+`python3 scripts/ops/validate_launch_gate_evidence.py --schema docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json --input docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
+
+- non-zero exit means schema violation (missing fields / invalid enums / wrong types)
+- CI enforces the same validation via `scripts/docs/check_docs.sh`
+
 ## review artifacts
 - weekly scoreboard snapshot
 - decision log delta
