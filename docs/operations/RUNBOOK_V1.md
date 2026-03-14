@@ -82,8 +82,19 @@ Use this before opening/merging launch-gate evidence PRs:
 - non-zero exit means schema violation (missing fields / invalid enums / wrong types)
 - CI enforces the same validation via `scripts/docs/check_docs.sh`
 
+## launch-readiness packet assembly (fail-closed)
+Build one reviewer-ready packet from required evidence manifest:
+
+`python3 scripts/ops/build_launch_readiness_packet.py --manifest docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json --out-dir docs/operations/evidence/launch-readiness/2026-03-14-dry-run`
+
+- non-zero exit means required evidence input is missing or manifest fields are invalid
+- outputs:
+  - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.json`
+  - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
+
 ## review artifacts
 - weekly scoreboard snapshot
 - decision log delta
 - launch-gate evidence package (when release/pilot/demo checks are in scope): `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
+- launch-readiness packet (signoff assembly): `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
 - top 3 bottlenecks + planned fixes
