@@ -107,7 +107,8 @@ Operational requirement:
 - any abort gate trigger forces `no-go`; remediation requires a fresh full soak window.
 
 ## review artifacts
-- weekly scoreboard snapshot
+- weekly review-ops scoreboard spec: `docs/operations/REVIEW_OPS_SCOREBOARD_SPEC_V1.md`
+- weekly scoreboard snapshot (generated): `docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md`
 - decision log delta
 - launch-gate evidence package (when release/pilot/demo checks are in scope): `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - launch-readiness packet (signoff assembly): `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
