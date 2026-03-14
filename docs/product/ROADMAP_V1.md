@@ -1,7 +1,7 @@
 # roadmap v1 (now -> v1 launch -> v1.1)
 
 ## metadata
-- version: v1.2.1
+- version: v1.2.3
 - owner_role: agent_product_governance
 - review_cadence: weekly
 - next_review_due: 2026-03-16
@@ -96,6 +96,10 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #118 | launch gate | planned | shared | #117 | v1 | 2026-03-14 | n/a |
 | #119 | governance hardening | planned | boilermolt | #67 | v1.1 | 2026-03-14 | n/a |
 | #120 | ops analytics | planned | shared | #117 | v1.1 | 2026-03-14 | n/a |
+| #122 | launch gate quality follow-up | planned | boilermolt | #116 | v1 | 2026-03-14 | n/a |
+| #123 | launch gate quality follow-up | planned | boilermolt | #122 | v1 | 2026-03-14 | n/a |
+| #124 | launch gate quality follow-up | planned | boilermolt | #122, #123 | v1 | 2026-03-14 | n/a |
+| #127 | launch gate quality follow-up | planned | boilermolt | #117, #122 | v1 | 2026-03-14 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:

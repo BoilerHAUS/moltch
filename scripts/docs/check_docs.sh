@@ -142,6 +142,30 @@ check_launch_gate_evidence_schema() {
   pass "launch-gate evidence schema validation passed"
 }
 
+check_launch_readiness_packet_builder() {
+  local builder="scripts/ops/build_launch_readiness_packet.py"
+  local manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json"
+  local out_dir="docs/operations/evidence/launch-readiness/2026-03-14-dry-run"
+  local invalid_manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_invalid_v1.json"
+
+  [[ -f "$builder" ]] || fail "$builder missing"
+  [[ -f "$manifest" ]] || fail "$manifest missing"
+  [[ -f "$invalid_manifest" ]] || fail "$invalid_manifest missing"
+
+  python3 "$builder" \
+    --manifest "$manifest" \
+    --out-dir "$out_dir" >/dev/null
+
+  [[ -f "$out_dir/launch_readiness_packet.json" ]] || fail "launch readiness packet json missing after build"
+  [[ -f "$out_dir/launch_readiness_packet.md" ]] || fail "launch readiness packet markdown missing after build"
+
+  if python3 "$builder" --manifest "$invalid_manifest" --out-dir "$out_dir" >/dev/null 2>&1; then
+    fail "invalid manifest unexpectedly passed launch-readiness packet build"
+  fi
+
+  pass "launch-readiness packet assembly passed"
+}
+
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
   [[ -f "$roadmap" ]] || fail "$roadmap missing"
@@ -187,6 +211,7 @@ check_metadata_scope
 check_links
 check_docs_index_coverage
 check_launch_gate_evidence_schema
+check_launch_readiness_packet_builder
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, evidence schema, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, evidence schema, launch-readiness packet, and roadmap mapping checks passed"
