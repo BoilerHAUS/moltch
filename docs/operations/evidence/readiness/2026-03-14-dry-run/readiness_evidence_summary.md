@@ -1,6 +1,6 @@
 # readiness evidence summary
 
-- generated_at_utc: 2026-03-14T01:04:41+00:00
+- generated_at_utc: 2026-03-14T01:16:12+00:00
 - source_csv: docs/operations/evidence/readiness/2026-03-11/readiness_24h.csv
 - window_hours: 24
 - probe_count: 288
