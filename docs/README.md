@@ -50,6 +50,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - policy/doc lifecycle refinement v1: `docs/operations/POLICY_DOC_LIFECYCLE_REFINEMENT_V1.md`
 - launch-gate demos evidence (2026-03): `docs/operations/LAUNCH_GATE_DEMOS_ISSUE_PR_STATUS_2026-03.md`
 - readiness evidence bundle (2026-03-11): `docs/operations/evidence/readiness/2026-03-11/readiness_24h_summary.md`
+- readiness evidence writer dry-run sample (2026-03-14): `docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.md`
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`

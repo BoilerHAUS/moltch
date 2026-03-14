@@ -43,21 +43,36 @@ Use `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md` when recording
 ## readiness SLO evidence runner (24h launch gate)
 Target: 24h readiness success >= 99% with auditable artifact output.
 
-### live run command
+### step 1: collect probe data
+Live run command:
 `python3 scripts/ops/readiness_slo_runner.py --mode live --url http://localhost:8080/healthz --probes 288 --interval-seconds 300 --out-dir docs/operations/evidence/readiness/<YYYY-MM-DD>`
 
-### replay command (format validation)
+Replay command (format validation):
 `python3 scripts/ops/readiness_slo_runner.py --mode replay --url http://localhost:8080/healthz --out-dir docs/operations/evidence/readiness/<YYYY-MM-DD>`
 
+### step 2: write launch-gate evidence artifacts
+`python3 scripts/ops/readiness_artifact_writer.py --source-csv docs/operations/evidence/readiness/<YYYY-MM-DD>/readiness_24h.csv --out-dir docs/operations/evidence/readiness/<YYYY-MM-DD> --window-hours 24 --threshold-pct 99`
+
 ### expected outputs
+Probe runner:
 - `readiness_24h.csv`
 - `readiness_24h_summary.json`
 - `readiness_24h_summary.md`
 
+Artifact writer:
+- `readiness_evidence_summary.json`
+- `readiness_evidence_summary.md`
+
+### artifact interpretation
+- `overall_verdict=pass` means observed readiness success meets/exceeds threshold.
+- `overall_verdict=fail` means launch gate fails closed and promotion must stop.
+- `failure_slices` identifies grouped failure patterns by `status_code` and `error`.
+
 ### failure mode + escalation/rollback
-- if success_pct < 99: mark launch gate **fail**, do not promote.
+- if readiness writer cannot find required source CSV, exit non-zero (fail-closed).
+- if success_pct < threshold, mark launch gate **fail**, do not promote.
 - rollback: pin to last known-good deploy image and rerun readiness window.
-- escalation: post `needs-human` with failure slices (status_code/error grouped) and mitigation options.
+- escalation: post `needs-human` with failure slices and mitigation options.
 
 ## review artifacts
 - weekly scoreboard snapshot
