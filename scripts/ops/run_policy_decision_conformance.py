@@ -7,7 +7,9 @@ import sys
 from datetime import datetime, timezone
 
 
-def now_iso():
+def now_iso(override=None):
+    if override:
+        return override
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
 
@@ -108,6 +110,7 @@ def main():
     p.add_argument("--catalog", required=True)
     p.add_argument("--out-json", required=True)
     p.add_argument("--out-md", required=True)
+    p.add_argument("--generated-at-utc", default=None)
     args = p.parse_args()
 
     with open(args.fixtures) as f:
@@ -156,7 +159,7 @@ def main():
     fail_count = sum(1 for r in results if r["result"] == "fail")
 
     summary = {
-        "generated_at_utc": now_iso(),
+        "generated_at_utc": now_iso(args.generated_at_utc),
         "suite_version": payload.get("suite_version", "unknown"),
         "total_cases": len(cases),
         "pass_cases": pass_count,

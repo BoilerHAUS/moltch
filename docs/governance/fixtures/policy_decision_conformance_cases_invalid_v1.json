@@ -1,0 +1,21 @@
+{
+  "suite_version": "v1.0.0-invalid",
+  "generated_for": "negative fixture for CI fail-closed validation",
+  "cases": [
+    {
+      "id": "A2-invalid-reason-code",
+      "action_class": "A2",
+      "scenario": "intentional invalid reason code",
+      "expected_decision": "deny",
+      "expected_reason_code": "not_a_real_reason_code",
+      "expected_policy_outcome": "deny",
+      "expected_operator_action": "collect_additional_approval",
+      "actual": {
+        "decision": "deny",
+        "reason_code": "not_a_real_reason_code",
+        "policy_outcome": "deny",
+        "operator_action": "collect_additional_approval"
+      }
+    }
+  ]
+}

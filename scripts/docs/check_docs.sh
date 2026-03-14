@@ -189,17 +189,23 @@ check_review_ops_scoreboard_generator() {
 check_policy_decision_conformance() {
   local runner="scripts/ops/run_policy_decision_conformance.py"
   local fixtures="docs/governance/fixtures/policy_decision_conformance_cases_v1.json"
+  local invalid_fixtures="docs/governance/fixtures/policy_decision_conformance_cases_invalid_v1.json"
   local catalog="docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md"
   local out_json="docs/governance/evidence/policy_decision_conformance_summary_2026-03-14.json"
   local out_md="docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md"
 
   [[ -f "$runner" ]] || fail "$runner missing"
   [[ -f "$fixtures" ]] || fail "$fixtures missing"
+  [[ -f "$invalid_fixtures" ]] || fail "$invalid_fixtures missing"
   [[ -f "$catalog" ]] || fail "$catalog missing"
 
-  python3 "$runner" --fixtures "$fixtures" --catalog "$catalog" --out-json "$out_json" --out-md "$out_md" >/dev/null
+  python3 "$runner" --fixtures "$fixtures" --catalog "$catalog" --out-json "$out_json" --out-md "$out_md" --generated-at-utc "2026-03-14T00:00:00Z" >/dev/null
   [[ -f "$out_json" ]] || fail "$out_json missing after conformance run"
   [[ -f "$out_md" ]] || fail "$out_md missing after conformance run"
+
+  if python3 "$runner" --fixtures "$invalid_fixtures" --catalog "$catalog" --out-json /tmp/policy_conformance_invalid.json --out-md /tmp/policy_conformance_invalid.md --generated-at-utc "2026-03-14T00:00:00Z" >/dev/null 2>&1; then
+    fail "invalid policy conformance fixture unexpectedly passed"
+  fi
 
   pass "policy decision conformance validation passed"
 }

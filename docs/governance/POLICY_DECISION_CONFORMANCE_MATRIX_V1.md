@@ -20,6 +20,7 @@ Define deterministic A0-A3 policy conformance expectations so governance decisio
 ## fixture contract
 Fixture source:
 - `docs/governance/fixtures/policy_decision_conformance_cases_v1.json`
+- negative fixture (CI fail-closed assertion): `docs/governance/fixtures/policy_decision_conformance_cases_invalid_v1.json`
 
 Each fixture case MUST include:
 - expected decision tuple (`decision`, `reason_code`, `policy_outcome`, `operator_action`)
@@ -27,7 +28,7 @@ Each fixture case MUST include:
 - deterministic case id and action class
 
 ## conformance execution command
-`python3 scripts/ops/run_policy_decision_conformance.py --fixtures docs/governance/fixtures/policy_decision_conformance_cases_v1.json --catalog docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md --out-json docs/governance/evidence/policy_decision_conformance_summary_2026-03-14.json --out-md docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md`
+`python3 scripts/ops/run_policy_decision_conformance.py --fixtures docs/governance/fixtures/policy_decision_conformance_cases_v1.json --catalog docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md --out-json docs/governance/evidence/policy_decision_conformance_summary_2026-03-14.json --out-md docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md --generated-at-utc 2026-03-14T00:00:00Z`
 
 ## fail conditions
 - missing required fixture fields
