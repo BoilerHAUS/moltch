@@ -92,9 +92,24 @@ Build one reviewer-ready packet from required evidence manifest:
   - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.json`
   - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
 
+## soak validation (production-like durability gate)
+Plan and thresholds:
+- `docs/operations/SOAK_VALIDATION_PLAN_2026-03.md`
+
+Evidence memo template:
+- `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`
+
+Hold-path dry-run artifact:
+- `docs/operations/evidence/soak/SOAK_HOLD_PATH_DRY_RUN_2026-03-14.md`
+
+Operational requirement:
+- final memo must end in explicit `go` / `hold` / `no-go` plus one counterfactual that would flip the decision.
+- any abort gate trigger forces `no-go`; remediation requires a fresh full soak window.
+
 ## review artifacts
 - weekly scoreboard snapshot
 - decision log delta
 - launch-gate evidence package (when release/pilot/demo checks are in scope): `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - launch-readiness packet (signoff assembly): `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
+- soak evidence memo (durability gate): `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`
 - top 3 bottlenecks + planned fixes
