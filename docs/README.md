@@ -63,6 +63,9 @@ Provide one navigation hub for product, governance, operations, and contribution
 - launch-gate evidence valid sample (CI validation target): `docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
 - launch-readiness packet manifest v1: `docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json`
 - launch-readiness packet dry-run (2026-03-14): `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
+- production-like soak validation plan (2026-03): `docs/operations/SOAK_VALIDATION_PLAN_2026-03.md`
+- soak evidence memo template: `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`
+- soak hold-path dry-run artifact (2026-03-14): `docs/operations/evidence/soak/SOAK_HOLD_PATH_DRY_RUN_2026-03-14.md`
 
 ## doc status snapshot
 | doc | owner_role | next_review_due |
