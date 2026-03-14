@@ -53,6 +53,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - readiness evidence writer dry-run sample (2026-03-14): `docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.md`
 - launch-gate demo 1 evidence package (2026-03-14): `docs/operations/evidence/LAUNCH_GATE_DEMO1_EVIDENCE_PACKAGE_2026-03-14.md`
 - launch-gate demo 2 edge evidence package (2026-03-14): `docs/operations/evidence/LAUNCH_GATE_DEMO2_EDGE_EVIDENCE_PACKAGE_2026-03-14.md`
+- readiness artifact writer closeout (issue #97): `docs/operations/evidence/READINESS_ARTIFACT_WRITER_CLOSEOUT_2026-03-14.md`
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
