@@ -95,6 +95,13 @@ When issues open/close/re-scope:
 - update roadmap mapping in the same PR when possible, or
 - ship follow-up update within 24h.
 
+Helper command (generate mapping rows from current open issues):
+`python3 scripts/ops/generate_roadmap_open_issue_rows.py --repo BoilerHAUS/moltch --hints docs/product/ROADMAP_OPEN_ISSUE_HINTS.example.json --include-header`
+
+Notes:
+- generator output is assistive, not authoritative; review owner/dependency fields before commit
+- use hints file to prefill lane/owner/dependency values for known issues
+
 ## sequencing note
 - #64 (three-pane interaction contract freeze) should land before #63 implementation hardening to prevent API/UI wiring churn.
 
