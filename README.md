@@ -92,6 +92,8 @@ Canonical status mapping lives in: `docs/product/ROADMAP_V1.md`
 
 ## contribute
 
+New here? Start by reading `docs/CONTRIBUTING.md`, then pick an open issue and follow the issue-first flow below.
+
 - issue-first flow
 - fork + branch execution
 - PR-gated changes to `BoilerHAUS/moltch:main`
