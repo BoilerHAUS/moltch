@@ -18,8 +18,8 @@
   ],
   "properties": {
     "package_id": { "type": "string", "minLength": 1 },
-    "generated_at_utc": { "type": "string", "minLength": 1 },
-    "prepared_by": { "type": "string", "minLength": 1 },
+    "generated_at_utc": { "type": "string", "format": "date-time" },
+    "prepared_by": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9-]{1,31}$" },
     "scope_refs": {
       "type": "array",
       "minItems": 1,
@@ -38,9 +38,9 @@
       "additionalProperties": false,
       "required": ["issue", "pull_request", "commit_sha", "runbook_refs"],
       "properties": {
-        "issue": { "type": "string", "minLength": 1 },
-        "pull_request": { "type": "string", "minLength": 1 },
-        "commit_sha": { "type": "string", "minLength": 1 },
+        "issue": { "type": "string", "format": "uri" },
+        "pull_request": { "type": "string", "format": "uri" },
+        "commit_sha": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
         "runbook_refs": {
           "type": "array",
           "minItems": 1,
@@ -54,7 +54,7 @@
       "required": ["workflow_name", "run_url", "required_checks"],
       "properties": {
         "workflow_name": { "type": "string", "minLength": 1 },
-        "run_url": { "type": "string", "minLength": 1 },
+        "run_url": { "type": "string", "format": "uri" },
         "required_checks": {
           "type": "array",
           "minItems": 1,
@@ -94,7 +94,7 @@
           "properties": {
             "status": { "type": "string", "enum": ["pass", "fail"] },
             "endpoint_ref": { "type": "string", "minLength": 1 },
-            "observed_at_utc": { "type": "string", "minLength": 1 }
+            "observed_at_utc": { "type": "string", "format": "date-time" }
           }
         }
       }
@@ -104,7 +104,17 @@
       "additionalProperties": false,
       "required": ["summary", "reason_codes", "risks", "follow_ups", "approver"],
       "properties": {
-        "summary": { "type": "string", "minLength": 1 },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "allOf": [
+            {
+              "not": {
+                "pattern": "(?i)\\b(todo|tbd)\\b"
+              }
+            }
+          ]
+        },
         "reason_codes": {
           "type": "array",
           "minItems": 1,
