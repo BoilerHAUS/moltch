@@ -164,18 +164,34 @@ check_launch_readiness_packet_builder() {
   local builder="scripts/ops/build_launch_readiness_packet.py"
   local manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json"
   local out_dir="docs/operations/evidence/launch-readiness/2026-03-14-dry-run"
+  local hold_manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_hold_v1.json"
   local invalid_manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_invalid_v1.json"
+  local fixed_sha="deterministic-sha-v1"
 
   [[ -f "$builder" ]] || fail "$builder missing"
   [[ -f "$manifest" ]] || fail "$manifest missing"
+  [[ -f "$hold_manifest" ]] || fail "$hold_manifest missing"
   [[ -f "$invalid_manifest" ]] || fail "$invalid_manifest missing"
 
   python3 "$builder" \
     --manifest "$manifest" \
-    --out-dir "$out_dir" >/dev/null
+    --out-dir "$out_dir" \
+    --source-commit-sha "$fixed_sha" >/dev/null
 
   [[ -f "$out_dir/launch_readiness_packet.json" ]] || fail "launch readiness packet json missing after build"
   [[ -f "$out_dir/launch_readiness_packet.md" ]] || fail "launch readiness packet markdown missing after build"
+
+  local computed_decision
+  computed_decision=$(python3 -c 'import json;print(json.load(open("docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.json"))["decision"])')
+  [[ "$computed_decision" == "go" ]] || fail "expected computed go decision for baseline manifest, got: $computed_decision"
+
+  mkdir -p .tmp
+  local hold_dir
+  hold_dir=$(mktemp -d .tmp/launch-packet-hold.XXXXXX)
+  python3 "$builder" --manifest "$hold_manifest" --out-dir "$hold_dir" --source-commit-sha "$fixed_sha" >/dev/null
+  computed_decision=$(python3 -c "import json;print(json.load(open('$hold_dir/launch_readiness_packet.json'))['decision'])")
+  [[ "$computed_decision" == "hold" ]] || fail "expected computed hold decision for stale manifest, got: $computed_decision"
+  rm -rf "$hold_dir"
 
   if python3 "$builder" --manifest "$invalid_manifest" --out-dir "$out_dir" >/dev/null 2>&1; then
     fail "invalid manifest unexpectedly passed launch-readiness packet build"
