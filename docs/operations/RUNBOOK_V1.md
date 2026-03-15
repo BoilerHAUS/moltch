@@ -130,6 +130,13 @@ Run policy decision conformance checks:
 ## launch signoff entrypoint
 - canonical evidence index: `docs/operations/evidence/LAUNCH_EVIDENCE_INDEX_2026-03.md`
 
+## launch-gate contract CI signal
+- workflow: `.github/workflows/launch-gate-contracts.yml` (check name: `launch-gate-contracts`)
+- triage order when it fails:
+  1) schema fixtures (`scripts/ops/validate_launch_gate_evidence.py`)
+  2) launch-readiness packet derivation (`scripts/ops/build_launch_readiness_packet.py`)
+  3) policy conformance fixtures (`scripts/ops/run_policy_decision_conformance.py`)
+
 ## review artifacts
 - weekly review-ops scoreboard spec: `docs/operations/REVIEW_OPS_SCOREBOARD_SPEC_V1.md`
 - weekly scoreboard snapshot (generated): `docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md`
