@@ -142,6 +142,7 @@ Run policy decision conformance checks:
 - weekly scoreboard snapshot (generated): `docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md`
 - decision log delta
 - policy conformance summary: `docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md`
+- launch decision memo refresh (current): `docs/product/V1_LAUNCH_DECISION_MEMO_2026-03-15.md`
 - launch-gate evidence package (when release/pilot/demo checks are in scope): `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - launch-readiness packet (signoff assembly): `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
 - soak evidence memo (durability gate): `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`

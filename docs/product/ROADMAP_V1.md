@@ -71,7 +71,7 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
 |---|---|---|---|---|---|---|---|
 | #142 | phase A | in_progress | boilerclaw | none | v1 | 2026-03-15 | n/a |
-| #143 | phase B | planned | boilermolt | #142 | v1 | 2026-03-15 | n/a |
+| #143 | phase B | in_progress | boilermolt | #142 | v1 | 2026-03-15 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
@@ -87,6 +87,7 @@ Format:
 - #<issue_number> — rationale
 
 - #88 — tooling preparation thread (agent environment setup), not part of v1 product/delivery critical path.
+- #147 — repo README narrative/branding enhancement track; important but outside v1 launch-gate control criteria.
 
 ## roadmap update rule
 When issues open/close/re-scope:
