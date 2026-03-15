@@ -136,6 +136,9 @@ check_launch_gate_evidence_schema() {
   local invalid_root="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_root_v1.json"
   local invalid_nested="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_nested_v1.json"
   local invalid_runtime_nested="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_runtime_nested_v1.json"
+  local invalid_format="docs/operations/evidence/launch_gate_evidence_package_invalid_format_v1.json"
+  local invalid_pattern="docs/operations/evidence/launch_gate_evidence_package_invalid_pattern_v1.json"
+  local invalid_composition="docs/operations/evidence/launch_gate_evidence_package_invalid_composition_v1.json"
 
   [[ -f "$schema" ]] || fail "$schema missing"
   [[ -f "$validator" ]] || fail "$validator missing"
@@ -146,6 +149,9 @@ check_launch_gate_evidence_schema() {
   [[ -f "$invalid_root" ]] || fail "$invalid_root missing"
   [[ -f "$invalid_nested" ]] || fail "$invalid_nested missing"
   [[ -f "$invalid_runtime_nested" ]] || fail "$invalid_runtime_nested missing"
+  [[ -f "$invalid_format" ]] || fail "$invalid_format missing"
+  [[ -f "$invalid_pattern" ]] || fail "$invalid_pattern missing"
+  [[ -f "$invalid_composition" ]] || fail "$invalid_composition missing"
 
   python3 "$validator" --schema "$schema" --input "$sample" --input "$sample_edge" >/dev/null
 
@@ -167,6 +173,18 @@ check_launch_gate_evidence_schema() {
 
   if python3 "$validator" --schema "$schema" --input "$invalid_runtime_nested" >/dev/null 2>&1; then
     fail "invalid runtime nested additional property fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --schema "$schema" --input "$invalid_format" >/dev/null 2>&1; then
+    fail "invalid format fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --schema "$schema" --input "$invalid_pattern" >/dev/null 2>&1; then
+    fail "invalid pattern fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --schema "$schema" --input "$invalid_composition" >/dev/null 2>&1; then
+    fail "invalid composition fixture unexpectedly passed"
   fi
 
   pass "launch-gate evidence schema validation passed"

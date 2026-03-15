@@ -1,80 +1,76 @@
 #!/usr/bin/env python3
 import argparse
+import glob
 import json
 import os
 import sys
+from datetime import datetime
+from pathlib import Path
 from typing import Any, Dict, List
+from urllib.parse import urlparse
+
+from jsonschema import Draft202012Validator, FormatChecker
 
 
-def schema_type_name(schema_type: str):
-    return {
-        "object": dict,
-        "array": list,
-        "string": str,
-        "number": (int, float),
-        "integer": int,
-        "boolean": bool,
-    }.get(schema_type)
+def _format_error_path(error) -> str:
+    if not error.absolute_path:
+        return "$"
+    path = "$"
+    for segment in error.absolute_path:
+        if isinstance(segment, int):
+            path += f"[{segment}]"
+        else:
+            path += f".{segment}"
+    return path
 
 
-def validate_node(node: Any, schema: Dict[str, Any], path: str, errors: List[str]):
-    expected_type = schema.get("type")
-    if expected_type:
-        py_type = schema_type_name(expected_type)
-        if py_type is None:
-            errors.append(f"{path}: unsupported schema type '{expected_type}'")
-            return
-        if not isinstance(node, py_type) or (expected_type == "integer" and isinstance(node, bool)):
-            errors.append(f"{path}: expected {expected_type}, got {type(node).__name__}")
-            return
+def build_format_checker() -> FormatChecker:
+    checker = FormatChecker()
 
-    if "enum" in schema and node not in schema["enum"]:
-        errors.append(f"{path}: value '{node}' not in enum {schema['enum']}")
+    @checker.checks("uri")
+    def _is_uri(value: object) -> bool:
+        if not isinstance(value, str):
+            return True
+        parsed = urlparse(value)
+        return bool(parsed.scheme and parsed.netloc)
 
-    if isinstance(node, str):
-        min_length = schema.get("minLength")
-        if min_length is not None and len(node) < min_length:
-            errors.append(f"{path}: string length {len(node)} < minLength {min_length}")
+    @checker.checks("date-time")
+    def _is_datetime(value: object) -> bool:
+        if not isinstance(value, str):
+            return True
+        try:
+            datetime.fromisoformat(value.replace("Z", "+00:00"))
+            return True
+        except ValueError:
+            return False
 
-    if isinstance(node, list):
-        min_items = schema.get("minItems")
-        if min_items is not None and len(node) < min_items:
-            errors.append(f"{path}: array length {len(node)} < minItems {min_items}")
-        item_schema = schema.get("items")
-        if item_schema:
-            for idx, item in enumerate(node):
-                validate_node(item, item_schema, f"{path}[{idx}]", errors)
-
-    if isinstance(node, dict):
-        required = schema.get("required", [])
-        for key in required:
-            if key not in node:
-                errors.append(f"{path}.{key}: missing required field")
-
-        properties = schema.get("properties", {})
-        if schema.get("additionalProperties") is False:
-            for key in node.keys():
-                if key not in properties:
-                    errors.append(f"{path}.{key}: unexpected property (additionalProperties=false)")
-
-        for key, child_schema in properties.items():
-            if key in node:
-                validate_node(node[key], child_schema, f"{path}.{key}", errors)
+    return checker
 
 
-def validate_file(schema: Dict[str, Any], json_path: str) -> List[str]:
+def validate_file(validator: Draft202012Validator, json_path: str) -> List[str]:
     try:
-        with open(json_path) as f:
+        with open(json_path, "r", encoding="utf-8") as f:
             payload = json.load(f)
     except Exception as e:
         return [f"{json_path}: failed to parse JSON ({e})"]
 
-    errors: List[str] = []
-    validate_node(payload, schema, "$", errors)
-    return [f"{json_path}: {e}" for e in errors]
+    errors = sorted(validator.iter_errors(payload), key=lambda e: (list(e.absolute_path), e.message))
+    if not errors:
+        return []
+
+    out: List[str] = []
+    for err in errors:
+        loc = _format_error_path(err)
+        out.append(f"{json_path}: {loc}: {err.message}")
+    return out
 
 
-def main():
+def load_schema(schema_path: str) -> Dict[str, Any]:
+    with open(schema_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--schema", required=True)
     parser.add_argument("--input", action="append", dest="inputs", default=[])
@@ -85,25 +81,21 @@ def main():
         print(f"[launch-gate-validate][fail] schema not found: {args.schema}", file=sys.stderr)
         sys.exit(1)
 
-    with open(args.schema) as f:
-        schema = json.load(f)
+    schema = load_schema(args.schema)
+    validator = Draft202012Validator(schema, format_checker=build_format_checker())
 
     files: List[str] = list(args.inputs)
+    for pattern in args.globs:
+        files.extend(sorted(glob.glob(pattern, recursive=True)))
 
-    if args.globs:
-        import glob
-
-        for pattern in args.globs:
-            files.extend(sorted(glob.glob(pattern, recursive=True)))
-
-    files = sorted(set(files))
+    files = sorted({str(Path(f)) for f in files})
     if not files:
         print("[launch-gate-validate][fail] no input files provided", file=sys.stderr)
         sys.exit(1)
 
     all_errors: List[str] = []
     for fpath in files:
-        all_errors.extend(validate_file(schema, fpath))
+        all_errors.extend(validate_file(validator, fpath))
 
     if all_errors:
         for err in all_errors:
