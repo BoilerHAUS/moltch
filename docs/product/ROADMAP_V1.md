@@ -100,6 +100,10 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #123 | launch gate quality follow-up | planned | boilermolt | #122 | v1 | 2026-03-14 | n/a |
 | #124 | launch gate quality follow-up | planned | boilermolt | #122, #123 | v1 | 2026-03-14 | n/a |
 | #127 | launch gate quality follow-up | planned | boilermolt | #117, #122 | v1 | 2026-03-14 | n/a |
+| #134 | launch gate quality follow-up | planned | boilermolt | #122 | v1 | 2026-03-15 | n/a |
+| #135 | launch gate quality follow-up | planned | boilermolt | #134 | v1 | 2026-03-15 | n/a |
+| #136 | program mgmt | planned | boilermolt | #76 | v1 | 2026-03-15 | n/a |
+| #137 | ops control | planned | shared | #134, #135, #136 | v1 | 2026-03-15 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
