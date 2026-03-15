@@ -71,7 +71,7 @@ sed -n '1,200p' docs/operations/evidence/LAUNCH_EVIDENCE_INDEX_2026-03.md
 
 ## Current status
 - **Shipped now:** governance/ops contracts, launch-gate evidence tooling, policy conformance checks, roadmap/CI drift guardrails
-- **In progress:** final launch decision memo refresh + README polish + test-readiness handoff
+- **In progress:** README polish + operator onboarding refinement + test-readiness handoff
 
 See canonical roadmap mapping: `docs/product/ROADMAP_V1.md`
 
