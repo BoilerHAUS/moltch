@@ -133,6 +133,9 @@ check_launch_gate_evidence_schema() {
   local sample_edge="docs/operations/evidence/launch_gate_evidence_package_valid_edge_v1.json"
   local invalid_missing_required="docs/operations/evidence/launch_gate_evidence_package_invalid_missing_required_v1.json"
   local invalid_enum="docs/operations/evidence/launch_gate_evidence_package_invalid_enum_v1.json"
+  local invalid_root="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_root_v1.json"
+  local invalid_nested="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_nested_v1.json"
+  local invalid_runtime_nested="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_runtime_nested_v1.json"
 
   [[ -f "$schema" ]] || fail "$schema missing"
   [[ -f "$validator" ]] || fail "$validator missing"
@@ -140,6 +143,9 @@ check_launch_gate_evidence_schema() {
   [[ -f "$sample_edge" ]] || fail "$sample_edge missing"
   [[ -f "$invalid_missing_required" ]] || fail "$invalid_missing_required missing"
   [[ -f "$invalid_enum" ]] || fail "$invalid_enum missing"
+  [[ -f "$invalid_root" ]] || fail "$invalid_root missing"
+  [[ -f "$invalid_nested" ]] || fail "$invalid_nested missing"
+  [[ -f "$invalid_runtime_nested" ]] || fail "$invalid_runtime_nested missing"
 
   python3 "$validator" --schema "$schema" --input "$sample" --input "$sample_edge" >/dev/null
 
@@ -151,6 +157,18 @@ check_launch_gate_evidence_schema() {
     fail "invalid enum fixture unexpectedly passed"
   fi
 
+  if python3 "$validator" --schema "$schema" --input "$invalid_root" >/dev/null 2>&1; then
+    fail "invalid root additional property fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --schema "$schema" --input "$invalid_nested" >/dev/null 2>&1; then
+    fail "invalid nested additional property fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --schema "$schema" --input "$invalid_runtime_nested" >/dev/null 2>&1; then
+    fail "invalid runtime nested additional property fixture unexpectedly passed"
+  fi
+
   pass "launch-gate evidence schema validation passed"
 }
 
@@ -158,18 +176,34 @@ check_launch_readiness_packet_builder() {
   local builder="scripts/ops/build_launch_readiness_packet.py"
   local manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json"
   local out_dir="docs/operations/evidence/launch-readiness/2026-03-14-dry-run"
+  local hold_manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_hold_v1.json"
   local invalid_manifest="docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_invalid_v1.json"
+  local fixed_sha="deterministic-sha-v1"
 
   [[ -f "$builder" ]] || fail "$builder missing"
   [[ -f "$manifest" ]] || fail "$manifest missing"
+  [[ -f "$hold_manifest" ]] || fail "$hold_manifest missing"
   [[ -f "$invalid_manifest" ]] || fail "$invalid_manifest missing"
 
   python3 "$builder" \
     --manifest "$manifest" \
-    --out-dir "$out_dir" >/dev/null
+    --out-dir "$out_dir" \
+    --source-commit-sha "$fixed_sha" >/dev/null
 
   [[ -f "$out_dir/launch_readiness_packet.json" ]] || fail "launch readiness packet json missing after build"
   [[ -f "$out_dir/launch_readiness_packet.md" ]] || fail "launch readiness packet markdown missing after build"
+
+  local computed_decision
+  computed_decision=$(python3 -c 'import json;print(json.load(open("docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.json"))["decision"])')
+  [[ "$computed_decision" == "go" ]] || fail "expected computed go decision for baseline manifest, got: $computed_decision"
+
+  mkdir -p .tmp
+  local hold_dir
+  hold_dir=$(mktemp -d .tmp/launch-packet-hold.XXXXXX)
+  python3 "$builder" --manifest "$hold_manifest" --out-dir "$hold_dir" --source-commit-sha "$fixed_sha" >/dev/null
+  computed_decision=$(python3 -c "import json;print(json.load(open('$hold_dir/launch_readiness_packet.json'))['decision'])")
+  [[ "$computed_decision" == "hold" ]] || fail "expected computed hold decision for stale manifest, got: $computed_decision"
+  rm -rf "$hold_dir"
 
   if python3 "$builder" --manifest "$invalid_manifest" --out-dir "$out_dir" >/dev/null 2>&1; then
     fail "invalid manifest unexpectedly passed launch-readiness packet build"

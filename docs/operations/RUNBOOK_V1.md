@@ -79,10 +79,10 @@ Use this before opening/merging launch-gate evidence PRs:
 
 `python3 scripts/ops/validate_launch_gate_evidence.py --schema docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json --input docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
 
-- non-zero exit means schema violation (missing fields / invalid enums / wrong types)
+- non-zero exit means schema violation (missing fields / invalid enums / wrong types / unexpected additional properties)
 - CI enforces multi-artifact validation via `scripts/docs/check_docs.sh`:
   - valid fixtures: canonical + edge variant
-  - invalid fixtures: missing-required + invalid-enum (must fail)
+  - invalid fixtures: missing-required + invalid-enum + typo/additional-property variants (must fail)
 
 ## launch-readiness packet assembly (fail-closed)
 Build one reviewer-ready packet from required evidence manifest:
@@ -90,6 +90,17 @@ Build one reviewer-ready packet from required evidence manifest:
 `python3 scripts/ops/build_launch_readiness_packet.py --manifest docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json --out-dir docs/operations/evidence/launch-readiness/2026-03-14-dry-run`
 
 - non-zero exit means required evidence input is missing or manifest fields are invalid
+- packet decision is computed from status signals (manifest rationale is non-authoritative)
+
+Decision derivation rules:
+1. Any of the following forces `no-go`: failed required checks, readiness fail, evidence incomplete, abort gate triggered.
+2. If no hard-fail but freshness/lineage checks fail, decision is `hold`.
+3. Only all-green signals produce `go`.
+
+Freshness/lineage contract:
+- `status_signals.source_data_age_hours` must be <= `freshness.max_source_age_hours` for `go`.
+- if `freshness.require_same_commit_lineage=true`, `status_signals.source_commit_sha` must match packet `source_commit_sha` for `go`.
+
 - outputs:
   - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.json`
   - `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`

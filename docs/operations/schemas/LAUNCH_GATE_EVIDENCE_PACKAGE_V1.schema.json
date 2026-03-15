@@ -3,6 +3,7 @@
   "$id": "https://boilerhaus.org/moltch/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json",
   "title": "Launch Gate Evidence Package V1",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "package_id",
     "generated_at_utc",
@@ -34,6 +35,7 @@
     },
     "traceability": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["issue", "pull_request", "commit_sha", "runbook_refs"],
       "properties": {
         "issue": { "type": "string", "minLength": 1 },
@@ -48,6 +50,7 @@
     },
     "ci": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["workflow_name", "run_url", "required_checks"],
       "properties": {
         "workflow_name": { "type": "string", "minLength": 1 },
@@ -57,6 +60,7 @@
           "minItems": 1,
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "required": ["name", "status", "evidence"],
             "properties": {
               "name": { "type": "string", "minLength": 1 },
@@ -69,11 +73,13 @@
     },
     "runtime": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["environment_snapshot", "smoke", "readiness"],
       "properties": {
         "environment_snapshot": { "type": "string", "minLength": 1 },
         "smoke": {
           "type": "object",
+          "additionalProperties": false,
           "required": ["status", "script_ref", "artifact_ref"],
           "properties": {
             "status": { "type": "string", "enum": ["pass", "fail"] },
@@ -83,6 +89,7 @@
         },
         "readiness": {
           "type": "object",
+          "additionalProperties": false,
           "required": ["status", "endpoint_ref", "observed_at_utc"],
           "properties": {
             "status": { "type": "string", "enum": ["pass", "fail"] },
@@ -94,6 +101,7 @@
     },
     "decision": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["summary", "reason_codes", "risks", "follow_ups", "approver"],
       "properties": {
         "summary": { "type": "string", "minLength": 1 },

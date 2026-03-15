@@ -7,10 +7,10 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict
 
-SCRIPT_VERSION = "v1.1.0"
-MANIFEST_SCHEMA_VERSION = "v1"
+SCRIPT_VERSION = "v1.2.0"
+MANIFEST_SCHEMA_VERSION = "v2"
 
 GITHUB_URL_RE = re.compile(r"^https://github\.com/[^\s]+$")
 DOCS_PATH_RE = re.compile(r"^docs/[A-Za-z0-9._\-/]+$")
@@ -18,17 +18,19 @@ DOCS_PATH_RE = re.compile(r"^docs/[A-Za-z0-9._\-/]+$")
 MANIFEST_ALLOWED_ROOT_KEYS = {
     "packet_id",
     "target_environment",
-    "decision",
     "decision_rationale",
     "traceability",
     "evidence",
+    "status_signals",
+    "freshness",
 }
 MANIFEST_REQUIRED_ROOT_KEYS = {
     "packet_id",
     "target_environment",
-    "decision",
     "traceability",
     "evidence",
+    "status_signals",
+    "freshness",
 }
 MANIFEST_ALLOWED_TRACEABILITY_KEYS = {"source_issue", "source_pull_requests"}
 MANIFEST_REQUIRED_TRACEABILITY_KEYS = {"source_issue", "source_pull_requests"}
@@ -40,6 +42,17 @@ MANIFEST_ALLOWED_EVIDENCE_KEYS = {
     "pilot_decision_memo_doc",
 }
 MANIFEST_REQUIRED_EVIDENCE_KEYS = MANIFEST_ALLOWED_EVIDENCE_KEYS.copy()
+MANIFEST_ALLOWED_SIGNAL_KEYS = {
+    "ci_required_checks_passed",
+    "readiness_overall_verdict",
+    "evidence_complete",
+    "abort_gate_triggered",
+    "source_data_age_hours",
+    "source_commit_sha",
+}
+MANIFEST_REQUIRED_SIGNAL_KEYS = MANIFEST_ALLOWED_SIGNAL_KEYS.copy()
+MANIFEST_ALLOWED_FRESHNESS_KEYS = {"max_source_age_hours", "require_same_commit_lineage"}
+MANIFEST_REQUIRED_FRESHNESS_KEYS = MANIFEST_ALLOWED_FRESHNESS_KEYS.copy()
 
 
 def fail(msg: str):
@@ -121,16 +134,11 @@ def normalize_repo_path(rel_path: str, field: str, repo_root: Path) -> Path:
     return candidate
 
 
-def validate_manifest(manifest: Dict[str, Any], repo_root: Path) -> Dict[str, Path]:
+def validate_manifest(manifest: Dict[str, Any], repo_root: Path) -> None:
     if not isinstance(manifest, dict):
         fail("manifest root must be an object")
 
-    ensure_keys(
-        manifest,
-        MANIFEST_REQUIRED_ROOT_KEYS,
-        MANIFEST_ALLOWED_ROOT_KEYS,
-        "$",
-    )
+    ensure_keys(manifest, MANIFEST_REQUIRED_ROOT_KEYS, MANIFEST_ALLOWED_ROOT_KEYS, "$")
 
     if not isinstance(manifest["packet_id"], str) or not manifest["packet_id"].strip():
         fail("packet_id must be a non-empty string")
@@ -138,18 +146,10 @@ def validate_manifest(manifest: Dict[str, Any], repo_root: Path) -> Dict[str, Pa
     if manifest["target_environment"] not in ("staging", "preprod", "prod-like"):
         fail("target_environment must be one of: staging|preprod|prod-like")
 
-    if manifest["decision"] not in ("go", "hold", "no-go"):
-        fail("decision must be one of: go|hold|no-go")
-
     trace = manifest["traceability"]
     if not isinstance(trace, dict):
         fail("traceability must be an object")
-    ensure_keys(
-        trace,
-        MANIFEST_REQUIRED_TRACEABILITY_KEYS,
-        MANIFEST_ALLOWED_TRACEABILITY_KEYS,
-        "traceability",
-    )
+    ensure_keys(trace, MANIFEST_REQUIRED_TRACEABILITY_KEYS, MANIFEST_ALLOWED_TRACEABILITY_KEYS, "traceability")
 
     validate_github_url(trace["source_issue"], "traceability.source_issue")
     prs = trace["source_pull_requests"]
@@ -161,18 +161,84 @@ def validate_manifest(manifest: Dict[str, Any], repo_root: Path) -> Dict[str, Pa
     evidence = manifest["evidence"]
     if not isinstance(evidence, dict):
         fail("evidence must be an object")
-    ensure_keys(
-        evidence,
-        MANIFEST_REQUIRED_EVIDENCE_KEYS,
-        MANIFEST_ALLOWED_EVIDENCE_KEYS,
-        "evidence",
-    )
-
-    normalized: Dict[str, Path] = {}
+    ensure_keys(evidence, MANIFEST_REQUIRED_EVIDENCE_KEYS, MANIFEST_ALLOWED_EVIDENCE_KEYS, "evidence")
     for key, rel_path in evidence.items():
-        normalized[key] = normalize_repo_path(rel_path, f"evidence.{key}", repo_root)
+        normalize_repo_path(rel_path, f"evidence.{key}", repo_root)
 
-    return normalized
+    signals = manifest["status_signals"]
+    if not isinstance(signals, dict):
+        fail("status_signals must be an object")
+    ensure_keys(signals, MANIFEST_REQUIRED_SIGNAL_KEYS, MANIFEST_ALLOWED_SIGNAL_KEYS, "status_signals")
+
+    for key in ("ci_required_checks_passed", "evidence_complete", "abort_gate_triggered"):
+        if not isinstance(signals[key], bool):
+            fail(f"status_signals.{key} must be boolean")
+
+    if signals["readiness_overall_verdict"] not in ("pass", "fail"):
+        fail("status_signals.readiness_overall_verdict must be pass|fail")
+
+    if not isinstance(signals["source_data_age_hours"], (int, float)) or signals["source_data_age_hours"] < 0:
+        fail("status_signals.source_data_age_hours must be >=0 number")
+
+    if not isinstance(signals["source_commit_sha"], str) or not signals["source_commit_sha"].strip():
+        fail("status_signals.source_commit_sha must be non-empty string")
+
+    freshness = manifest["freshness"]
+    if not isinstance(freshness, dict):
+        fail("freshness must be an object")
+    ensure_keys(freshness, MANIFEST_REQUIRED_FRESHNESS_KEYS, MANIFEST_ALLOWED_FRESHNESS_KEYS, "freshness")
+
+    if not isinstance(freshness["max_source_age_hours"], (int, float)) or freshness["max_source_age_hours"] < 0:
+        fail("freshness.max_source_age_hours must be >=0 number")
+    if not isinstance(freshness["require_same_commit_lineage"], bool):
+        fail("freshness.require_same_commit_lineage must be boolean")
+
+
+def derive_decision(manifest: Dict[str, Any], source_commit_sha: str) -> Dict[str, Any]:
+    s = manifest["status_signals"]
+    f = manifest["freshness"]
+
+    same_commit_lineage = (s["source_commit_sha"] == source_commit_sha)
+    stale_source = s["source_data_age_hours"] > f["max_source_age_hours"]
+
+    evaluation = [
+        {"signal": "evidence_complete", "value": s["evidence_complete"], "status": "pass" if s["evidence_complete"] else "fail", "impact": "missing evidence => no-go"},
+        {"signal": "ci_required_checks_passed", "value": s["ci_required_checks_passed"], "status": "pass" if s["ci_required_checks_passed"] else "fail", "impact": "failed checks => no-go"},
+        {"signal": "readiness_overall_verdict", "value": s["readiness_overall_verdict"], "status": "pass" if s["readiness_overall_verdict"] == "pass" else "fail", "impact": "readiness fail => no-go"},
+        {"signal": "abort_gate_triggered", "value": s["abort_gate_triggered"], "status": "fail" if s["abort_gate_triggered"] else "pass", "impact": "abort gate => no-go"},
+        {"signal": "source_data_age_hours", "value": s["source_data_age_hours"], "status": "fail" if stale_source else "pass", "impact": "stale inputs => hold"},
+        {"signal": "same_commit_lineage", "value": same_commit_lineage, "status": "fail" if (f["require_same_commit_lineage"] and not same_commit_lineage) else "pass", "impact": "lineage mismatch => hold"},
+    ]
+
+    decision = "go"
+    reasons = []
+
+    if (not s["evidence_complete"] or not s["ci_required_checks_passed"] or s["readiness_overall_verdict"] == "fail" or s["abort_gate_triggered"]):
+        decision = "no-go"
+        if not s["evidence_complete"]:
+            reasons.append("evidence_incomplete")
+        if not s["ci_required_checks_passed"]:
+            reasons.append("ci_checks_failed")
+        if s["readiness_overall_verdict"] == "fail":
+            reasons.append("readiness_failed")
+        if s["abort_gate_triggered"]:
+            reasons.append("abort_gate_triggered")
+    elif stale_source or (f["require_same_commit_lineage"] and not same_commit_lineage):
+        decision = "hold"
+        if stale_source:
+            reasons.append("source_data_stale")
+        if f["require_same_commit_lineage"] and not same_commit_lineage:
+            reasons.append("commit_lineage_mismatch")
+    else:
+        reasons.append("all_required_signals_green")
+
+    return {
+        "decision": decision,
+        "reasons": reasons,
+        "signal_evaluation": evaluation,
+        "same_commit_lineage": same_commit_lineage,
+        "stale_source": stale_source,
+    }
 
 
 def build_payload(
@@ -182,15 +248,21 @@ def build_payload(
     script_hash: str,
     manifest_hash: str,
 ) -> Dict[str, Any]:
+    derived = derive_decision(manifest, source_commit_sha)
+
     return {
         "packet_id": manifest["packet_id"],
         "generated_at_utc": generated_at_utc,
         "source_commit_sha": source_commit_sha,
         "target_environment": manifest["target_environment"],
-        "decision": manifest["decision"],
+        "decision": derived["decision"],
+        "decision_reasons": derived["reasons"],
         "decision_rationale": manifest.get("decision_rationale", ""),
         "traceability": manifest["traceability"],
         "evidence": manifest["evidence"],
+        "status_signals": manifest["status_signals"],
+        "freshness": manifest["freshness"],
+        "signal_evaluation": derived["signal_evaluation"],
         "generator": {
             "script": "scripts/ops/build_launch_readiness_packet.py",
             "script_version": SCRIPT_VERSION,
@@ -218,10 +290,11 @@ def write_markdown(path: Path, payload: Dict[str, Any]):
         f.write(f"- generated_at_utc: {payload['generated_at_utc']}\n")
         f.write(f"- source_commit_sha: `{payload['source_commit_sha']}`\n")
         f.write(f"- target_environment: {payload['target_environment']}\n")
-        f.write(f"- decision: **{payload['decision']}**\n\n")
+        f.write(f"- decision (computed): **{payload['decision']}**\n")
+        f.write(f"- decision_reasons: {', '.join(payload['decision_reasons'])}\n\n")
 
         if payload.get("decision_rationale"):
-            f.write("## decision rationale\n")
+            f.write("## operator rationale (non-authoritative)\n")
             f.write(f"{payload['decision_rationale']}\n\n")
 
         f.write("## traceability\n")
@@ -233,6 +306,11 @@ def write_markdown(path: Path, payload: Dict[str, Any]):
         f.write("## required evidence\n")
         for k, v in e.items():
             f.write(f"- {k}: `{v}`\n")
+        f.write("\n")
+
+        f.write("## signal evaluation\n")
+        for sig in payload["signal_evaluation"]:
+            f.write(f"- {sig['signal']}: value=`{sig['value']}` status=`{sig['status']}` impact=`{sig['impact']}`\n")
         f.write("\n")
 
         f.write("## generator metadata\n")

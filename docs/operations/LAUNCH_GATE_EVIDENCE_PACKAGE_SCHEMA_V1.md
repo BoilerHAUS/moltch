@@ -136,6 +136,7 @@ decision:
 ## machine-validated companion schema
 - JSON Schema file: `docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json`
 - validator script: `scripts/ops/validate_launch_gate_evidence.py`
+- strictness: `additionalProperties: false` enforced at root and key nested objects to block typo/extra fields
 - valid sample artifact: `docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
 
 Validation command:
