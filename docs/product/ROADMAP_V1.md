@@ -1,10 +1,10 @@
 # roadmap v1 (now -> v1 launch -> v1.1)
 
 ## metadata
-- version: v1.2.3
+- version: v1.2.4
 - owner_role: agent_product_governance
 - review_cadence: weekly
-- next_review_due: 2026-03-16
+- next_review_due: 2026-03-22
 
 ## objective
 Align execution around a sequenced path from baseline docs/scaffolds to v1 launch and immediate v1.1 upgrades.
@@ -70,40 +70,8 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 ## open issues mapping (canonical)
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
 |---|---|---|---|---|---|---|---|
-| #63 | phase A | planned | boilerclaw | #64 | v1 | 2026-03-09 | n/a |
-| #64 | phase A | planned | shared | none | v1 | 2026-03-09 | n/a |
-| #65 | phase A | planned | boilerclaw | none | v1 | 2026-03-09 | n/a |
-| #66 | phase A | planned | boilermolt | none | v1 | 2026-03-09 | n/a |
-| #67 | phase B | planned | boilermolt | #66 | v1 | 2026-03-09 | n/a |
-| #68 | phase B | planned | boilermolt | #63, #64, #67 | v1 | 2026-03-09 | n/a |
-| #70 | launch gate | planned | shared | #63, #64 | v1 | 2026-03-09 | n/a |
-| #72 | phase C | planned | shared | #68 | v1.1 | 2026-03-09 | n/a |
-| #74 | launch gate | planned | boilerclaw | #65 | v1 | 2026-03-09 | n/a |
-| #75 | phase C | planned | boilermolt | #68 | v1.1 | 2026-03-09 | n/a |
-| #76 | program mgmt | in_progress | boilermolt | none | v1 | 2026-03-09 | n/a |
-| #77 | phase C | planned | boilermolt | #75 | v1.1 | 2026-03-09 | n/a |
-| #80 | program mgmt | planned | boilerclaw | #76 | v1 | 2026-03-09 | n/a |
-| #83 | v2 / web3 | planned | shared | #67 | v2 | 2026-03-12 | n/a |
-| #84 | v2 / web3 | planned | shared | #83 | v2 | 2026-03-12 | n/a |
-| #86 | v2 / web3 | planned | shared | #83, #84 | v2 | 2026-03-12 | n/a |
-| #96 | launch gate | planned | shared | #68, #70, #74 | v1 | 2026-03-12 | n/a |
-| #97 | launch gate | planned | boilerclaw | #74, #96 | v1 | 2026-03-12 | n/a |
-| #98 | launch gate | planned | shared | #70, #96 | v1 | 2026-03-12 | n/a |
-| #99 | launch gate | planned | shared | #70, #96, #98 | v1 | 2026-03-12 | n/a |
-| #100 | phase B | planned | boilermolt | #68, #96 | v1 | 2026-03-12 | n/a |
-| #116 | launch gate | in_progress | boilerclaw | #96 | v1 | 2026-03-14 | n/a |
-| #117 | launch gate | planned | boilerclaw | #116 | v1 | 2026-03-14 | n/a |
-| #118 | launch gate | planned | shared | #117 | v1 | 2026-03-14 | n/a |
-| #119 | governance hardening | planned | boilermolt | #67 | v1.1 | 2026-03-14 | n/a |
-| #120 | ops analytics | planned | shared | #117 | v1.1 | 2026-03-14 | n/a |
-| #122 | launch gate quality follow-up | planned | boilermolt | #116 | v1 | 2026-03-14 | n/a |
-| #123 | launch gate quality follow-up | planned | boilermolt | #122 | v1 | 2026-03-14 | n/a |
-| #124 | launch gate quality follow-up | planned | boilermolt | #122, #123 | v1 | 2026-03-14 | n/a |
-| #127 | launch gate quality follow-up | planned | boilermolt | #117, #122 | v1 | 2026-03-14 | n/a |
-| #134 | launch gate quality follow-up | planned | boilermolt | #122 | v1 | 2026-03-15 | n/a |
-| #135 | launch gate quality follow-up | planned | boilermolt | #134 | v1 | 2026-03-15 | n/a |
-| #136 | program mgmt | planned | boilermolt | #76 | v1 | 2026-03-15 | n/a |
-| #137 | ops control | planned | shared | #134, #135, #136 | v1 | 2026-03-15 | n/a |
+| #136 | program mgmt | in_progress | boilermolt | none | v1 | 2026-03-15 | n/a |
+| #137 | ops control | planned | shared | #136 | v1 | 2026-03-15 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
