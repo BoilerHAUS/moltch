@@ -52,6 +52,11 @@ def validate_node(node: Any, schema: Dict[str, Any], path: str, errors: List[str
                 errors.append(f"{path}.{key}: missing required field")
 
         properties = schema.get("properties", {})
+        if schema.get("additionalProperties") is False:
+            for key in node.keys():
+                if key not in properties:
+                    errors.append(f"{path}.{key}: unexpected property (additionalProperties=false)")
+
         for key, child_schema in properties.items():
             if key in node:
                 validate_node(node[key], child_schema, f"{path}.{key}", errors)
