@@ -130,6 +130,9 @@ check_launch_gate_evidence_schema() {
   local schema="docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json"
   local validator="scripts/ops/validate_launch_gate_evidence.py"
   local sample="docs/operations/evidence/launch_gate_evidence_package_valid_v1.json"
+  local sample_edge="docs/operations/evidence/launch_gate_evidence_package_valid_edge_v1.json"
+  local invalid_missing_required="docs/operations/evidence/launch_gate_evidence_package_invalid_missing_required_v1.json"
+  local invalid_enum="docs/operations/evidence/launch_gate_evidence_package_invalid_enum_v1.json"
   local invalid_root="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_root_v1.json"
   local invalid_nested="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_nested_v1.json"
   local invalid_runtime_nested="docs/operations/evidence/launch_gate_evidence_package_invalid_extra_runtime_nested_v1.json"
@@ -137,13 +140,22 @@ check_launch_gate_evidence_schema() {
   [[ -f "$schema" ]] || fail "$schema missing"
   [[ -f "$validator" ]] || fail "$validator missing"
   [[ -f "$sample" ]] || fail "$sample missing"
+  [[ -f "$sample_edge" ]] || fail "$sample_edge missing"
+  [[ -f "$invalid_missing_required" ]] || fail "$invalid_missing_required missing"
+  [[ -f "$invalid_enum" ]] || fail "$invalid_enum missing"
   [[ -f "$invalid_root" ]] || fail "$invalid_root missing"
   [[ -f "$invalid_nested" ]] || fail "$invalid_nested missing"
   [[ -f "$invalid_runtime_nested" ]] || fail "$invalid_runtime_nested missing"
 
-  python3 "$validator" \
-    --schema "$schema" \
-    --input "$sample" >/dev/null
+  python3 "$validator" --schema "$schema" --input "$sample" --input "$sample_edge" >/dev/null
+
+  if python3 "$validator" --schema "$schema" --input "$invalid_missing_required" >/dev/null 2>&1; then
+    fail "invalid missing-required fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --schema "$schema" --input "$invalid_enum" >/dev/null 2>&1; then
+    fail "invalid enum fixture unexpectedly passed"
+  fi
 
   if python3 "$validator" --schema "$schema" --input "$invalid_root" >/dev/null 2>&1; then
     fail "invalid root additional property fixture unexpectedly passed"

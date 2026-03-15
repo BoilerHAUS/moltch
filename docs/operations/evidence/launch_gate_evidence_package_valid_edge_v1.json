@@ -1,0 +1,48 @@
+{
+  "package_id": "lgep-20260314-edge-preprod",
+  "generated_at_utc": "2026-03-14T03:00:00Z",
+  "prepared_by": "boilerclaw",
+  "scope_refs": ["#117", "#118"],
+  "target_environment": "preprod",
+  "overall_result": "fail",
+  "traceability": {
+    "issue": "https://github.com/BoilerHAUS/moltch/issues/118",
+    "pull_request": "https://github.com/BoilerHAUS/moltch/pull/126",
+    "commit_sha": "6ae17bc0c3ad2be6b88500f4afcfa44f51478fca",
+    "runbook_refs": [
+      "docs/operations/RUNBOOK_V1.md",
+      "docs/operations/SOAK_VALIDATION_PLAN_2026-03.md"
+    ]
+  },
+  "ci": {
+    "workflow_name": "repo-baseline",
+    "run_url": "https://github.com/BoilerHAUS/moltch/actions",
+    "required_checks": [
+      {
+        "name": "repo-baseline",
+        "status": "fail",
+        "evidence": "https://github.com/BoilerHAUS/moltch/actions"
+      }
+    ]
+  },
+  "runtime": {
+    "environment_snapshot": "preprod web/api @ soak-run",
+    "smoke": {
+      "status": "pass",
+      "script_ref": "scripts/staging/smoke.sh",
+      "artifact_ref": "docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.json"
+    },
+    "readiness": {
+      "status": "fail",
+      "endpoint_ref": "GET /ready",
+      "observed_at_utc": "2026-03-14T03:01:00Z"
+    }
+  },
+  "decision": {
+    "summary": "Preprod soak did not meet threshold; hold release.",
+    "reason_codes": ["READINESS_BELOW_THRESHOLD"],
+    "risks": ["intermittent readiness instability"],
+    "follow_ups": ["rerun full soak after remediation"],
+    "approver": "boilerrat"
+  }
+}
