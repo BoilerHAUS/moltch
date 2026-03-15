@@ -127,6 +127,9 @@ Run policy decision conformance checks:
 - non-zero exit means conformance mismatch (missing reason code, unexpected decision tuple, or missing requires-human case)
 - include the generated markdown summary in reviewer signoff threads
 
+## launch signoff entrypoint
+- canonical evidence index: `docs/operations/evidence/LAUNCH_EVIDENCE_INDEX_2026-03.md`
+
 ## review artifacts
 - weekly review-ops scoreboard spec: `docs/operations/REVIEW_OPS_SCOREBOARD_SPEC_V1.md`
 - weekly scoreboard snapshot (generated): `docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md`
