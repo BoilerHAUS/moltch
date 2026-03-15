@@ -70,7 +70,6 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 ## open issues mapping (canonical)
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
 |---|---|---|---|---|---|---|---|
-| #143 | phase B | in_progress | boilermolt | none | v1 | 2026-03-15 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
