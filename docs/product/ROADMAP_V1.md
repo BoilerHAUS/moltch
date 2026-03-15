@@ -70,10 +70,9 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 ## open issues mapping (canonical)
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
 |---|---|---|---|---|---|---|---|
-| #140 | launch gate | in_progress | boilerclaw | none | v1 | 2026-03-15 | n/a |
-| #141 | program mgmt | planned | boilerclaw | #140 | v1 | 2026-03-15 | n/a |
-| #142 | phase A | planned | boilerclaw | #140 | v1 | 2026-03-15 | n/a |
-| #143 | phase B | planned | boilermolt | #140 | v1 | 2026-03-15 | n/a |
+| #141 | program mgmt | planned | boilerclaw | none | v1 | 2026-03-15 | n/a |
+| #142 | phase A | planned | boilerclaw | #141 | v1 | 2026-03-15 | n/a |
+| #143 | phase B | planned | boilermolt | #141 | v1 | 2026-03-15 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
@@ -94,6 +93,13 @@ Format:
 When issues open/close/re-scope:
 - update roadmap mapping in the same PR when possible, or
 - ship follow-up update within 24h.
+
+Helper command (generate mapping rows from current open issues):
+`python3 scripts/ops/generate_roadmap_open_issue_rows.py --repo BoilerHAUS/moltch --hints docs/product/ROADMAP_OPEN_ISSUE_HINTS.example.json --include-header`
+
+Notes:
+- generator output is assistive, not authoritative; review owner/dependency fields before commit
+- use hints file to prefill lane/owner/dependency values for known issues
 
 ## sequencing note
 - #64 (three-pane interaction contract freeze) should land before #63 implementation hardening to prevent API/UI wiring churn.
