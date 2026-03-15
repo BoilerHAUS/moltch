@@ -25,3 +25,4 @@
 - [ ] Issue-first flow followed
 - [ ] Branch from fork used
 - [ ] No direct push to protected default branch
+- [ ] Roadmap mapping updated (or excluded rationale added) when issues open/close/re-scope

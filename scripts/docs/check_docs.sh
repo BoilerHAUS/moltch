@@ -291,9 +291,14 @@ check_roadmap_issue_mapping() {
   export GH_TOKEN="${GH_TOKEN:-${GITHUB_TOKEN:-}}"
 
   mapfile -t open_issue_nums < <(gh api --paginate -X GET "repos/${repo}/issues?state=open&per_page=100" --jq '.[] | select(.pull_request == null) | .number')
+  mapfile -t mapped_issue_nums < <(sed -nE 's/^\|[[:space:]]*#([0-9]+)[[:space:]]*\|.*/\1/p' "$roadmap")
 
-  declare -A mapped excluded
-  while IFS= read -r n; do mapped["$n"]=1; done < <(sed -nE 's/^\|[[:space:]]*#([0-9]+)[[:space:]]*\|.*/\1/p' "$roadmap")
+  declare -A open_set mapped excluded mapped_counts
+  for n in "${open_issue_nums[@]}"; do open_set["$n"]=1; done
+  for n in "${mapped_issue_nums[@]}"; do
+    mapped["$n"]=1
+    mapped_counts["$n"]=$(( ${mapped_counts["$n"]:-0} + 1 ))
+  done
   while IFS= read -r n; do excluded["$n"]=1; done < <(awk '
     BEGIN {in_ex=0}
     /^## excluded issues/ {in_ex=1; next}
@@ -301,10 +306,22 @@ check_roadmap_issue_mapping() {
     in_ex==1 {print}
   ' "$roadmap" | grep -oE '#[0-9]+' | tr -d '#' | sort -u)
 
-  local missing=() n
+  local missing=() closed_in_mapping=() duplicates=()
   for n in "${open_issue_nums[@]}"; do
     if [[ -z "${mapped[$n]:-}" && -z "${excluded[$n]:-}" ]]; then
       missing+=("#$n")
+    fi
+  done
+
+  for n in "${mapped_issue_nums[@]}"; do
+    if [[ -z "${open_set[$n]:-}" ]]; then
+      closed_in_mapping+=("#$n")
+    fi
+  done
+
+  for n in "${!mapped_counts[@]}"; do
+    if (( mapped_counts["$n"] > 1 )); then
+      duplicates+=("#$n")
     fi
   done
 
@@ -312,7 +329,15 @@ check_roadmap_issue_mapping() {
     fail "open issues missing roadmap mapping/exclusion: ${missing[*]}"
   fi
 
-  pass "roadmap mapping coverage ok (${#open_issue_nums[@]} open issues)"
+  if (( ${#closed_in_mapping[@]} > 0 )); then
+    fail "closed issues still listed in open issues mapping: ${closed_in_mapping[*]} (remove from mapping table or reopen issues)"
+  fi
+
+  if (( ${#duplicates[@]} > 0 )); then
+    fail "issues mapped more than once in open issues mapping: ${duplicates[*]}"
+  fi
+
+  pass "roadmap mapping coverage ok (${#open_issue_nums[@]} open issues, ${#mapped_issue_nums[@]} mapped rows)"
 }
 
 check_metadata_scope
