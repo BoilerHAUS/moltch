@@ -1,0 +1,20 @@
+{
+  "requested": [
+    "evaluating"
+  ],
+  "evaluating": [
+    "go",
+    "hold",
+    "no_go"
+  ],
+  "go": [
+    "recorded"
+  ],
+  "hold": [
+    "recorded"
+  ],
+  "no_go": [
+    "recorded"
+  ],
+  "recorded": []
+}
