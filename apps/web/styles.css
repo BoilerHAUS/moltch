@@ -32,3 +32,35 @@ section h2 { margin-top: 0; font-size: 1rem; }
 .right { display: flex; flex-direction: column; align-items: flex-end; gap: .35rem; }
 a { color: #8fc2ff; text-decoration: none; font-size: .84rem; }
 a:hover { text-decoration: underline; }
+
+.field-label { font-size: .82rem; color: #9cb0c3; margin-top: .25rem; }
+.control {
+  width: 100%;
+  border: 1px solid #2c3e52;
+  border-radius: 8px;
+  background: #0f1721;
+  color: #e8edf2;
+  padding: .45rem .55rem;
+  font: inherit;
+}
+.radio-row { display: flex; gap: .8rem; flex-wrap: wrap; font-size: .9rem; }
+.radio-row label { display: inline-flex; align-items: center; gap: .3rem; }
+.decision-meta { display: flex; flex-wrap: wrap; gap: .45rem; }
+.evidence-block h3 { font-size: .86rem; margin: .5rem 0 .3rem; color: #c9d7e5; }
+.evidence-block ul { margin: 0; padding-left: 1rem; display: grid; gap: .3rem; }
+.submit-btn {
+  margin-top: .5rem;
+  width: 100%;
+  border: 1px solid #3f6ea2;
+  border-radius: 8px;
+  background: #173150;
+  color: #dff0ff;
+  font-weight: 600;
+  padding: .55rem .7rem;
+  cursor: pointer;
+}
+.submit-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
