@@ -1,6 +1,6 @@
 # @moltch/policy-engine
 
-Canonical policy-decision state machine + reason-code registry enforcement for issues #163/#164.
+Canonical policy-decision state machine + reason-code registry enforcement for issues #163/#164, with migration/lifecycle tooling for #171.
 
 ## Run
 
@@ -9,9 +9,13 @@ cd packages/policy-engine
 npm run check
 ```
 
-`npm run check` includes reason-code drift validation against:
-- `packages/policy-engine/data/reason-code-registry.v1.json`
-- `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md`
+`npm run check` includes:
+- reason-code drift validation against:
+  - `packages/policy-engine/data/reason-code-registry.v1.json`
+  - `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md`
+- migration/replay compatibility validation against:
+  - `packages/policy-engine/data/reason-code-migration-map.v1.json`
+  - `docs/governance/fixtures/policy_reason_code_replay_compat_v1.json`
 
 ## Public API
 
@@ -23,4 +27,9 @@ npm run check
   - `validateRegistryShape(registry)`
   - `buildReasonCodeIndex(registry)`
   - `assertReasonCodeAllowed(reasonCode, index, options?)`
-- constants: `DecisionState`, `TERMINAL_STATES`, `TRANSITION_ERROR`, `REASON_CODE_ERROR`
+- reason-code migration helpers:
+  - `loadReasonCodeMigrationMap(pathOrUrl?)`
+  - `validateMigrationMapShape(map)`
+  - `resolveReasonCodeLifecycle(reasonCode, options?)`
+  - `buildMigrationReport(records, options?)`
+- constants: `DecisionState`, `TERMINAL_STATES`, `TRANSITION_ERROR`, `REASON_CODE_ERROR`, `REASON_CODE_MIGRATION_ERROR`

@@ -80,7 +80,6 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #160 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #161 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #162 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
-| #165 | core decision engine | in_progress | boilerclaw | #163,#164 | post-v1 | 2026-03-17 | n/a |
 | #171 | core decision engine (lifecycle follow-up) | planned | shared | #164 | post-v1 | 2026-03-17 | n/a |
 | #166 | core simulation | planned | shared | #153,#155 | post-v1 | 2026-03-17 | n/a |
 | #167 | core observability | planned | shared | #153,#166 | post-v1 | 2026-03-17 | n/a |

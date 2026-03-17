@@ -43,7 +43,9 @@ Provide one navigation hub for product, governance, operations, and contribution
 - issue drafts web3 seam: `docs/governance/ISSUE_DRAFTS_WEB3_SEAM.md`
 - policy decision reason-code catalog v1.2: `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md`
 - policy decision conformance matrix v1: `docs/governance/POLICY_DECISION_CONFORMANCE_MATRIX_V1.md`
+- reason code lifecycle policy v1: `docs/governance/REASON_CODE_LIFECYCLE_POLICY_V1.md`
 - policy decision conformance summary (2026-03-14): `docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md`
+- reason code migration compatibility report (2026-03-17): `docs/governance/evidence/policy_reason_code_migration_report_2026-03-17.json`
 
 ## operations docs
 - runbook v1: `docs/operations/RUNBOOK_V1.md`

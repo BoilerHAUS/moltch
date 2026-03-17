@@ -4,8 +4,11 @@ const required = [
   "src/index.mjs",
   "src/stateMachine.mjs",
   "src/reasonCodeRegistry.mjs",
+  "src/reasonCodeMigration.mjs",
   "scripts/check-reason-code-drift.mjs",
+  "scripts/check-reason-code-migrations.mjs",
   "data/reason-code-registry.v1.json",
+  "data/reason-code-migration-map.v1.json",
   "test/stateMachine.test.mjs"
 ];
 

@@ -9,6 +9,7 @@
     "test": "node --test test/*.test.mjs",
     "build": "node scripts/build.mjs",
     "check:reason-codes": "node scripts/check-reason-code-drift.mjs",
-    "check": "npm run lint && npm run test && npm run build && npm run check:reason-codes"
+    "check:migrations": "node scripts/check-reason-code-migrations.mjs",
+    "check": "npm run lint && npm run test && npm run build && npm run check:reason-codes && npm run check:migrations"
   }
 }

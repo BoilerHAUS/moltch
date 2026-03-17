@@ -9,7 +9,11 @@ import {
   buildReasonCodeIndex,
   createDecisionContext,
   replayDecisionHistory,
-  validateRegistryShape
+  validateRegistryShape,
+  buildMigrationReport,
+  resolveReasonCodeLifecycle,
+  REASON_CODE_MIGRATION_ERROR,
+  validateMigrationMapShape
 } from "../src/index.mjs";
 
 test("valid transition requested -> evaluating", () => {
@@ -117,4 +121,57 @@ test("registry validator rejects duplicate entries", () => {
     }),
     (err) => err.code === REASON_CODE_ERROR.REGISTRY_INVALID
   );
+});
+
+test("migration resolver remaps legacy code deterministically", () => {
+  const registryIndex = buildReasonCodeIndex({
+    version: "v1.3.0",
+    codes: [{ code: "missing_approval", status: "active" }]
+  });
+  const migrationMap = {
+    version: "v1",
+    source_version: "v1.2.0",
+    target_version: "v1.3.0",
+    mappings: [{ from: "approval_missing", to: "missing_approval", status: "remap" }]
+  };
+
+  const result = resolveReasonCodeLifecycle("approval_missing", { registryIndex, migrationMap });
+  assert.equal(result.resolved, "missing_approval");
+  assert.equal(result.mapping_applied, true);
+});
+
+test("migration map validator rejects ambiguous mappings", () => {
+  assert.throws(
+    () => validateMigrationMapShape({
+      version: "v1",
+      mappings: [
+        { from: "approval_missing", to: "missing_approval" },
+        { from: "approval_missing", to: "threshold_unmet" }
+      ]
+    }),
+    (err) => err.code === REASON_CODE_MIGRATION_ERROR.MAP_AMBIGUOUS
+  );
+});
+
+test("migration report emits deterministic counts", () => {
+  const registryIndex = buildReasonCodeIndex({
+    version: "v1.3.0",
+    codes: [{ code: "missing_approval", status: "active" }]
+  });
+  const migrationMap = {
+    version: "v1",
+    source_version: "v1.2.0",
+    target_version: "v1.3.0",
+    mappings: [{ from: "approval_missing", to: "missing_approval", status: "remap" }]
+  };
+
+  const report = buildMigrationReport([
+    { reason_code: "approval_missing" },
+    { reason_code: "approval_missing" }
+  ], { registryIndex, migrationMap });
+
+  assert.equal(report.total_records, 2);
+  assert.equal(report.migrated_records, 2);
+  assert.equal(report.policy_status_counts.active, 2);
+  assert.equal(report.mappings.approval_missing, "missing_approval");
 });
