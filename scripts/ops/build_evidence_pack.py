@@ -202,9 +202,14 @@ def build_artifact_records(repo_root: Path, artifacts: List[Dict[str, Any]]) -> 
     return records, checksums
 
 
-def build_validation_report(errors: List[ValidationErrorEntry], config_path: Path) -> Dict[str, Any]:
+def build_validation_report(errors: List[ValidationErrorEntry], config_path: Path, repo_root: Path) -> Dict[str, Any]:
+    try:
+        config_path_display = str(config_path.resolve().relative_to(repo_root.resolve()))
+    except Exception:
+        config_path_display = str(config_path)
+
     return {
-        "config_path": str(config_path),
+        "config_path": config_path_display,
         "status": "fail" if errors else "pass",
         "errors": [
             {
@@ -273,7 +278,7 @@ def main() -> None:
         fail(f"unable to parse config JSON: {e}")
 
     errors = validate_config(config, repo_root)
-    validation_report = build_validation_report(errors, config_path)
+    validation_report = build_validation_report(errors, config_path, repo_root)
 
     validation_path = out_dir / "validation_report.json"
     write_json(validation_path, validation_report)

@@ -1,5 +1,5 @@
 {
-  "config_path": "/home/boilerrat/.openclaw/workspace/moltch/docs/operations/evidence/assembler/evidence_pack_config_missing_artifact_v1.json",
+  "config_path": "docs/operations/evidence/assembler/evidence_pack_config_missing_artifact_v1.json",
   "errors": [
     {
       "category": "reference_unreachable",
