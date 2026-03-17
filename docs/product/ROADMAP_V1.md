@@ -70,7 +70,6 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 ## open issues mapping (canonical)
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
 |---|---|---|---|---|---|---|---|
-| #150 | phase B | in_progress | boilerclaw | none | v1 | 2026-03-15 | n/a |
 | #152 | v2/web3 foundation | in_progress | boilerclaw | none | post-v1 | 2026-03-17 | n/a |
 | #153 | core runtime | planned | shared | #152 | post-v1 | 2026-03-17 | n/a |
 | #154 | core runtime | planned | shared | #163,#164 | post-v1 | 2026-03-17 | n/a |
