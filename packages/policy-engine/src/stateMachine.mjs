@@ -1,3 +1,12 @@
+import {
+  REASON_CODE_ERROR,
+  assertReasonCodeAllowed,
+  buildReasonCodeIndex,
+  loadReasonCodeRegistry
+} from "./reasonCodeRegistry.mjs";
+
+const REASON_CODE_INDEX = buildReasonCodeIndex(loadReasonCodeRegistry());
+
 export const DecisionState = Object.freeze({
   REQUESTED: "requested",
   EVALUATING: "evaluating",
@@ -25,7 +34,8 @@ export const TRANSITION_ERROR = Object.freeze({
   INVALID_TRANSITION: "ERR_INVALID_TRANSITION",
   REQUIRED_FIELDS_MISSING: "ERR_REQUIRED_FIELDS_MISSING",
   REPLAY_EVENT_INVALID: "ERR_REPLAY_EVENT_INVALID",
-  REPLAY_MISMATCH: "ERR_REPLAY_MISMATCH"
+  REPLAY_MISMATCH: "ERR_REPLAY_MISMATCH",
+  ...REASON_CODE_ERROR
 });
 
 function fail(code, message) {
@@ -45,9 +55,12 @@ function assertRequiredContext(context, currentState, nextState) {
     throw fail(TRANSITION_ERROR.REQUIRED_FIELDS_MISSING, "actor, decisionId, correlationId are required");
   }
 
-  const toTerminal = [DecisionState.GO, DecisionState.HOLD, DecisionState.NO_GO].includes(nextState);
-  if (currentState === DecisionState.EVALUATING && toTerminal && !context.reasonCode) {
-    throw fail(TRANSITION_ERROR.REQUIRED_FIELDS_MISSING, "reasonCode is required for terminal verdict transitions");
+  const toVerdict = [DecisionState.GO, DecisionState.HOLD, DecisionState.NO_GO].includes(nextState);
+  if (currentState === DecisionState.EVALUATING && toVerdict) {
+    if (!context.reasonCode) {
+      throw fail(TRANSITION_ERROR.REQUIRED_FIELDS_MISSING, "reasonCode is required for verdict transitions");
+    }
+    assertReasonCodeAllowed(context.reasonCode, REASON_CODE_INDEX);
   }
 }
 
@@ -59,14 +72,19 @@ export function isValidTransition(currentState, nextState) {
 
 export function createDecisionContext(input) {
   const evidenceRefs = [...new Set((input?.evidenceRefs ?? []).filter(Boolean))].sort();
-  const normalized = {
+  const reasonCode = input?.reasonCode ?? null;
+
+  if (reasonCode) {
+    assertReasonCodeAllowed(reasonCode, REASON_CODE_INDEX);
+  }
+
+  return {
     decisionId: input?.decisionId ?? null,
     correlationId: input?.correlationId ?? null,
     actor: input?.actor ?? null,
-    reasonCode: input?.reasonCode ?? null,
+    reasonCode,
     evidenceRefs
   };
-  return normalized;
 }
 
 export function applyTransition(currentState, nextState, context) {
