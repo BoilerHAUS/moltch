@@ -87,6 +87,7 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #166 | core simulation | planned | shared | #153,#155 | post-v1 | 2026-03-17 | n/a |
 | #167 | core observability | planned | shared | #153,#166 | post-v1 | 2026-03-17 | n/a |
 | #168 | core cockpit v1 | planned | shared | #163,#164,#165 | post-v1 | 2026-03-17 | n/a |
+| #173 | core cockpit v1 | planned | shared | #168 | post-v1 | 2026-03-17 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:
