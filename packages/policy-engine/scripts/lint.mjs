@@ -3,6 +3,9 @@ import fs from "node:fs";
 const required = [
   "src/index.mjs",
   "src/stateMachine.mjs",
+  "src/reasonCodeRegistry.mjs",
+  "scripts/check-reason-code-drift.mjs",
+  "data/reason-code-registry.v1.json",
   "test/stateMachine.test.mjs"
 ];
 

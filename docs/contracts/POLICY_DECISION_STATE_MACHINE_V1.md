@@ -38,7 +38,7 @@ For all transitions:
 - `actor`
 
 For `evaluating -> {go|hold|no_go}` additionally:
-- `reasonCode`
+- `reasonCode` (must exist in active reason-code registry)
 
 ## Deterministic Error Codes
 
@@ -47,3 +47,7 @@ For `evaluating -> {go|hold|no_go}` additionally:
 - `ERR_REQUIRED_FIELDS_MISSING`
 - `ERR_REPLAY_EVENT_INVALID`
 - `ERR_REPLAY_MISMATCH`
+- `ERR_REASON_CODE_REGISTRY_INVALID`
+- `ERR_REASON_CODE_UNKNOWN`
+- `ERR_REASON_CODE_DEPRECATED`
+- `ERR_REASON_CODE_REMOVED`

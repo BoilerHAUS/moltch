@@ -8,6 +8,7 @@
     "lint": "node scripts/lint.mjs",
     "test": "node --test test/*.test.mjs",
     "build": "node scripts/build.mjs",
-    "check": "npm run lint && npm run test && npm run build"
+    "check:reason-codes": "node scripts/check-reason-code-drift.mjs",
+    "check": "npm run lint && npm run test && npm run build && npm run check:reason-codes"
   }
 }

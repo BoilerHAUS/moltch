@@ -2,10 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   DecisionState,
+  REASON_CODE_ERROR,
   TRANSITION_ERROR,
   applyTransition,
+  assertReasonCodeAllowed,
+  buildReasonCodeIndex,
   createDecisionContext,
-  replayDecisionHistory
+  replayDecisionHistory,
+  validateRegistryShape
 } from "../src/index.mjs";
 
 test("valid transition requested -> evaluating", () => {
@@ -23,7 +27,7 @@ test("invalid transition requested -> go rejected deterministically", () => {
     decisionId: "dec-1",
     correlationId: "corr-1",
     actor: "operator",
-    reasonCode: "ready.for_release"
+    reasonCode: "executed"
   });
 
   assert.throws(
@@ -57,7 +61,7 @@ test("replay history reproduces final verdict deterministically", () => {
         decisionId: "dec-3",
         correlationId: "corr-3",
         actor: "approver",
-        reasonCode: "evidence.missing"
+        reasonCode: "missing_approval"
       }
     },
     {
@@ -66,7 +70,7 @@ test("replay history reproduces final verdict deterministically", () => {
         decisionId: "dec-3",
         correlationId: "corr-3",
         actor: "recorder",
-        reasonCode: "evidence.missing"
+        reasonCode: "missing_approval"
       }
     }
   ];
@@ -79,4 +83,38 @@ test("replay history reproduces final verdict deterministically", () => {
     "evaluating->hold",
     "hold->recorded"
   ]);
+});
+
+test("createDecisionContext rejects unknown reason codes", () => {
+  assert.throws(
+    () => createDecisionContext({ reasonCode: "not_real_code" }),
+    (err) => err.code === REASON_CODE_ERROR.CODE_UNKNOWN
+  );
+});
+
+test("deprecated reason code is rejected by default", () => {
+  const index = buildReasonCodeIndex({
+    version: "v-test",
+    codes: [
+      { code: "legacy_code", status: "deprecated", replacement: "executed" }
+    ]
+  });
+
+  assert.throws(
+    () => assertReasonCodeAllowed("legacy_code", index),
+    (err) => err.code === REASON_CODE_ERROR.CODE_DEPRECATED
+  );
+});
+
+test("registry validator rejects duplicate entries", () => {
+  assert.throws(
+    () => validateRegistryShape({
+      version: "v-test",
+      codes: [
+        { code: "executed", status: "active" },
+        { code: "executed", status: "active" }
+      ]
+    }),
+    (err) => err.code === REASON_CODE_ERROR.REGISTRY_INVALID
+  );
 });
