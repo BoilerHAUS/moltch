@@ -6,6 +6,7 @@ First-pass `packages/contracts` foundation for the policy-decision seam.
 
 This package defines:
 - interface-level contract boundaries for `request -> evaluate -> verdict -> record`
+- stage-specific required fields (`requestRequiredFields`, `evaluationRequiredFields`)
 - stable reason-code taxonomy hooks
 - invariant tests for deterministic, replayable behavior
 - reproducible artifact generation with checksums

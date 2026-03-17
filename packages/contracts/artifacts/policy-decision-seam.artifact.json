@@ -3,12 +3,17 @@
   "interface": {
     "name": "PolicyDecisionSeamV1",
     "version": "1.0.0",
-    "requiredFields": [
+    "requestRequiredFields": [
       "decisionId",
       "correlationId",
       "actor",
-      "reasonCode",
       "evidenceRefs"
+    ],
+    "evaluationRequiredFields": [
+      "decisionId",
+      "correlationId",
+      "actor",
+      "reasonCode"
     ],
     "states": [
       "requested",
@@ -19,9 +24,6 @@
       "recorded"
     ],
     "terminalStates": [
-      "go",
-      "hold",
-      "no_go",
       "recorded"
     ],
     "transitions": {
