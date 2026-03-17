@@ -1,0 +1,10 @@
+{
+  "bundle_id": "evp-e8ad11b26661e254",
+  "checksums": {
+    "evidence-index": "5a6e07d2f9d080927d71362b0daef590a47016ae36d37f4d6533930711560a78",
+    "launch-readiness-packet-json": "d505f6aafd6d4e7e918da26cc320aefb8ad7bac8f537c791dcfc0c1a2f972dd6",
+    "launch-readiness-packet-md": "5be9073ba8e039bc49f920a36ba1167df9c094695d88d300d15fa93b48915d25",
+    "readiness-summary-json": "9b1c19c8eedc6fefc65b9324d7f50047723f48b1add306e4dcf209f2f87d1362"
+  },
+  "manifest_sha256": "e8ad11b26661e25439c6af01b2c8d632f46a53316e14fe2ed4e9b2aa8a2534d6"
+}

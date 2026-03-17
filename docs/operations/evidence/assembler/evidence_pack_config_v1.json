@@ -1,0 +1,50 @@
+{
+  "bundle_name": "launch-evidence-pack-2026-03-17",
+  "evidence_index_doc": "docs/operations/evidence/LAUNCH_EVIDENCE_INDEX_2026-03.md",
+  "sources": [
+    {
+      "type": "issue",
+      "id": "issue-165",
+      "url": "https://github.com/BoilerHAUS/moltch/issues/165",
+      "title": "v2/core: build evidence-pack assembly service"
+    },
+    {
+      "type": "pr",
+      "id": "pr-158",
+      "url": "https://github.com/BoilerHAUS/moltch/pull/158",
+      "title": "launch readiness packet builder"
+    },
+    {
+      "type": "ci-run",
+      "id": "ci-validate-evidence",
+      "url": "https://github.com/BoilerHAUS/moltch/actions"
+    },
+    {
+      "type": "validator-output",
+      "id": "schema-validator-v1",
+      "url": "https://github.com/BoilerHAUS/moltch/blob/main/scripts/ops/validate_launch_gate_evidence.py"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "launch-readiness-packet-json",
+      "kind": "json",
+      "path": "docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.json"
+    },
+    {
+      "id": "launch-readiness-packet-md",
+      "kind": "markdown",
+      "path": "docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md"
+    },
+    {
+      "id": "readiness-summary-json",
+      "kind": "json",
+      "path": "docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.json"
+    },
+    {
+      "id": "evidence-index",
+      "kind": "markdown",
+      "path": "docs/operations/evidence/LAUNCH_EVIDENCE_INDEX_2026-03.md"
+    }
+  ]
+}
