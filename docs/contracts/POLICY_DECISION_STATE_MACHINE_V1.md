@@ -51,3 +51,6 @@ For `evaluating -> {go|hold|no_go}` additionally:
 - `ERR_REASON_CODE_UNKNOWN`
 - `ERR_REASON_CODE_DEPRECATED`
 - `ERR_REASON_CODE_REMOVED`
+
+## Related policy docs
+- reason code lifecycle policy: `docs/governance/REASON_CODE_LIFECYCLE_POLICY_V1.md`

@@ -1,0 +1,13 @@
+{
+  "version": "v1.0.0",
+  "source_version": "v1.2.0",
+  "target_version": "v1.3.0",
+  "mappings": [
+    {
+      "from": "approval_missing",
+      "to": "missing_approval",
+      "status": "remap",
+      "note": "normalize naming with canonical v1.3 catalog"
+    }
+  ]
+}
