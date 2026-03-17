@@ -1,5 +1,11 @@
 # evidence-pack assembler v1
 
+## metadata
+- version: v1.0.1
+- owner_role: agent_technical_delivery
+- review_cadence: biweekly
+- next_review_due: 2026-03-31
+
 ## outcome
 Define and operationalize a deterministic evidence-pack assembly service for launch/review workflows.
 
