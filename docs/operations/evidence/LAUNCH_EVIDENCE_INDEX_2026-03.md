@@ -18,6 +18,12 @@ Use this page first during go/hold/no-go review.
 - packet builder script: `scripts/ops/build_launch_readiness_packet.py`
 - packet manifest (baseline): `docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json`
 
+### 2b) evidence-pack assembly service
+- spec + usage: `docs/operations/EVIDENCE_PACK_ASSEMBLER_V1.md`
+- passing config fixture: `docs/operations/evidence/assembler/evidence_pack_config_v1.json`
+- failing config fixture: `docs/operations/evidence/assembler/evidence_pack_config_missing_artifact_v1.json`
+- builder script: `scripts/ops/build_evidence_pack.py`
+
 ### 3) readiness + runtime evidence
 - readiness summary (json): `docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.json`
 - readiness summary (markdown): `docs/operations/evidence/readiness/2026-03-14-dry-run/readiness_evidence_summary.md`

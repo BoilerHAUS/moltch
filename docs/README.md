@@ -68,6 +68,8 @@ Provide one navigation hub for product, governance, operations, and contribution
 - launch-readiness packet manifest v1: `docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json`
 - launch-readiness packet dry-run (2026-03-14): `docs/operations/evidence/launch-readiness/2026-03-14-dry-run/launch_readiness_packet.md`
 - launch evidence index (2026-03): `docs/operations/evidence/LAUNCH_EVIDENCE_INDEX_2026-03.md`
+- evidence-pack assembler v1: `docs/operations/EVIDENCE_PACK_ASSEMBLER_V1.md`
+- evidence-pack bundle summary sample (2026-03-17): `docs/operations/evidence/assembler/2026-03-17/bundle_summary.md`
 - production-like soak validation plan (2026-03): `docs/operations/SOAK_VALIDATION_PLAN_2026-03.md`
 - soak evidence memo template: `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`
 - soak hold-path dry-run artifact (2026-03-14): `docs/operations/evidence/soak/SOAK_HOLD_PATH_DRY_RUN_2026-03-14.md`

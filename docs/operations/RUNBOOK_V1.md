@@ -80,6 +80,21 @@ Use this before opening/merging launch-gate evidence PRs:
 `python3 scripts/ops/validate_launch_gate_evidence.py --schema docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json --input docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
 
 - non-zero exit means schema violation (missing fields / invalid enums / wrong types / unexpected additional properties)
+
+## evidence-pack assembly service (deterministic)
+Assemble one reviewer-ready evidence bundle from issue/PR/CI/validator inputs:
+
+`python3 scripts/ops/build_evidence_pack.py --config docs/operations/evidence/assembler/evidence_pack_config_v1.json --out-dir docs/operations/evidence/assembler/<YYYY-MM-DD>`
+
+Outputs:
+- `bundle_manifest.json`
+- `bundle_checksums.json`
+- `validation_report.json`
+- `bundle_summary.md`
+
+Determinism:
+- `bundle_id` is derived from canonical manifest hash (`manifest_sha256`)
+- same inputs produce same manifest/checksum identity
 - CI enforces multi-artifact validation via `scripts/docs/check_docs.sh`:
   - valid fixtures: canonical + edge variant
   - invalid fixtures: missing-required + invalid-enum + typo/additional-property variants (must fail)
