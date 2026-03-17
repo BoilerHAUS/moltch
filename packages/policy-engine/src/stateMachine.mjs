@@ -8,9 +8,6 @@ export const DecisionState = Object.freeze({
 });
 
 export const TERMINAL_STATES = Object.freeze([
-  DecisionState.GO,
-  DecisionState.HOLD,
-  DecisionState.NO_GO,
   DecisionState.RECORDED
 ]);
 
