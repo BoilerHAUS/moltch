@@ -33,6 +33,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 
 ## contracts docs
 - smart contract spec pack v0: `docs/contracts/SMART_CONTRACT_SPEC_PACK_V0.md`
+- policy decision state machine v1: `docs/contracts/POLICY_DECISION_STATE_MACHINE_V1.md`
 
 ## governance docs
 - governance policy v1: `docs/governance/GOVERNANCE_V1.md`
