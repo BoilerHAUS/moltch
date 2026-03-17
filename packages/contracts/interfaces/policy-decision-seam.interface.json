@@ -1,0 +1,28 @@
+{
+  "name": "PolicyDecisionSeamV1",
+  "version": "1.0.0",
+  "requiredFields": [
+    "decisionId",
+    "correlationId",
+    "actor",
+    "reasonCode",
+    "evidenceRefs"
+  ],
+  "states": [
+    "requested",
+    "evaluating",
+    "go",
+    "hold",
+    "no_go",
+    "recorded"
+  ],
+  "terminalStates": ["go", "hold", "no_go", "recorded"],
+  "transitions": {
+    "requested": ["evaluating"],
+    "evaluating": ["go", "hold", "no_go"],
+    "go": ["recorded"],
+    "hold": ["recorded"],
+    "no_go": ["recorded"],
+    "recorded": []
+  }
+}
