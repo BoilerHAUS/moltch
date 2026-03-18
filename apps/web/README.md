@@ -18,3 +18,8 @@ Deterministic states:
 - api data rendered
 - empty counts rendered
 - error (`api_unavailable` / `api_unreachable`)
+
+## governed asset pack
+- theme reference: `apps/web/THEME_REFERENCE.md`
+- first proof surface: operator cockpit decision workflow pane
+- semantic rule: verdict colors are reserved for actual `go` / `hold` / `no-go` outcomes only
