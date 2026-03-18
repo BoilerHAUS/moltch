@@ -84,6 +84,18 @@ test("valid signature verifies successfully", () => {
   assert.equal(result.kid, "agent-key-new");
 });
 
+test("envelope with undeclared fields fails closed deterministically", () => {
+  const { schema, newPrivateKeyPem } = buildSchema();
+  const actorIndex = buildActorIdentityIndex(schema);
+  const envelope = signAttestationEnvelope(unsignedEnvelope(), { privateKeyPem: newPrivateKeyPem });
+  envelope.policy_version = "v9-shadow";
+
+  assert.throws(
+    () => verifyAttestationEnvelope(envelope, { actorIndex, now: new Date("2026-03-18T00:11:00Z") }),
+    (err) => err.code === ATTESTATION_ERROR.ENVELOPE_FIELDS_UNDECLARED
+  );
+});
+
 test("tampered payload fails with deterministic signature error", () => {
   const { schema, newPrivateKeyPem } = buildSchema();
   const actorIndex = buildActorIdentityIndex(schema);

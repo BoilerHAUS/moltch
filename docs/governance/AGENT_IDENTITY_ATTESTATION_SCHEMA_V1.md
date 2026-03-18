@@ -45,6 +45,7 @@ Required fields:
 
 ## verification contract
 Verification MUST fail closed when any of the following are true:
+- envelope contains undeclared fields outside the v1 contract
 - actor identity is unknown
 - referenced key is unknown
 - key is not yet active for `issued_at_utc`
@@ -63,6 +64,7 @@ Default clock-skew tolerance:
 - `ERR_KEY_NOT_ACTIVE`
 - `ERR_KEY_REVOKED`
 - `ERR_ENVELOPE_INVALID`
+- `ERR_ENVELOPE_FIELDS_UNDECLARED`
 - `ERR_ENVELOPE_EXPIRED`
 - `ERR_ENVELOPE_NOT_YET_VALID`
 - `ERR_SIGNATURE_INVALID`

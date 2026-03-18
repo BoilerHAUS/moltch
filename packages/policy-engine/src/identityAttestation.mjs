@@ -2,6 +2,7 @@ import { createPrivateKey, createPublicKey, sign, verify } from "node:crypto";
 
 export const ATTESTATION_ERROR = Object.freeze({
   SCHEMA_INVALID: "ERR_ATTESTATION_SCHEMA_INVALID",
+  ENVELOPE_FIELDS_UNDECLARED: "ERR_ENVELOPE_FIELDS_UNDECLARED",
   ACTOR_INVALID: "ERR_ACTOR_INVALID",
   KEYSET_INVALID: "ERR_KEYSET_INVALID",
   KEY_NOT_FOUND: "ERR_KEY_NOT_FOUND",
@@ -142,6 +143,15 @@ export function buildActorIdentityIndex(schema) {
 export function validateUnsignedAttestationEnvelope(envelope) {
   if (!envelope || typeof envelope !== "object") {
     throw fail(ATTESTATION_ERROR.ENVELOPE_INVALID, "envelope object is required");
+  }
+
+  const allowedFields = new Set([...REQUIRED_UNSIGNED_FIELDS, "signature_alg", "signature"]);
+  const extraFields = Object.keys(envelope).filter((field) => !allowedFields.has(field));
+  if (extraFields.length) {
+    throw fail(
+      ATTESTATION_ERROR.ENVELOPE_FIELDS_UNDECLARED,
+      `envelope contains undeclared fields: ${extraFields.sort().join(", ")}`
+    );
   }
 
   for (const field of REQUIRED_UNSIGNED_FIELDS) {
