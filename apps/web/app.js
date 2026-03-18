@@ -182,7 +182,7 @@ function renderDecisionWorkflow() {
 
   const verdictBadgeClass = state.decisionForm.verdict
     ? `badge-verdict badge-${state.decisionForm.verdict === 'no-go' ? 'nogo' : state.decisionForm.verdict}`
-    : 'badge-agent';
+    : 'badge-neutral';
   const verdictBadgeLabel = state.decisionForm.verdict || 'pending';
 
   const evidenceRows = (selected?.evidence || [])
