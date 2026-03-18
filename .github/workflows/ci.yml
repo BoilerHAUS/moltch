@@ -37,3 +37,17 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           bash ./scripts/docs/check_docs.sh
+
+  decision-loop-simulation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify end-to-end decision loop simulation harness
+        working-directory: packages/policy-engine
+        run: |
+          npm run check

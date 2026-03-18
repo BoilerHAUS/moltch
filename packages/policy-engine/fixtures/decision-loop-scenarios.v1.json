@@ -1,0 +1,53 @@
+{
+  "suite_version": "v1.0.0",
+  "seed": "issue-166-decision-loop-v1",
+  "generated_at_utc": "2026-03-18T00:00:00Z",
+  "scenarios": [
+    {
+      "id": "happy-path-go",
+      "title": "authorized issue ships with complete evidence",
+      "issue": {"id": 1661, "title": "staging deploy readiness", "action_class": "A1", "proposer_role": "agent_technical_delivery"},
+      "policy": {"outcome": "allow", "reason_code": "executed", "approvals": {"required": 1, "received": 1, "stale": false}},
+      "evidence": {"status": "valid", "artifacts": ["bundle_summary.md", "launch_readiness_packet.json"], "freshness_hours": 2, "same_commit_lineage": true},
+      "launch": {"decision": "go"}
+    },
+    {
+      "id": "human-hold",
+      "title": "ambiguous request pauses for human review",
+      "issue": {"id": 1662, "title": "exceptional treasury-linked release override", "action_class": "A3", "proposer_role": "agent_product_governance"},
+      "policy": {"outcome": "blocked_needs_human", "reason_code": "blocked_needs_human", "approvals": {"required": 1, "received": 0, "stale": false}},
+      "evidence": {"status": "skipped", "artifacts": [], "freshness_hours": 0, "same_commit_lineage": true},
+      "launch": {"decision": "hold"}
+    },
+    {
+      "id": "deny-permission",
+      "title": "actor lacks permission for requested action",
+      "issue": {"id": 1663, "title": "unauthorized prod-like cutover", "action_class": "A2", "proposer_role": "agent_product_governance"},
+      "policy": {"outcome": "deny", "reason_code": "permission_denied", "approvals": {"required": 2, "received": 2, "stale": false}},
+      "evidence": {"status": "skipped", "artifacts": [], "freshness_hours": 0, "same_commit_lineage": true},
+      "launch": {"decision": "no_go"}
+    },
+    {
+      "id": "timeout-hold",
+      "title": "evidence validation times out and launch stays on hold",
+      "issue": {"id": 1664, "title": "late evidence pack refresh", "action_class": "A1", "proposer_role": "agent_technical_delivery"},
+      "policy": {"outcome": "allow", "reason_code": "executed", "approvals": {"required": 1, "received": 1, "stale": false}},
+      "evidence": {"status": "timeout", "artifacts": ["bundle_manifest.json"], "freshness_hours": 11, "same_commit_lineage": true},
+      "launch": {"decision": "hold", "reason_code": "validation_failed"}
+    },
+    {
+      "id": "retry-recovers-to-go",
+      "title": "first evidence attempt times out, retry completes deterministically",
+      "issue": {"id": 1665, "title": "retryable launch packet assembly", "action_class": "A1", "proposer_role": "agent_technical_delivery"},
+      "policy": {"outcome": "allow", "reason_code": "executed", "approvals": {"required": 1, "received": 1, "stale": false}},
+      "evidence": {
+        "status": "retry_success",
+        "retry": {"attempts": 2, "first_attempt_status": "timeout", "final_status": "valid"},
+        "artifacts": ["bundle_manifest.json", "launch_readiness_packet.json"],
+        "freshness_hours": 3,
+        "same_commit_lineage": true
+      },
+      "launch": {"decision": "go", "reason_code": "executed"}
+    }
+  ]
+}
