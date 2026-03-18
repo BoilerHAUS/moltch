@@ -188,9 +188,14 @@ function renderDecisionWorkflow() {
     .map((item) => `<li><a href="${item.url}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ↗</a></li>`)
     .join('');
 
-  const roleHint = state.decisionRole === 'approver'
-    ? '<div class="state ok">approver mode: final verdict actions enabled</div>'
-    : '<div class="state stale">reviewer mode: you can review evidence but cannot submit final verdicts</div>';
+  const requiredRole = selected?.roleRequired || 'approver';
+  const canSubmitSelectedDecision = Boolean(selected)
+    && selected.status === 'pending'
+    && state.decisionRole === requiredRole;
+
+  const roleHint = canSubmitSelectedDecision
+    ? `<div class="state ok">${escapeHtml(requiredRole)} mode: verdict action enabled for selected decision</div>`
+    : `<div class="state stale">selected decision requires ${escapeHtml(requiredRole)} role and pending status before submit is enabled</div>`;
 
   const errors = state.decisionErrors.length
     ? `<div class="state error">${state.decisionErrors.map((error) => `• ${escapeHtml(error)}`).join('<br/>')}</div>`
@@ -215,6 +220,7 @@ function renderDecisionWorkflow() {
     <div class="decision-meta">
       <span class="pill">status: ${selected?.status || 'n/a'}</span>
       <span class="pill">scenario: ${selected?.scenario || 'n/a'}</span>
+      <span class="pill">role_required: ${selected?.roleRequired || 'n/a'}</span>
       <span class="pill">correlation_id: ${selected?.correlationId || 'n/a'}</span>
     </div>
 
@@ -250,7 +256,7 @@ function renderDecisionWorkflow() {
     ${errors}
     ${success}
 
-    <button id="decision-submit" class="submit-btn" ${state.decisionRole !== 'approver' ? 'disabled' : ''}>submit verdict</button>
+    <button id="decision-submit" class="submit-btn" ${canSubmitSelectedDecision ? '' : 'disabled'}>submit verdict</button>
     <div class="state empty">target usability: complete decision in under 5 minutes on test scenario</div>
   `;
 
@@ -307,6 +313,12 @@ function renderDecisionWorkflow() {
       renderDecisionWorkflow();
       return;
     }
+
+    decision.status = 'submitted';
+    decision.submittedVerdict = state.decisionForm.verdict;
+    decision.submittedReasonCode = state.decisionForm.reasonCode;
+    decision.submittedByRole = state.decisionRole;
+    decision.submittedNotes = state.decisionForm.notes;
 
     state.decisionSuccess = `verdict submitted: ${state.decisionForm.verdict} · ${state.decisionForm.reasonCode} · ${decision.correlationId}`;
     state.decisionForm = { verdict: '', reasonCode: '', notes: '' };

@@ -9,14 +9,24 @@ function run() {
 
   const base = {
     role: 'approver',
-    decision: { id: 'd1' },
+    decision: { id: 'd1', status: 'pending', roleRequired: 'approver' },
     form: { verdict: 'go', reasonCode: 'evidence_complete' }
   };
 
   assert.deepEqual(validateDecisionSubmission(base), []);
 
   assert.ok(
-    validateDecisionSubmission({ ...base, role: 'reviewer' }).includes('only approver role can submit final verdicts')
+    validateDecisionSubmission({ ...base, role: 'reviewer' }).includes('selected decision requires approver role')
+  );
+
+  assert.deepEqual(
+    validateDecisionSubmission({
+      ...base,
+      role: 'reviewer',
+      decision: { id: 'd2', status: 'pending', roleRequired: 'reviewer' },
+      form: { verdict: 'hold', reasonCode: 'evidence_pending' }
+    }),
+    []
   );
 
   assert.ok(
@@ -28,6 +38,12 @@ function run() {
   assert.ok(
     validateDecisionSubmission({ ...base, form: { verdict: 'hold', reasonCode: 'evidence_complete' } }).includes(
       'reason code does not match selected verdict'
+    )
+  );
+
+  assert.ok(
+    validateDecisionSubmission({ ...base, decision: { ...base.decision, status: 'submitted' } }).includes(
+      'selected decision is no longer pending'
     )
   );
 

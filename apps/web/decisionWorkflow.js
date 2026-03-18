@@ -14,6 +14,10 @@ function validateDecisionSubmission({ role, decision, form }) {
     errors.push('select a pending decision before submitting');
     return errors;
   }
+
+  if (decision.status && decision.status !== 'pending') {
+    errors.push('selected decision is no longer pending');
+  }
   if (!form.verdict) {
     errors.push('select a verdict: go, hold, or no-go');
   }
@@ -25,8 +29,9 @@ function validateDecisionSubmission({ role, decision, form }) {
     errors.push('reason code does not match selected verdict');
   }
 
-  if (role !== 'approver') {
-    errors.push('only approver role can submit final verdicts');
+  const requiredRole = decision.roleRequired || 'approver';
+  if (role !== requiredRole) {
+    errors.push(`selected decision requires ${requiredRole} role`);
   }
 
   return errors;
