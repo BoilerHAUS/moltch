@@ -1,7 +1,23 @@
+@font-face {
+  font-family: "Moltch Sans";
+  src: url("/assets/fonts/moltch-sans-regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Moltch Mono";
+  src: url("/assets/fonts/moltch-mono-regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;
-  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "IBM Plex Mono", "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Moltch Sans", "Noto Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "Moltch Mono", "Noto Sans Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-command: #0d1117;
   --color-cockpit: #1c2333;
@@ -199,6 +215,11 @@ button, input, select, textarea { font: inherit; }
   background: var(--color-agent-violet-bg);
   border-color: var(--color-agent-violet-border);
   color: var(--color-agent-violet);
+}
+.badge-neutral {
+  background: rgba(13, 17, 23, 0.72);
+  border-color: var(--color-border-strong);
+  color: var(--color-signal);
 }
 .badge-verdict {
   font-family: var(--font-mono);
