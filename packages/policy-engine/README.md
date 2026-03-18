@@ -33,3 +33,10 @@ npm run check
   - `resolveReasonCodeLifecycle(reasonCode, options?)`
   - `buildMigrationReport(records, options?)`
 - constants: `DecisionState`, `TERMINAL_STATES`, `TRANSITION_ERROR`, `REASON_CODE_ERROR`, `REASON_CODE_MIGRATION_ERROR`
+- identity + attestation helpers:
+  - `validateActorIdentitySchema(schema)`
+  - `buildActorIdentityIndex(schema)`
+  - `canonicalizeForSignature(value)`
+  - `signAttestationEnvelope(unsignedEnvelope, options)`
+  - `verifyAttestationEnvelope(envelope, options)`
+- constants: `ATTESTATION_ERROR`

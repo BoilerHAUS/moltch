@@ -44,6 +44,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - policy decision reason-code catalog v1.2: `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md`
 - policy decision conformance matrix v1: `docs/governance/POLICY_DECISION_CONFORMANCE_MATRIX_V1.md`
 - reason code lifecycle policy v1: `docs/governance/REASON_CODE_LIFECYCLE_POLICY_V1.md`
+- agent identity + attestation schema v1: `docs/governance/AGENT_IDENTITY_ATTESTATION_SCHEMA_V1.md`
 - policy decision conformance summary (2026-03-14): `docs/governance/evidence/POLICY_DECISION_CONFORMANCE_SUMMARY_2026-03-14.md`
 - reason code migration compatibility report (2026-03-17): `docs/governance/evidence/policy_reason_code_migration_report_2026-03-17.json`
 
@@ -64,6 +65,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
+- agent key rotation + revocation policy v1: `docs/operations/AGENT_KEY_ROTATION_AND_REVOCATION_V1.md`
 - launch-gate evidence package schema v1: `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - launch-gate evidence JSON schema v1: `docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json`
 - launch-gate evidence valid sample (CI validation target): `docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
