@@ -177,8 +177,13 @@ function renderDecisionWorkflow() {
     .join('');
 
   const reasonOptions = getReasonCodeOptions(state.decisionForm.verdict)
-    .map((code) => `<option value="${code}" ${state.decisionForm.reasonCode === code ? 'selected' : ''}>${code}</option>`)
+    .map((code) => `<option value="${code}" ${state.decisionForm.reasonCode === code ? 'selected' : ''}>${escapeHtml(code)}</option>`)
     .join('');
+
+  const verdictBadgeClass = state.decisionForm.verdict
+    ? `badge-verdict badge-${state.decisionForm.verdict === 'no-go' ? 'nogo' : state.decisionForm.verdict}`
+    : 'badge-agent';
+  const verdictBadgeLabel = state.decisionForm.verdict || 'pending';
 
   const evidenceRows = (selected?.evidence || [])
     .map((item) => `<li><a href="${item.url}" target="_blank" rel="noreferrer">${escapeHtml(item.label)} ↗</a></li>`)
@@ -197,6 +202,8 @@ function renderDecisionWorkflow() {
     ? `<div class="state ok">${escapeHtml(requiredRole)} mode: verdict action enabled for selected decision</div>`
     : `<div class="state stale">selected decision requires ${escapeHtml(requiredRole)} role and pending status before submit is enabled</div>`;
 
+  const traceScenario = selected?.scenario ? escapeHtml(selected.scenario.replaceAll('_', ' ')) : 'decision queue';
+
   const errors = state.decisionErrors.length
     ? `<div class="state error">${state.decisionErrors.map((error) => `• ${escapeHtml(error)}`).join('<br/>')}</div>`
     : '';
@@ -204,9 +211,20 @@ function renderDecisionWorkflow() {
   const success = state.decisionSuccess ? `<div class="state ok">${escapeHtml(state.decisionSuccess)}</div>` : '';
 
   el.decisions.innerHTML = `
-    <div class="state loading">guided flow: 1) pick decision 2) choose verdict + reason 3) verify evidence + trace 4) submit</div>
+    <div class="decision-workflow">
+      <div class="decision-trace-row">
+        <span class="trace-chip">thread signal</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-chip">cockpit context</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-chip">${traceScenario}</span>
+        <span class="trace-arrow">→</span>
+        <span class="badge ${verdictBadgeClass}">${escapeHtml(verdictBadgeLabel)}</span>
+      </div>
 
-    <label class="field-label" for="decision-role">operator role</label>
+      <div class="state loading">guided flow: 1) pick decision 2) choose verdict + reason 3) verify evidence + trace 4) submit</div>
+
+      <label class="field-label" for="decision-role">operator role</label>
     <select id="decision-role" class="control">
       <option value="reviewer" ${state.decisionRole === 'reviewer' ? 'selected' : ''}>reviewer</option>
       <option value="approver" ${state.decisionRole === 'approver' ? 'selected' : ''}>approver</option>
@@ -217,12 +235,17 @@ function renderDecisionWorkflow() {
     <label class="field-label" for="decision-select">pending decision</label>
     <select id="decision-select" class="control">${decisionOptions}</select>
 
-    <div class="decision-meta">
-      <span class="pill">status: ${selected?.status || 'n/a'}</span>
-      <span class="pill">scenario: ${selected?.scenario || 'n/a'}</span>
-      <span class="pill">role_required: ${selected?.roleRequired || 'n/a'}</span>
-      <span class="pill">correlation_id: ${selected?.correlationId || 'n/a'}</span>
-    </div>
+      <div class="decision-summary">
+        <span class="badge badge-agent">agent ready</span>
+        <span class="badge badge-policy">policy checked</span>
+      </div>
+
+      <div class="decision-meta">
+        <span class="pill">status: ${selected?.status || 'n/a'}</span>
+        <span class="pill">scenario: ${selected?.scenario || 'n/a'}</span>
+        <span class="pill">role_required: ${selected?.roleRequired || 'n/a'}</span>
+        <span class="pill mono-code">correlation_id: ${selected?.correlationId || 'n/a'}</span>
+      </div>
 
     <label class="field-label">verdict action</label>
     <div class="radio-row">
@@ -256,8 +279,9 @@ function renderDecisionWorkflow() {
     ${errors}
     ${success}
 
-    <button id="decision-submit" class="submit-btn" ${canSubmitSelectedDecision ? '' : 'disabled'}>submit verdict</button>
-    <div class="state empty">target usability: complete decision in under 5 minutes on test scenario</div>
+      <button id="decision-submit" class="submit-btn" ${canSubmitSelectedDecision ? '' : 'disabled'}>submit verdict</button>
+      <div class="state empty">target usability: complete decision in under 5 minutes on test scenario</div>
+    </div>
   `;
 
   const roleInput = document.getElementById('decision-role');

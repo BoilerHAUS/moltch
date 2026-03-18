@@ -7,40 +7,45 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>moltch cockpit</h1>
-    <p id="healthline">loading status…</p>
-  </header>
-  <main class="grid">
-    <section>
-      <h2>threads</h2>
-      <div id="threads-content" class="pane-content">
-        <div class="state loading">loading thread stream…</div>
-      </div>
-    </section>
-    <section>
-      <h2>tasks</h2>
-      <div id="tasks-content" class="pane-content">
-        <div class="state loading">loading linked issue/pr status…</div>
-      </div>
-    </section>
-    <section>
-      <h2>treasury</h2>
-      <div id="treasury-state" class="state loading">loading proposal queue…</div>
-    </section>
-    <section>
-      <h2>operator cockpit v1 decision workflow</h2>
-      <div id="decisions-content" class="pane-content">
-        <div class="state loading">loading decision queue…</div>
-      </div>
-    </section>
-    <section>
-      <h2>commercial analytics (v1.1 gated)</h2>
-      <div id="analytics-content" class="pane-content">
-        <div class="state loading">loading analytics snapshot…</div>
-      </div>
-    </section>
-  </main>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="card-eyebrow">governed cockpit shell</div>
+      <h1>moltch cockpit</h1>
+      <p id="healthline">loading status…</p>
+    </header>
+    <main class="app-grid">
+      <section class="card">
+        <h2>threads</h2>
+        <div id="threads-content" class="pane-content">
+          <div class="state loading">loading thread stream…</div>
+        </div>
+      </section>
+      <section class="card">
+        <h2>tasks</h2>
+        <div id="tasks-content" class="pane-content">
+          <div class="state loading">loading linked issue/pr status…</div>
+        </div>
+      </section>
+      <section class="card">
+        <h2>treasury</h2>
+        <div id="treasury-state" class="state loading">loading proposal queue…</div>
+      </section>
+      <section class="card card-proof">
+        <div class="card-eyebrow">proof surface · asset pack v1</div>
+        <h2>operator cockpit v1 decision workflow</h2>
+        <p class="theme-proof-note">This pane is the first governed proof surface for the frontend asset pack: policy-cyan accent, agent-violet distinction, and verdict colors reserved for real go / hold / no-go meaning.</p>
+        <div id="decisions-content" class="pane-content">
+          <div class="state loading">loading decision queue…</div>
+        </div>
+      </section>
+      <section class="card">
+        <h2>commercial analytics (v1.1 gated)</h2>
+        <div id="analytics-content" class="pane-content">
+          <div class="state loading">loading analytics snapshot…</div>
+        </div>
+      </section>
+    </main>
+  </div>
   <script src="decisionWorkflow.js"></script>
   <script src="app.js"></script>
 </body>
