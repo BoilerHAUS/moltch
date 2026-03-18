@@ -1,0 +1,607 @@
+{
+  "suite_version": "v1.0.0",
+  "seed": "issue-166-decision-loop-v1",
+  "generated_at_utc": "2026-03-18T00:00:00Z",
+  "registry_version": "v1.3.0",
+  "total_scenarios": 5,
+  "scenario_matrix": [
+    {
+      "scenario_id": "happy-path-go",
+      "final_state": "recorded",
+      "launch_decision": "go",
+      "launch_reason_code": "executed",
+      "trace_events": 4,
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->go",
+        "go->recorded"
+      ]
+    },
+    {
+      "scenario_id": "human-hold",
+      "final_state": "recorded",
+      "launch_decision": "hold",
+      "launch_reason_code": "blocked_needs_human",
+      "trace_events": 4,
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->hold",
+        "hold->recorded"
+      ]
+    },
+    {
+      "scenario_id": "deny-permission",
+      "final_state": "recorded",
+      "launch_decision": "no_go",
+      "launch_reason_code": "permission_denied",
+      "trace_events": 4,
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->no_go",
+        "no_go->recorded"
+      ]
+    },
+    {
+      "scenario_id": "timeout-hold",
+      "final_state": "recorded",
+      "launch_decision": "hold",
+      "launch_reason_code": "validation_failed",
+      "trace_events": 4,
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->hold",
+        "hold->recorded"
+      ]
+    },
+    {
+      "scenario_id": "retry-recovers-to-go",
+      "final_state": "recorded",
+      "launch_decision": "go",
+      "launch_reason_code": "executed",
+      "trace_events": 4,
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->go",
+        "go->recorded"
+      ]
+    }
+  ],
+  "reason_code_counts": {
+    "executed": 2,
+    "blocked_needs_human": 1,
+    "permission_denied": 1,
+    "validation_failed": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "happy-path-go",
+      "title": "authorized issue ships with complete evidence",
+      "correlation_id": "corr-happy-path-go-8e60b0b392",
+      "decision_id": "dec-5301e8ecf260",
+      "seed": "issue-166-decision-loop-v1",
+      "issue": {
+        "id": 1661,
+        "title": "staging deploy readiness",
+        "action_class": "A1",
+        "proposer_role": "agent_technical_delivery"
+      },
+      "policy": {
+        "outcome": "allow",
+        "reason_code": "executed",
+        "approvals": {
+          "required": 1,
+          "received": 1,
+          "stale": false
+        }
+      },
+      "evidence": {
+        "status": "valid",
+        "artifacts": [
+          "bundle_summary.md",
+          "launch_readiness_packet.json"
+        ],
+        "freshness_hours": 2,
+        "same_commit_lineage": true,
+        "evaluation": {
+          "status": "pass",
+          "reasonCode": "executed",
+          "attempts": 1
+        }
+      },
+      "launch": {
+        "decision": "go",
+        "reason_code": "executed"
+      },
+      "final_state": "recorded",
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->go",
+        "go->recorded"
+      ],
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "issue_ingest",
+          "status": "received",
+          "actor": "agent_technical_delivery",
+          "state": "requested",
+          "correlation_id": "corr-happy-path-go-8e60b0b392",
+          "reason_code": null,
+          "detail": {
+            "issue_id": 1661,
+            "action_class": "A1",
+            "title": "staging deploy readiness"
+          }
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "policy_decision",
+          "status": "allow",
+          "actor": "policy_engine",
+          "state": "evaluating",
+          "correlation_id": "corr-happy-path-go-8e60b0b392",
+          "reason_code": "executed",
+          "detail": {
+            "approvals_required": 1,
+            "approvals_received": 1,
+            "approvals_stale": false
+          }
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "evidence_validation",
+          "status": "pass",
+          "actor": "evidence_validator",
+          "state": "evaluating",
+          "correlation_id": "corr-happy-path-go-8e60b0b392",
+          "reason_code": "executed",
+          "detail": {
+            "attempts": 1,
+            "freshness_hours": 2,
+            "same_commit_lineage": true,
+            "artifacts": [
+              "bundle_summary.md",
+              "launch_readiness_packet.json"
+            ]
+          }
+        },
+        {
+          "at": "2026-03-18T00:03:00Z",
+          "phase": "launch_verdict",
+          "status": "go",
+          "actor": "launch_gate",
+          "state": "go",
+          "correlation_id": "corr-happy-path-go-8e60b0b392",
+          "reason_code": "executed",
+          "detail": {
+            "policy_outcome": "allow",
+            "evidence_status": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "scenario_id": "human-hold",
+      "title": "ambiguous request pauses for human review",
+      "correlation_id": "corr-human-hold-fb56bf520d",
+      "decision_id": "dec-222935fcc26a",
+      "seed": "issue-166-decision-loop-v1",
+      "issue": {
+        "id": 1662,
+        "title": "exceptional treasury-linked release override",
+        "action_class": "A3",
+        "proposer_role": "agent_product_governance"
+      },
+      "policy": {
+        "outcome": "blocked_needs_human",
+        "reason_code": "blocked_needs_human",
+        "approvals": {
+          "required": 1,
+          "received": 0,
+          "stale": false
+        }
+      },
+      "evidence": {
+        "status": "skipped",
+        "artifacts": [],
+        "freshness_hours": 0,
+        "same_commit_lineage": true,
+        "evaluation": {
+          "status": "skipped",
+          "reasonCode": null,
+          "attempts": 0
+        }
+      },
+      "launch": {
+        "decision": "hold",
+        "reason_code": "blocked_needs_human"
+      },
+      "final_state": "recorded",
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->hold",
+        "hold->recorded"
+      ],
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "issue_ingest",
+          "status": "received",
+          "actor": "agent_product_governance",
+          "state": "requested",
+          "correlation_id": "corr-human-hold-fb56bf520d",
+          "reason_code": null,
+          "detail": {
+            "issue_id": 1662,
+            "action_class": "A3",
+            "title": "exceptional treasury-linked release override"
+          }
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "policy_decision",
+          "status": "blocked_needs_human",
+          "actor": "policy_engine",
+          "state": "evaluating",
+          "correlation_id": "corr-human-hold-fb56bf520d",
+          "reason_code": "blocked_needs_human",
+          "detail": {
+            "approvals_required": 1,
+            "approvals_received": 0,
+            "approvals_stale": false
+          }
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "evidence_validation",
+          "status": "skipped",
+          "actor": "evidence_validator",
+          "state": "evaluating",
+          "correlation_id": "corr-human-hold-fb56bf520d",
+          "reason_code": null,
+          "detail": {
+            "attempts": 0,
+            "freshness_hours": 0,
+            "same_commit_lineage": true,
+            "artifacts": []
+          }
+        },
+        {
+          "at": "2026-03-18T00:03:00Z",
+          "phase": "launch_verdict",
+          "status": "hold",
+          "actor": "launch_gate",
+          "state": "hold",
+          "correlation_id": "corr-human-hold-fb56bf520d",
+          "reason_code": "blocked_needs_human",
+          "detail": {
+            "policy_outcome": "blocked_needs_human",
+            "evidence_status": "skipped"
+          }
+        }
+      ]
+    },
+    {
+      "scenario_id": "deny-permission",
+      "title": "actor lacks permission for requested action",
+      "correlation_id": "corr-deny-permission-6b2644977e",
+      "decision_id": "dec-8840074a776a",
+      "seed": "issue-166-decision-loop-v1",
+      "issue": {
+        "id": 1663,
+        "title": "unauthorized prod-like cutover",
+        "action_class": "A2",
+        "proposer_role": "agent_product_governance"
+      },
+      "policy": {
+        "outcome": "deny",
+        "reason_code": "permission_denied",
+        "approvals": {
+          "required": 2,
+          "received": 2,
+          "stale": false
+        }
+      },
+      "evidence": {
+        "status": "skipped",
+        "artifacts": [],
+        "freshness_hours": 0,
+        "same_commit_lineage": true,
+        "evaluation": {
+          "status": "skipped",
+          "reasonCode": null,
+          "attempts": 0
+        }
+      },
+      "launch": {
+        "decision": "no_go",
+        "reason_code": "permission_denied"
+      },
+      "final_state": "recorded",
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->no_go",
+        "no_go->recorded"
+      ],
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "issue_ingest",
+          "status": "received",
+          "actor": "agent_product_governance",
+          "state": "requested",
+          "correlation_id": "corr-deny-permission-6b2644977e",
+          "reason_code": null,
+          "detail": {
+            "issue_id": 1663,
+            "action_class": "A2",
+            "title": "unauthorized prod-like cutover"
+          }
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "policy_decision",
+          "status": "deny",
+          "actor": "policy_engine",
+          "state": "evaluating",
+          "correlation_id": "corr-deny-permission-6b2644977e",
+          "reason_code": "permission_denied",
+          "detail": {
+            "approvals_required": 2,
+            "approvals_received": 2,
+            "approvals_stale": false
+          }
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "evidence_validation",
+          "status": "skipped",
+          "actor": "evidence_validator",
+          "state": "evaluating",
+          "correlation_id": "corr-deny-permission-6b2644977e",
+          "reason_code": null,
+          "detail": {
+            "attempts": 0,
+            "freshness_hours": 0,
+            "same_commit_lineage": true,
+            "artifacts": []
+          }
+        },
+        {
+          "at": "2026-03-18T00:03:00Z",
+          "phase": "launch_verdict",
+          "status": "no_go",
+          "actor": "launch_gate",
+          "state": "no_go",
+          "correlation_id": "corr-deny-permission-6b2644977e",
+          "reason_code": "permission_denied",
+          "detail": {
+            "policy_outcome": "deny",
+            "evidence_status": "skipped"
+          }
+        }
+      ]
+    },
+    {
+      "scenario_id": "timeout-hold",
+      "title": "evidence validation times out and launch stays on hold",
+      "correlation_id": "corr-timeout-hold-5730d7e3b7",
+      "decision_id": "dec-25157cc1238b",
+      "seed": "issue-166-decision-loop-v1",
+      "issue": {
+        "id": 1664,
+        "title": "late evidence pack refresh",
+        "action_class": "A1",
+        "proposer_role": "agent_technical_delivery"
+      },
+      "policy": {
+        "outcome": "allow",
+        "reason_code": "executed",
+        "approvals": {
+          "required": 1,
+          "received": 1,
+          "stale": false
+        }
+      },
+      "evidence": {
+        "status": "timeout",
+        "artifacts": [
+          "bundle_manifest.json"
+        ],
+        "freshness_hours": 11,
+        "same_commit_lineage": true,
+        "evaluation": {
+          "status": "timeout",
+          "reasonCode": "validation_failed",
+          "attempts": 1
+        }
+      },
+      "launch": {
+        "decision": "hold",
+        "reason_code": "validation_failed"
+      },
+      "final_state": "recorded",
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->hold",
+        "hold->recorded"
+      ],
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "issue_ingest",
+          "status": "received",
+          "actor": "agent_technical_delivery",
+          "state": "requested",
+          "correlation_id": "corr-timeout-hold-5730d7e3b7",
+          "reason_code": null,
+          "detail": {
+            "issue_id": 1664,
+            "action_class": "A1",
+            "title": "late evidence pack refresh"
+          }
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "policy_decision",
+          "status": "allow",
+          "actor": "policy_engine",
+          "state": "evaluating",
+          "correlation_id": "corr-timeout-hold-5730d7e3b7",
+          "reason_code": "executed",
+          "detail": {
+            "approvals_required": 1,
+            "approvals_received": 1,
+            "approvals_stale": false
+          }
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "evidence_validation",
+          "status": "timeout",
+          "actor": "evidence_validator",
+          "state": "evaluating",
+          "correlation_id": "corr-timeout-hold-5730d7e3b7",
+          "reason_code": "validation_failed",
+          "detail": {
+            "attempts": 1,
+            "freshness_hours": 11,
+            "same_commit_lineage": true,
+            "artifacts": [
+              "bundle_manifest.json"
+            ]
+          }
+        },
+        {
+          "at": "2026-03-18T00:03:00Z",
+          "phase": "launch_verdict",
+          "status": "hold",
+          "actor": "launch_gate",
+          "state": "hold",
+          "correlation_id": "corr-timeout-hold-5730d7e3b7",
+          "reason_code": "validation_failed",
+          "detail": {
+            "policy_outcome": "allow",
+            "evidence_status": "timeout"
+          }
+        }
+      ]
+    },
+    {
+      "scenario_id": "retry-recovers-to-go",
+      "title": "first evidence attempt times out, retry completes deterministically",
+      "correlation_id": "corr-retry-recovers-to-go-6d2a8ab923",
+      "decision_id": "dec-eecca362121d",
+      "seed": "issue-166-decision-loop-v1",
+      "issue": {
+        "id": 1665,
+        "title": "retryable launch packet assembly",
+        "action_class": "A1",
+        "proposer_role": "agent_technical_delivery"
+      },
+      "policy": {
+        "outcome": "allow",
+        "reason_code": "executed",
+        "approvals": {
+          "required": 1,
+          "received": 1,
+          "stale": false
+        }
+      },
+      "evidence": {
+        "status": "retry_success",
+        "retry": {
+          "attempts": 2,
+          "first_attempt_status": "timeout",
+          "final_status": "valid"
+        },
+        "artifacts": [
+          "bundle_manifest.json",
+          "launch_readiness_packet.json"
+        ],
+        "freshness_hours": 3,
+        "same_commit_lineage": true,
+        "evaluation": {
+          "status": "pass_after_retry",
+          "reasonCode": "executed",
+          "attempts": 2,
+          "firstAttemptStatus": "timeout",
+          "finalStatus": "valid"
+        }
+      },
+      "launch": {
+        "decision": "go",
+        "reason_code": "executed"
+      },
+      "final_state": "recorded",
+      "transitions": [
+        "requested->evaluating",
+        "evaluating->go",
+        "go->recorded"
+      ],
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "issue_ingest",
+          "status": "received",
+          "actor": "agent_technical_delivery",
+          "state": "requested",
+          "correlation_id": "corr-retry-recovers-to-go-6d2a8ab923",
+          "reason_code": null,
+          "detail": {
+            "issue_id": 1665,
+            "action_class": "A1",
+            "title": "retryable launch packet assembly"
+          }
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "policy_decision",
+          "status": "allow",
+          "actor": "policy_engine",
+          "state": "evaluating",
+          "correlation_id": "corr-retry-recovers-to-go-6d2a8ab923",
+          "reason_code": "executed",
+          "detail": {
+            "approvals_required": 1,
+            "approvals_received": 1,
+            "approvals_stale": false
+          }
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "evidence_validation",
+          "status": "pass_after_retry",
+          "actor": "evidence_validator",
+          "state": "evaluating",
+          "correlation_id": "corr-retry-recovers-to-go-6d2a8ab923",
+          "reason_code": "executed",
+          "detail": {
+            "attempts": 2,
+            "freshness_hours": 3,
+            "same_commit_lineage": true,
+            "artifacts": [
+              "bundle_manifest.json",
+              "launch_readiness_packet.json"
+            ],
+            "first_attempt_status": "timeout",
+            "final_status": "valid"
+          }
+        },
+        {
+          "at": "2026-03-18T00:03:00Z",
+          "phase": "launch_verdict",
+          "status": "go",
+          "actor": "launch_gate",
+          "state": "go",
+          "correlation_id": "corr-retry-recovers-to-go-6d2a8ab923",
+          "reason_code": "executed",
+          "detail": {
+            "policy_outcome": "allow",
+            "evidence_status": "pass_after_retry"
+          }
+        }
+      ]
+    }
+  ]
+}
