@@ -71,7 +71,6 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
 |---|---|---|---|---|---|---|---|
 | #153 | core runtime | planned | shared | #152 | post-v1 | 2026-03-17 | n/a |
-| #154 | core runtime | planned | shared | #163,#164 | post-v1 | 2026-03-17 | n/a |
 | #155 | core runtime | planned | shared | #164,#165 | post-v1 | 2026-03-17 | n/a |
 | #156 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #157 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
