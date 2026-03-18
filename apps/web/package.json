@@ -5,6 +5,8 @@
   "description": "moltch cockpit shell",
   "scripts": {
     "start": "node server.js",
-    "test:contract": "node tests/pane-contract.test.js"
+    "test:contract": "node tests/pane-contract.test.js",
+    "test:decision-workflow": "node tests/decision-workflow.test.js",
+    "test": "npm run test:contract && npm run test:decision-workflow"
   }
 }
