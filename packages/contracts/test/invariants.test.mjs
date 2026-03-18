@@ -5,7 +5,9 @@ import {
   evaluateDecision,
   computeDecisionDigest,
   DecisionReasonCode,
-  DecisionVerdict
+  DecisionVerdict,
+  loadOracleBridgeSeamInterface,
+  validateOracleBridgeInterface
 } from "../src/index.mjs";
 
 test("same normalized input yields same digest", () => {
@@ -64,4 +66,29 @@ test("valid evaluation includes stable seam fields", () => {
   assert.equal(result.decisionId, "dec-3");
   assert.equal(result.correlationId, "corr-3");
   assert.equal(result.verdict, "go");
+});
+
+test("oracle bridge seam interface captures approval and result linkage contracts", () => {
+  const iface = loadOracleBridgeSeamInterface();
+  assert.equal(validateOracleBridgeInterface(iface), true);
+  assert.deepEqual(iface.approvalRequiredFields, [
+    "bridgeRequestId",
+    "correlationId",
+    "decisionId",
+    "approvalId",
+    "actor",
+    "decisionReasonCode"
+  ]);
+  assert.deepEqual(iface.resultRequiredFields, [
+    "bridgeRequestId",
+    "correlationId",
+    "decisionId",
+    "approvalId",
+    "executionId",
+    "actor",
+    "resultReasonCode",
+    "resultRefs"
+  ]);
+  assert.ok(iface.transitions.approval_pending.includes("approved"));
+  assert.ok(iface.transitions.executing.includes("execution_failed"));
 });
