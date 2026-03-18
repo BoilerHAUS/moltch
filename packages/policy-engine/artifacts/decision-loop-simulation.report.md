@@ -13,7 +13,7 @@
 | human-hold | recorded | hold | blocked_needs_human | 4 |
 | deny-permission | recorded | no_go | permission_denied | 4 |
 | timeout-hold | recorded | hold | validation_failed | 4 |
-| retry-recovers-to-go | recorded | go | executed | 4 |
+| retry-recovers-to-go | recorded | go | executed | 5 |
 
 ## trace highlights
 ### happy-path-go
@@ -63,6 +63,7 @@
 - launch: **go** (executed)
   - 2026-03-18T00:00:00Z :: issue_ingest :: received :: state=requested :: reason=n/a
   - 2026-03-18T00:01:00Z :: policy_decision :: allow :: state=evaluating :: reason=executed
-  - 2026-03-18T00:02:00Z :: evidence_validation :: pass_after_retry :: state=evaluating :: reason=executed
-  - 2026-03-18T00:03:00Z :: launch_verdict :: go :: state=go :: reason=executed
+  - 2026-03-18T00:02:00Z :: evidence_validation :: timeout :: state=evaluating :: reason=validation_failed
+  - 2026-03-18T00:03:00Z :: evidence_retry :: retry_success :: state=evaluating :: reason=executed
+  - 2026-03-18T00:04:00Z :: launch_verdict :: go :: state=go :: reason=executed
 

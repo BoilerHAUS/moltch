@@ -58,7 +58,7 @@
       "final_state": "recorded",
       "launch_decision": "go",
       "launch_reason_code": "executed",
-      "trace_events": 4,
+      "trace_events": 5,
       "transitions": [
         "requested->evaluating",
         "evaluating->go",
@@ -571,25 +571,46 @@
         {
           "at": "2026-03-18T00:02:00Z",
           "phase": "evidence_validation",
-          "status": "pass_after_retry",
+          "status": "timeout",
           "actor": "evidence_validator",
           "state": "evaluating",
           "correlation_id": "corr-retry-recovers-to-go-6d2a8ab923",
-          "reason_code": "executed",
+          "reason_code": "validation_failed",
           "detail": {
-            "attempts": 2,
+            "attempt": 1,
+            "attempts_total": 2,
             "freshness_hours": 3,
             "same_commit_lineage": true,
             "artifacts": [
               "bundle_manifest.json",
               "launch_readiness_packet.json"
             ],
-            "first_attempt_status": "timeout",
-            "final_status": "valid"
+            "next_action": "retry"
           }
         },
         {
           "at": "2026-03-18T00:03:00Z",
+          "phase": "evidence_retry",
+          "status": "retry_success",
+          "actor": "evidence_validator",
+          "state": "evaluating",
+          "correlation_id": "corr-retry-recovers-to-go-6d2a8ab923",
+          "reason_code": "executed",
+          "detail": {
+            "attempt": 2,
+            "attempts_total": 2,
+            "recovered_from": "timeout",
+            "final_status": "valid",
+            "freshness_hours": 3,
+            "same_commit_lineage": true,
+            "artifacts": [
+              "bundle_manifest.json",
+              "launch_readiness_packet.json"
+            ]
+          }
+        },
+        {
+          "at": "2026-03-18T00:04:00Z",
           "phase": "launch_verdict",
           "status": "go",
           "actor": "launch_gate",

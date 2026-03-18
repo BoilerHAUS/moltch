@@ -128,23 +128,65 @@ export function simulateScenario(scenario, options = {}) {
   }));
 
   const evidence = evaluateEvidence(scenario.evidence);
-  trace.push(buildTraceEvent({
-    at: isoAt(generatedAt, minuteOffset++),
-    phase: "evidence_validation",
-    status: evidence.status,
-    actor: "evidence_validator",
-    state: currentState,
-    correlationId,
-    reasonCode: EVIDENCE_STATUS_REASON_CODE[scenario.evidence.status],
-    detail: {
-      attempts: evidence.attempts,
-      freshness_hours: scenario.evidence.freshness_hours,
-      same_commit_lineage: scenario.evidence.same_commit_lineage,
-      artifacts: scenario.evidence.artifacts,
-      ...(evidence.firstAttemptStatus ? { first_attempt_status: evidence.firstAttemptStatus } : {}),
-      ...(evidence.finalStatus ? { final_status: evidence.finalStatus } : {})
-    }
-  }));
+  const evidenceReasonCode = EVIDENCE_STATUS_REASON_CODE[scenario.evidence.status];
+  const evidenceDetail = {
+    attempts: evidence.attempts,
+    freshness_hours: scenario.evidence.freshness_hours,
+    same_commit_lineage: scenario.evidence.same_commit_lineage,
+    artifacts: scenario.evidence.artifacts,
+    ...(evidence.firstAttemptStatus ? { first_attempt_status: evidence.firstAttemptStatus } : {}),
+    ...(evidence.finalStatus ? { final_status: evidence.finalStatus } : {})
+  };
+
+  if (scenario.evidence.status === "retry_success") {
+    trace.push(buildTraceEvent({
+      at: isoAt(generatedAt, minuteOffset++),
+      phase: "evidence_validation",
+      status: evidence.firstAttemptStatus ?? "timeout",
+      actor: "evidence_validator",
+      state: currentState,
+      correlationId,
+      reasonCode: "validation_failed",
+      detail: {
+        attempt: 1,
+        attempts_total: evidence.attempts,
+        freshness_hours: scenario.evidence.freshness_hours,
+        same_commit_lineage: scenario.evidence.same_commit_lineage,
+        artifacts: scenario.evidence.artifacts,
+        next_action: "retry"
+      }
+    }));
+
+    trace.push(buildTraceEvent({
+      at: isoAt(generatedAt, minuteOffset++),
+      phase: "evidence_retry",
+      status: "retry_success",
+      actor: "evidence_validator",
+      state: currentState,
+      correlationId,
+      reasonCode: evidenceReasonCode,
+      detail: {
+        attempt: evidence.attempts,
+        attempts_total: evidence.attempts,
+        recovered_from: evidence.firstAttemptStatus ?? "timeout",
+        final_status: evidence.finalStatus ?? "valid",
+        freshness_hours: scenario.evidence.freshness_hours,
+        same_commit_lineage: scenario.evidence.same_commit_lineage,
+        artifacts: scenario.evidence.artifacts
+      }
+    }));
+  } else {
+    trace.push(buildTraceEvent({
+      at: isoAt(generatedAt, minuteOffset++),
+      phase: "evidence_validation",
+      status: evidence.status,
+      actor: "evidence_validator",
+      state: currentState,
+      correlationId,
+      reasonCode: evidenceReasonCode,
+      detail: evidenceDetail
+    }));
+  }
 
   const launchReasonCode = scenario.launch.reason_code ?? (scenario.launch.decision === "go" ? evidence.reasonCode ?? scenario.policy.reason_code : scenario.policy.reason_code ?? evidence.reasonCode);
   const launchState = LAUNCH_DECISION_TO_STATE[scenario.launch.decision];

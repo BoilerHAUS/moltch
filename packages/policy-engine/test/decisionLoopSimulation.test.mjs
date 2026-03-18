@@ -38,9 +38,32 @@ test("simulation trace emits correlation ids, reason codes, and stable transitio
       `evaluating->${scenario.launch.decision === "go" ? "go" : scenario.launch.decision === "hold" ? "hold" : "no_go"}`,
       `${scenario.launch.decision === "go" ? "go" : scenario.launch.decision === "hold" ? "hold" : "no_go"}->recorded`
     ]);
-    assert.equal(scenario.trace.length, 4);
+    assert.equal(
+      scenario.trace.length,
+      scenario.scenario_id === "retry-recovers-to-go" ? 5 : 4
+    );
     assert.ok(scenario.trace.every((event) => event.correlation_id === scenario.correlation_id));
   }
+});
+
+
+test("retry scenario emits an explicit retry event in the top-level trace contract", () => {
+  const report = buildSimulationReport(suite);
+  const retryScenario = report.scenarios.find((scenario) => scenario.scenario_id === "retry-recovers-to-go");
+
+  assert.ok(retryScenario);
+  assert.deepEqual(
+    retryScenario.trace.map((event) => `${event.phase}:${event.status}`),
+    [
+      "issue_ingest:received",
+      "policy_decision:allow",
+      "evidence_validation:timeout",
+      "evidence_retry:retry_success",
+      "launch_verdict:go"
+    ]
+  );
+  assert.equal(retryScenario.trace[2].reason_code, "validation_failed");
+  assert.equal(retryScenario.trace[3].reason_code, "executed");
 });
 
 test("checked-in simulation artifacts match generated deterministic report", () => {
