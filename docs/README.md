@@ -71,6 +71,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - launch-gate evidence package schema v1: `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - roadmap open-issue reconciliation v1: `docs/operations/ROADMAP_OPEN_ISSUE_RECONCILIATION_V1.md`
 - issue classification and pr admission v1: `docs/operations/ISSUE_CLASSIFICATION_PR_ADMISSION_V1.md`
+- context boundary handoff v1: `docs/operations/CONTEXT_BOUNDARY_HANDOFF_V1.md`
 - launch-gate evidence JSON schema v1: `docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json`
 - launch-gate evidence valid sample (CI validation target): `docs/operations/evidence/launch_gate_evidence_package_valid_v1.json`
 - launch-readiness packet manifest v1: `docs/operations/evidence/launch-readiness/launch_readiness_packet_manifest_v1.json`

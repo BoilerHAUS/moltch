@@ -294,6 +294,30 @@ check_pr_template_contract() {
   pass "PR template delivery contract checks passed"
 }
 
+check_context_boundary_handoff_validator() {
+  local validator="scripts/ops/validate_context_boundary_handoff.py"
+  local valid="scripts/ops/fixtures/context_boundary/handoff_valid_v1.json"
+  local invalid_crossing="scripts/ops/fixtures/context_boundary/handoff_invalid_denied_crossing_v1.json"
+  local invalid_promotion="scripts/ops/fixtures/context_boundary/handoff_invalid_promotion_v1.json"
+
+  [[ -f "$validator" ]] || fail "$validator missing"
+  [[ -f "$valid" ]] || fail "$valid missing"
+  [[ -f "$invalid_crossing" ]] || fail "$invalid_crossing missing"
+  [[ -f "$invalid_promotion" ]] || fail "$invalid_promotion missing"
+
+  python3 "$validator" --input "$valid" >/dev/null
+
+  if python3 "$validator" --input "$invalid_crossing" >/dev/null 2>&1; then
+    fail "invalid context-boundary denied-crossing fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --input "$invalid_promotion" >/dev/null 2>&1; then
+    fail "invalid context-boundary promotion fixture unexpectedly passed"
+  fi
+
+  pass "context boundary handoff validator fixtures passed"
+}
+
 check_issue_classification_validator() {
   local validator="scripts/ops/validate_issue_classification.py"
   local roadmap="scripts/ops/fixtures/issue_classification/ROADMAP_V1.fixture.md"
@@ -359,10 +383,11 @@ check_links
 check_docs_index_coverage
 check_pr_template_contract
 check_issue_classification_validator
+check_context_boundary_handoff_validator
 check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
 check_review_ops_scoreboard_generator
 check_policy_decision_conformance
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, context boundary handoff validator, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"

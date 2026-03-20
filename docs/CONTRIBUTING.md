@@ -79,6 +79,11 @@ Issue classification and PR-lane admission:
 - use `docs/operations/ISSUE_CLASSIFICATION_PR_ADMISSION_V1.md` when an issue moves toward active delivery
 - do not treat an open PR as proof of readiness; record explicit admission basis instead
 
+Context boundary / handoff discipline:
+- use `docs/operations/CONTEXT_BOUNDARY_HANDOFF_V1.md` for cross-domain context movement
+- imported context may be accepted as external assertion, quarantined, or rejected
+- accepted import is still not native/shared truth; promotion/re-export requires a new governed boundary crossing
+
 Local troubleshooting (tokened run):
 ```bash
 GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
