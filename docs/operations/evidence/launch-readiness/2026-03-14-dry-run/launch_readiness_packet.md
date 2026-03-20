@@ -1,7 +1,7 @@
 # launch-readiness packet
 
 - packet_id: lrp-20260314-v2-closeout
-- generated_at_utc: 2026-03-14T02:33:50Z
+- generated_at_utc: 2026-03-20T23:35:11Z
 - source_commit_sha: `deterministic-sha-v1`
 - target_environment: staging
 - decision (computed): **go**
