@@ -1,0 +1,22 @@
+{
+  "artifact_version": "issue_classification_status.v1",
+  "generated_at_utc": "2026-03-21T00:00:00Z",
+  "issues": [
+    {
+      "issue_number": 195,
+      "classification": {
+        "state": "active_delivery",
+        "source": "auto_roadmap",
+        "rationale": "The roadmap row exists, so the issue was auto-promoted."
+      },
+      "pr_admission": {
+        "status": "admitted",
+        "ready_for_pr": true,
+        "basis": "PR #999 exists.",
+        "decided_by": "shared",
+        "decided_at_utc": "2026-03-21T00:00:00Z"
+      },
+      "pull_request_url": "https://github.com/BoilerHAUS/moltch/pull/999"
+    }
+  ]
+}

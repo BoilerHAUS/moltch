@@ -279,6 +279,8 @@ check_pr_template_contract() {
   [[ -f "$template" ]] || fail "$template missing"
 
   grep -Fq 'Closes #' "$template" || fail "$template missing linked issue requirement"
+  grep -Fq 'Issue classification state:' "$template" || fail "$template missing issue classification state field"
+  grep -Fq 'PR-lane admission status / readiness basis:' "$template" || fail "$template missing PR-lane admission field"
   grep -Fq '## Pre-merge follow-through' "$template" || fail "$template missing pre-merge follow-through section"
   grep -Fq 'CI status / link to latest green run:' "$template" || fail "$template missing CI follow-through field"
   grep -Fq 'Conflict remediation performed (or `none required`):' "$template" || fail "$template missing conflict remediation field"
@@ -290,6 +292,32 @@ check_pr_template_contract() {
   grep -Fq 'Post-merge reconciliation plan captured above (or explicitly `n/a`)' "$template" || fail "$template missing post-merge reconciliation checklist item"
 
   pass "PR template delivery contract checks passed"
+}
+
+check_issue_classification_validator() {
+  local validator="scripts/ops/validate_issue_classification.py"
+  local roadmap="scripts/ops/fixtures/issue_classification/ROADMAP_V1.fixture.md"
+  local valid="scripts/ops/fixtures/issue_classification/issue_classification_status_valid_v1.json"
+  local invalid_pr="scripts/ops/fixtures/issue_classification/issue_classification_status_invalid_pr_existence_v1.json"
+  local invalid_auto="scripts/ops/fixtures/issue_classification/issue_classification_status_invalid_auto_active_v1.json"
+
+  [[ -f "$validator" ]] || fail "$validator missing"
+  [[ -f "$roadmap" ]] || fail "$roadmap missing"
+  [[ -f "$valid" ]] || fail "$valid missing"
+  [[ -f "$invalid_pr" ]] || fail "$invalid_pr missing"
+  [[ -f "$invalid_auto" ]] || fail "$invalid_auto missing"
+
+  python3 "$validator" --roadmap "$roadmap" --input "$valid" >/dev/null
+
+  if python3 "$validator" --roadmap "$roadmap" --input "$invalid_pr" >/dev/null 2>&1; then
+    fail "invalid issue-classification PR-existence fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --roadmap "$roadmap" --input "$invalid_auto" >/dev/null 2>&1; then
+    fail "invalid issue-classification auto-active fixture unexpectedly passed"
+  fi
+
+  pass "issue classification validator fixtures passed"
 }
 
 check_roadmap_issue_mapping() {
@@ -330,10 +358,11 @@ check_metadata_scope
 check_links
 check_docs_index_coverage
 check_pr_template_contract
+check_issue_classification_validator
 check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
 check_review_ops_scoreboard_generator
 check_policy_decision_conformance
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, PR template delivery contract, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"

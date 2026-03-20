@@ -116,3 +116,4 @@ python3 scripts/ops/reconcile_roadmap_open_issues.py \
 ## integration
 - `scripts/docs/check_docs.sh` uses `pre-merge` mode for the repository docs gate.
 - fixture-backed unit validation covers drift classification and immutable artifact emission without requiring live GitHub access.
+- coverage here establishes roadmap mapping/exclusion truth only; issue classification and PR-lane admission are governed separately by `docs/operations/ISSUE_CLASSIFICATION_PR_ADMISSION_V1.md`.

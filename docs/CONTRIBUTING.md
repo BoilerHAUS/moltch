@@ -74,6 +74,11 @@ Roadmap mapping discipline:
 ./scripts/docs/check_docs.sh
 ```
 
+Issue classification and PR-lane admission:
+- roadmap tracking/exclusion coverage is not the same thing as PR readiness
+- use `docs/operations/ISSUE_CLASSIFICATION_PR_ADMISSION_V1.md` when an issue moves toward active delivery
+- do not treat an open PR as proof of readiness; record explicit admission basis instead
+
 Local troubleshooting (tokened run):
 ```bash
 GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
