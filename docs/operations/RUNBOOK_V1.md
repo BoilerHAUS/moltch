@@ -37,6 +37,14 @@ Expected first human response target:
 - product/governance/docs ops: boilermolt
 - technical deploy/runtime ops: boilerclaw
 
+## agent PR follow-through contract
+Use `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md` as the default delivery contract for agent-owned pull requests.
+
+Operational rule:
+- opening a PR is not completion
+- the same delivery loop owns CI failure remediation and merge-conflict recovery until the PR is green or explicitly escalated
+- after merge, reconcile issue closure, follow-up issue creation, and any required roadmap/evidence updates before marking the task done
+
 ## decision logging taxonomy reference
 Use `docs/governance/POLICY_DECISION_REASON_CODE_CATALOG_V1_2.md` when recording incident/decision outcomes so reason codes and operator actions remain standardized.
 

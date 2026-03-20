@@ -70,7 +70,6 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 ## open issues mapping (canonical)
 | issue | lane/phase | status | owner | dependency | target_window | last_updated | unblock_ask |
 |---|---|---|---|---|---|---|---|
-| #153 | core runtime | planned | shared | #152 | post-v1 | 2026-03-17 | n/a |
 | #156 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #157 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #158 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
@@ -86,6 +85,8 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #188 | governance threat model | planned | shared | #3 | post-v1 | 2026-03-20 | n/a |
 | #189 | governance rollback model | planned | shared | #2,#188 | post-v1 | 2026-03-20 | n/a |
 | #190 | governance treasury controls | planned | shared | #1,#2,#189 | post-v1 | 2026-03-20 | n/a |
+| #191 | delivery contract / repo-state reconciliation | planned | shared | #167 | post-v1 | 2026-03-20 | n/a |
+| #193 | delivery/reconciliation automation follow-through | planned | shared | #191 | post-v1 | 2026-03-20 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:

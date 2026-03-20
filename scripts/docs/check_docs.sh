@@ -274,6 +274,24 @@ check_policy_decision_conformance() {
   pass "policy decision conformance validation passed"
 }
 
+check_pr_template_contract() {
+  local template=".github/pull_request_template.md"
+  [[ -f "$template" ]] || fail "$template missing"
+
+  grep -Fq 'Closes #' "$template" || fail "$template missing linked issue requirement"
+  grep -Fq '## Pre-merge follow-through' "$template" || fail "$template missing pre-merge follow-through section"
+  grep -Fq 'CI status / link to latest green run:' "$template" || fail "$template missing CI follow-through field"
+  grep -Fq 'Conflict remediation performed (or `none required`):' "$template" || fail "$template missing conflict remediation field"
+  grep -Fq '## Post-merge reconciliation plan' "$template" || fail "$template missing post-merge reconciliation section"
+  grep -Fq 'Linked issue close path:' "$template" || fail "$template missing linked issue close path field"
+  grep -Fq 'Branch cleanup / final reconciliation notes:' "$template" || fail "$template missing branch cleanup reconciliation field"
+  grep -Fq 'CI failures will be remediated on this PR unless proven external' "$template" || fail "$template missing CI remediation checklist item"
+  grep -Fq 'Merge conflicts/stale branch state will be remediated on this PR before handoff' "$template" || fail "$template missing conflict remediation checklist item"
+  grep -Fq 'Post-merge reconciliation plan captured above (or explicitly `n/a`)' "$template" || fail "$template missing post-merge reconciliation checklist item"
+
+  pass "PR template delivery contract checks passed"
+}
+
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
   [[ -f "$roadmap" ]] || fail "$roadmap missing"
@@ -343,10 +361,11 @@ check_roadmap_issue_mapping() {
 check_metadata_scope
 check_links
 check_docs_index_coverage
+check_pr_template_contract
 check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
 check_review_ops_scoreboard_generator
 check_policy_decision_conformance
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, PR template delivery contract, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"
