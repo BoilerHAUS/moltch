@@ -78,7 +78,3 @@ Local troubleshooting (tokened run):
 ```bash
 GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
 ```
-eshooting (tokened run):
-```bash
-GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
-```
