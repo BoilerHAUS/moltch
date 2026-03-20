@@ -340,12 +340,3 @@ button, input, select, textarea { font: inherit; }
   .row-item { align-items: flex-start; }
   .right { align-items: flex-start; }
 }
-signal);
-}
-.evidence-block ul { margin: 0 0 .4rem; padding: 0; list-style: none; }
-
-@media (max-width: 720px) {
-  .app-grid { grid-template-columns: 1fr; }
-  .row-item { align-items: flex-start; }
-  .right { align-items: flex-start; }
-}
