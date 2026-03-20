@@ -99,6 +99,8 @@ Use only for intentional non-roadmap items (e.g., tooling-only housekeeping).
 Format:
 - #<issue_number> — rationale
 
+- #189 — design spec for rollback/undo semantics; foundational reference doc, not a v1 launch-gate item
+
 
 ## roadmap update rule
 When issues open/close/re-scope:
