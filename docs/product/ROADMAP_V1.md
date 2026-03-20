@@ -82,9 +82,7 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #184 | v2 core observability | planned | shared | #167 | post-v1 | 2026-03-20 | n/a |
 | #185 | v2 core observability | planned | shared | #184 | post-v1 | 2026-03-20 | n/a |
 | #186 | v2 web3 audit seam | planned | shared | #153,#183 | post-v1 | 2026-03-20 | n/a |
-| #188 | governance threat model | planned | shared | #3 | post-v1 | 2026-03-20 | n/a |
-| #189 | governance rollback model | planned | shared | #2,#188 | post-v1 | 2026-03-20 | n/a |
-| #190 | governance treasury controls | planned | shared | #1,#2,#189 | post-v1 | 2026-03-20 | n/a |
+| #190 | governance treasury controls | planned | shared | #1,#2 | post-v1 | 2026-03-20 | n/a |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:

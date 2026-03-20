@@ -15,7 +15,7 @@
     "max_source_age_hours": 24,
     "require_same_commit_lineage": true
   },
-  "generated_at_utc": "2026-03-20T23:18:54Z",
+  "generated_at_utc": "2026-03-20T23:22:36Z",
   "generator": {
     "manifest_schema_version": "v2",
     "manifest_sha256": "c668f35577715b0df1110c6352ad5ca055012920a565e921f3c15601c041719e",
