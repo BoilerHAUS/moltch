@@ -294,7 +294,9 @@ check_pr_template_contract() {
 
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
+  local reconciler="scripts/ops/reconcile_roadmap_open_issues.py"
   [[ -f "$roadmap" ]] || fail "$roadmap missing"
+  [[ -f "$reconciler" ]] || fail "$reconciler missing"
 
   if ! command -v gh >/dev/null 2>&1; then
     warn "gh CLI not installed; skipping roadmap issue mapping check"
@@ -308,54 +310,20 @@ check_roadmap_issue_mapping() {
   fi
   export GH_TOKEN="${GH_TOKEN:-${GITHUB_TOKEN:-}}"
 
-  mapfile -t open_issue_nums < <(gh api --paginate -X GET "repos/${repo}/issues?state=open&per_page=100" --jq '.[] | select(.pull_request == null) | .number')
-  mapfile -t mapped_issue_nums < <(sed -nE 's/^\|[[:space:]]*#([0-9]+)[[:space:]]*\|.*/\1/p' "$roadmap")
-
-  declare -A open_set mapped excluded mapped_counts
-  for n in "${open_issue_nums[@]}"; do open_set["$n"]=1; done
-  for n in "${mapped_issue_nums[@]}"; do
-    mapped["$n"]=1
-    mapped_counts["$n"]=$(( ${mapped_counts["$n"]:-0} + 1 ))
-  done
-  while IFS= read -r n; do excluded["$n"]=1; done < <(awk '
-    BEGIN {in_ex=0}
-    /^## excluded issues/ {in_ex=1; next}
-    /^## / && in_ex==1 {in_ex=0}
-    in_ex==1 {print}
-  ' "$roadmap" | grep -oE '#[0-9]+' | tr -d '#' | sort -u)
-
-  local missing=() closed_in_mapping=() duplicates=()
-  for n in "${open_issue_nums[@]}"; do
-    if [[ -z "${mapped[$n]:-}" && -z "${excluded[$n]:-}" ]]; then
-      missing+=("#$n")
-    fi
-  done
-
-  for n in "${mapped_issue_nums[@]}"; do
-    if [[ -z "${open_set[$n]:-}" ]]; then
-      closed_in_mapping+=("#$n")
-    fi
-  done
-
-  for n in "${!mapped_counts[@]}"; do
-    if (( mapped_counts["$n"] > 1 )); then
-      duplicates+=("#$n")
-    fi
-  done
-
-  if (( ${#missing[@]} > 0 )); then
-    fail "open issues missing roadmap mapping/exclusion: ${missing[*]}"
+  local artifact_dir
+  artifact_dir="$(mktemp -d)"
+  if ! python3 "$reconciler" \
+    --repo "$repo" \
+    --roadmap "$roadmap" \
+    --trigger-mode pre-merge \
+    --artifact-dir "$artifact_dir" \
+    --check >/dev/null; then
+    rm -rf "$artifact_dir"
+    fail "roadmap open-issue reconciliation drift detected (run $reconciler for immutable artifact details)"
   fi
+  rm -rf "$artifact_dir"
 
-  if (( ${#closed_in_mapping[@]} > 0 )); then
-    fail "closed issues still listed in open issues mapping: ${closed_in_mapping[*]} (remove from mapping table or reopen issues)"
-  fi
-
-  if (( ${#duplicates[@]} > 0 )); then
-    fail "issues mapped more than once in open issues mapping: ${duplicates[*]}"
-  fi
-
-  pass "roadmap mapping coverage ok (${#open_issue_nums[@]} open issues, ${#mapped_issue_nums[@]} mapped rows)"
+  pass "roadmap mapping coverage and reconciliation classification ok"
 }
 
 check_metadata_scope
