@@ -1,0 +1,92 @@
+{
+  "generatedAt": "deterministic",
+  "interface": {
+    "name": "OracleBridgeSeamV1",
+    "version": "1.0.0",
+    "requestRequiredFields": [
+      "bridgeRequestId",
+      "correlationId",
+      "decisionId",
+      "actor",
+      "evidenceRefs"
+    ],
+    "approvalRequiredFields": [
+      "bridgeRequestId",
+      "correlationId",
+      "decisionId",
+      "approvalId",
+      "actor",
+      "decisionReasonCode"
+    ],
+    "resultRequiredFields": [
+      "bridgeRequestId",
+      "correlationId",
+      "decisionId",
+      "approvalId",
+      "executionId",
+      "actor",
+      "resultReasonCode",
+      "resultRefs"
+    ],
+    "states": [
+      "requested",
+      "approval_pending",
+      "approved",
+      "denied",
+      "executing",
+      "executed",
+      "execution_failed",
+      "timed_out",
+      "reconciled"
+    ],
+    "terminalStates": [
+      "denied",
+      "executed",
+      "execution_failed",
+      "timed_out",
+      "reconciled"
+    ],
+    "transitions": {
+      "requested": [
+        "approval_pending"
+      ],
+      "approval_pending": [
+        "approved",
+        "denied",
+        "timed_out"
+      ],
+      "approved": [
+        "executing",
+        "timed_out"
+      ],
+      "denied": [
+        "reconciled"
+      ],
+      "executing": [
+        "executed",
+        "execution_failed",
+        "timed_out"
+      ],
+      "executed": [
+        "reconciled"
+      ],
+      "execution_failed": [
+        "reconciled"
+      ],
+      "timed_out": [
+        "approval_pending",
+        "reconciled"
+      ],
+      "reconciled": []
+    },
+    "deterministicReasonCodes": [
+      "executed",
+      "permission_denied",
+      "approval_stale",
+      "validation_failed",
+      "execution_failed",
+      "idempotency_replay",
+      "missing_approval"
+    ]
+  }
+}

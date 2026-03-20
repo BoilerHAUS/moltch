@@ -23,3 +23,4 @@ Deterministic states:
 - theme reference: `apps/web/THEME_REFERENCE.md`
 - first proof surface: operator cockpit decision workflow pane
 - semantic rule: verdict colors are reserved for actual `go` / `hold` / `no-go` outcomes only
+- production fonts: self-hosted in `apps/web/assets/fonts` and preloaded from `index.html`

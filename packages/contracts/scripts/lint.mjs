@@ -5,6 +5,8 @@ const required = [
   "src/policyDecisionSeam.mjs",
   "src/reasonCodes.mjs",
   "interfaces/policy-decision-seam.interface.json",
+  "interfaces/oracle-bridge-seam.interface.json",
+  "src/oracleBridgeSeam.mjs",
   "test/invariants.test.mjs"
 ];
 

@@ -9,6 +9,11 @@
 ## objective
 Capture the approved `apps/web` design contract for the first governed cockpit theme slice.
 
+## managed fonts
+- body font: `Moltch Sans` loaded from `/assets/fonts/moltch-sans-regular.ttf`
+- chrome font: `Moltch Mono` loaded from `/assets/fonts/moltch-mono-regular.ttf`
+- production entrypoints should preload the managed font files from `index.html`
+
 ## locked visual rules
 - dark-first surface hierarchy
 - `policy-cyan` is the primary interactive accent
@@ -55,6 +60,7 @@ Capture the approved `apps/web` design contract for the first governed cockpit t
 Apply the theme to the operator cockpit decision workflow pane before any full-shell restyle.
 
 ## implementation rules
-- prefer app-managed font loading or system fallback in shipped paths; do not depend on remote font CSS for production behavior
+- use app-managed font files for shipped paths and keep system stacks only as fallback; do not depend on remote font CSS for production behavior
 - keep general UI states (`loading`, `error`, `empty`, `ok`, `stale`) visually distinct from verdict tokens
+- keep pre-selection or pending workflow labels on neutral styling; only apply verdict tokens to actual `go` / `hold` / `no-go` meaning
 - every implementation PR should include one reviewable proof artifact for the themed pane (rendered screenshot, before/after, or equivalent)
