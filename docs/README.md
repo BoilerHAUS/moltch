@@ -68,6 +68,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - agent key rotation + revocation policy v1: `docs/operations/AGENT_KEY_ROTATION_AND_REVOCATION_V1.md`
 - agent PR delivery contract v1: `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md`
 - rollback and undo semantics v1: `docs/operations/ROLLBACK_UNDO_SEMANTICS_V1.md`
+- treasury approval flow v1: `docs/operations/TREASURY_APPROVAL_FLOW_V1.md`
 - audit-log dual-write v1: `docs/operations/AUDIT_LOG_DUAL_WRITE_V1.md`
 - launch-gate evidence package schema v1: `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - roadmap open-issue reconciliation v1: `docs/operations/ROADMAP_OPEN_ISSUE_RECONCILIATION_V1.md`
