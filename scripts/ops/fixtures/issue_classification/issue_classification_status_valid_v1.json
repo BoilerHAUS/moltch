@@ -1,0 +1,45 @@
+{
+  "artifact_version": "issue_classification_status.v1",
+  "generated_at_utc": "2026-03-21T00:00:00Z",
+  "issues": [
+    {
+      "issue_number": 194,
+      "classification": {
+        "state": "planned",
+        "source": "auto_roadmap",
+        "rationale": "Canonical roadmap mapping exists, but no PR-lane admission has been recorded."
+      },
+      "pr_admission": {
+        "status": "not_admitted",
+        "ready_for_pr": false
+      }
+    },
+    {
+      "issue_number": 195,
+      "classification": {
+        "state": "active_delivery",
+        "source": "manual",
+        "rationale": "Dependencies are cleared and the issue is explicitly admitted to active delivery."
+      },
+      "pr_admission": {
+        "status": "admitted",
+        "ready_for_pr": true,
+        "basis": "Dependency #194 closed out and validation scope defined for the first implementation PR.",
+        "decided_by": "shared",
+        "decided_at_utc": "2026-03-21T00:15:00Z"
+      }
+    },
+    {
+      "issue_number": 196,
+      "classification": {
+        "state": "excluded",
+        "source": "auto_exclusion",
+        "rationale": "Canonical exclusion artifact already records this issue as non-roadmap work."
+      },
+      "pr_admission": {
+        "status": "not_admitted",
+        "ready_for_pr": false
+      }
+    }
+  ]
+}

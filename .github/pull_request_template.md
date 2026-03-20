@@ -5,6 +5,8 @@
 ## Linked issue
 - Required: `Closes #<issue>`
 - Closes #
+- Issue classification state:
+- PR-lane admission status / readiness basis:
 
 ## Scope
 - [ ] repo/workflow
