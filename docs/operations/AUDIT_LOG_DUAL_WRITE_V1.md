@@ -3,6 +3,8 @@
 ## metadata
 - version: v1.0.0
 - owner_role: agent_technical_delivery
+- review_cadence: weekly
+- next_review_due: 2026-03-25
 - status: draft
 - last_updated: 2026-03-18
 - related_issue: #153
