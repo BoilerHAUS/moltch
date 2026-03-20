@@ -138,6 +138,8 @@ def run_gh_json(repo: str) -> Any:
         "gh",
         "api",
         "--paginate",
+        "--jq",
+        ".[]",
         "-X",
         "GET",
         f"repos/{repo}/issues?state=open&per_page=100",
@@ -149,10 +151,16 @@ def run_gh_json(repo: str) -> Any:
     except subprocess.CalledProcessError as exc:
         fail(f"gh command failed ({exc.returncode}): {' '.join(args[1:])}")
 
-    try:
-        return json.loads(output)
-    except json.JSONDecodeError as exc:
-        fail(f"unable to parse gh JSON output: {exc}")
+    decoded_items: list[Any] = []
+    for line in output.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        try:
+            decoded_items.append(json.loads(stripped))
+        except json.JSONDecodeError as exc:
+            fail(f"unable to parse paginated gh JSON line: {exc}")
+    return decoded_items
 
 
 def load_issue_payload(path: str | None, repo: str) -> list[dict[str, Any]]:

@@ -3,9 +3,14 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = ROOT / "scripts" / "ops" / "reconcile_roadmap_open_issues.py"
+
+ns: dict[str, object] = {}
+exec(SCRIPT.read_text(encoding="utf-8"), ns)
+run_gh_json = ns["run_gh_json"]
 
 
 class RoadmapOpenIssueReconcilerTest(unittest.TestCase):
@@ -92,6 +97,23 @@ class RoadmapOpenIssueReconcilerTest(unittest.TestCase):
             report = json.loads(artifact_path.read_text(encoding="utf-8"))
             self.assertTrue(all(finding["action_classification"]["action"] == "post_merge_follow_up" for finding in report["findings"]))
             self.assertTrue(report["follow_ups"])
+
+    def test_run_gh_json_aggregates_paginated_jq_output_safely(self) -> None:
+        paginated_output = '\n'.join([
+            json.dumps({"number": 1, "title": "first"}),
+            json.dumps({"number": 2, "title": "second"}),
+        ]) + '\n'
+
+        with mock.patch("subprocess.check_output", return_value=paginated_output) as check_output:
+            payload = run_gh_json("BoilerHAUS/moltch")
+
+        self.assertEqual(payload, [
+            {"number": 1, "title": "first"},
+            {"number": 2, "title": "second"},
+        ])
+        called_args = check_output.call_args.args[0]
+        self.assertIn("--paginate", called_args)
+        self.assertIn("--jq", called_args)
 
 
 if __name__ == "__main__":
