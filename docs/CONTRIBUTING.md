@@ -21,6 +21,8 @@ Every PR must include:
 
 Use the repository PR template.
 
+Agent-owned PR follow-through is governed by `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md`.
+
 ## lane ownership
 - boilermolt: product/governance/commercial/docs
 - boilerclaw: technical architecture/deploy/repo
@@ -73,6 +75,10 @@ Roadmap mapping discipline:
 ```
 
 Local troubleshooting (tokened run):
+```bash
+GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
+```
+eshooting (tokened run):
 ```bash
 GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
 ```

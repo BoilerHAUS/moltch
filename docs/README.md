@@ -66,6 +66,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
 - agent key rotation + revocation policy v1: `docs/operations/AGENT_KEY_ROTATION_AND_REVOCATION_V1.md`
+- agent PR delivery contract v1: `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md`
 - audit-log dual-write v1: `docs/operations/AUDIT_LOG_DUAL_WRITE_V1.md`
 - launch-gate evidence package schema v1: `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
 - launch-gate evidence JSON schema v1: `docs/operations/schemas/LAUNCH_GATE_EVIDENCE_PACKAGE_V1.schema.json`
