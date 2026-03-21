@@ -390,6 +390,30 @@ check_issue_classification_validator() {
   pass "issue classification validator fixtures passed"
 }
 
+check_pr_autonomy_validator() {
+  local validator="scripts/ops/validate_pr_autonomy_readiness.py"
+  local valid="scripts/ops/fixtures/pr_autonomy/pr_autonomy_readiness_valid_v1.json"
+  local invalid_signals="scripts/ops/fixtures/pr_autonomy/pr_autonomy_readiness_invalid_missing_signals_v1.json"
+  local invalid_missing_url="scripts/ops/fixtures/pr_autonomy/pr_autonomy_readiness_invalid_auto_pr_missing_url_v1.json"
+
+  [[ -f "$validator" ]] || fail "$validator missing"
+  [[ -f "$valid" ]] || fail "$valid missing"
+  [[ -f "$invalid_signals" ]] || fail "$invalid_signals missing"
+  [[ -f "$invalid_missing_url" ]] || fail "$invalid_missing_url missing"
+
+  python3 "$validator" --input "$valid" >/dev/null
+
+  if python3 "$validator" --input "$invalid_signals" >/dev/null 2>&1; then
+    fail "invalid pr-autonomy missing-signals fixture unexpectedly passed"
+  fi
+
+  if python3 "$validator" --input "$invalid_missing_url" >/dev/null 2>&1; then
+    fail "invalid pr-autonomy missing-url fixture unexpectedly passed"
+  fi
+
+  pass "pr autonomy validator fixtures passed"
+}
+
 check_roadmap_issue_mapping() {
   local roadmap="docs/product/ROADMAP_V1.md"
   local reconciler="scripts/ops/reconcile_roadmap_open_issues.py"
@@ -429,6 +453,7 @@ check_links
 check_docs_index_coverage
 check_pr_template_contract
 check_issue_classification_validator
+check_pr_autonomy_validator
 check_context_boundary_handoff_validator
 check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
@@ -438,4 +463,4 @@ check_decision_parity_validation
 check_policy_decision_conformance
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, context boundary handoff validator, evidence schema, launch-readiness packet, review-ops scoreboard, decision alert threshold profile, decision parity validation, policy conformance, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, pr autonomy validator, context boundary handoff validator, evidence schema, launch-readiness packet, review-ops scoreboard, decision alert threshold profile, decision parity validation, policy conformance, and roadmap mapping checks passed"

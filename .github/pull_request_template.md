@@ -24,6 +24,7 @@
 - CI status / link to latest green run:
 - Conflict remediation performed (or `none required`):
 - Remaining blocker outside agent control (or `none`):
+- Autonomous status block (`done / next / blocked`):
 
 ## Post-merge reconciliation plan
 - Linked issue close path:

@@ -68,6 +68,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - issue priority taxonomy v1: `docs/operations/PRIORITY_TAXONOMY_V1.md`
 - agent key rotation + revocation policy v1: `docs/operations/AGENT_KEY_ROTATION_AND_REVOCATION_V1.md`
 - agent PR delivery contract v1: `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md`
+- agent PR autonomy contract v1: `docs/operations/AGENT_PR_AUTONOMY_CONTRACT_V1.md`
 - rollback and undo semantics v1: `docs/operations/ROLLBACK_UNDO_SEMANTICS_V1.md`
 - decision event schema v1: `docs/operations/DECISION_EVENT_SCHEMA_V1.md`
 - decision metric dictionary v1: `docs/operations/DECISION_METRIC_DICTIONARY_V1.md`
