@@ -77,8 +77,8 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #160 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #161 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #162 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
-| #212 | ops / agent delivery automation | planned | shared | #205 | near-term | 2026-03-21 | repo-local autonomy contract + readiness validator |
 | #214 | ops / docs review automation | planned | shared | none | post-v1 | 2026-03-21 | n/a |
+| #216 | ops / agent delivery automation | planned | shared | #212 | near-term | 2026-03-21 | autonomy remediation appendix after #212 baseline merges |
 | #207 | v2 contracts | planned | boilerclaw | #206 | near-term | 2026-03-21 | n/a |
 | #208 | v2 web3 audit seam | planned | boilerclaw | #186,#206 | near-term | 2026-03-21 | n/a |
 | #209 | v2 identity layer | planned | shared | #206 | post-v1 | 2026-03-21 | n/a |
