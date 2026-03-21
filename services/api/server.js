@@ -4,6 +4,7 @@ const path = require('path');
 const { loadConfig } = require('./config');
 const { log } = require('./logger');
 const { fetchGithubSync } = require('./githubSync');
+const { getDecisionObservabilitySummary, getDecisionObservabilityCorrelation } = require('./decisionObservabilityApi');
 
 let cfg;
 try {
@@ -95,6 +96,12 @@ const server = http.createServer(async (req, res) => {
         source: { repo: sync.repo, mode: 'api', sync_ok: true }
       });
     }
+  } else if (pathname === '/v1/decision-observability/summary') {
+    sendJson(req, res, 200, getDecisionObservabilitySummary());
+  } else if (pathname.startsWith('/v1/decision-observability/correlation/')) {
+    const correlationId = decodeURIComponent(pathname.replace('/v1/decision-observability/correlation/', ''));
+    const payload = getDecisionObservabilityCorrelation(correlationId);
+    sendJson(req, res, payload.state === 'unavailable' ? 404 : 200, payload);
   } else if (pathname === '/v1/threads') {
     sendJson(req, res, 200, {
       version: fixture.version,
