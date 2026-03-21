@@ -45,7 +45,6 @@ The prototypes intentionally keep on-chain responsibility narrow:
 
 Still deferred:
 - policy authoring
-- timeout/retry/reconciliation depth for the oracle bridge lane
 - oracle economics / bridge execution semantics beyond the prototype surface
 - attestation registry enforcement
 - proxy upgrade framework
