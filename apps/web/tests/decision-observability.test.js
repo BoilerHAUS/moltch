@@ -68,6 +68,7 @@ function run() {
   assert.equal(beta.validationFailures, 2, 'validation failure burst should remain observable');
   assert.equal(gamma.terminalResult, 'no_go');
   assert.equal(alpha.correlationId, 'corr-alpha');
+  assert.equal(beta.correlationId, 'corr-beta');
 
   const stuckAlert = resultA.alerts.find((entry) => entry.alert_name === 'decision_stuck_age_breach');
   const validationAlert = resultA.alerts.find((entry) => entry.alert_name === 'validation_failures_repeating_by_lane');

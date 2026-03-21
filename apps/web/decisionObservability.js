@@ -121,6 +121,12 @@ function deriveDecisionMetrics(events, options = {}) {
       eventIds: []
     };
 
+    if (entry.correlationId && entry.correlationId !== event.correlation_id) {
+      throw new Error(
+        `correlation_id invariant violated for decision_id ${event.decision_id}: ${entry.correlationId} !== ${event.correlation_id}`
+      );
+    }
+
     entry.correlationId = event.correlation_id;
     entry.lane = event.lane;
     entry.totalLatencyMs += event.latency_ms;
