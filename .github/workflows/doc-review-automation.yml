@@ -1,0 +1,40 @@
+name: Doc Review Automation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 13 * * 1"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  doc-review-queue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate review report
+        run: |
+          mkdir -p artifacts/doc-review
+          python3 scripts/ops/scan_doc_review_due.py \
+            --root docs \
+            --window-days 7 \
+            --output-json artifacts/doc-review/review_due_report.json \
+            --output-md artifacts/doc-review/review_due_report.md
+
+      - name: Publish or update weekly queue issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/ops/publish_doc_review_issue.py \
+            --repo "${{ github.repository }}" \
+            --input artifacts/doc-review/review_due_report.json
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: doc-review-report
+          path: artifacts/doc-review/*
