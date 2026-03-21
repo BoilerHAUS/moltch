@@ -77,8 +77,10 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #160 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #161 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #162 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
-| #214 | ops / docs review automation | planned | shared | none | post-v1 | 2026-03-21 | n/a |
-| #209 | v2 identity layer | planned | shared | #206 | post-v1 | 2026-03-21 | n/a |
+| #209 | v2 identity layer | planned | shared | #206 | post-v1 | 2026-03-21 | actor-role attestation verifier + fixtures |
+| #223 | core cockpit runtime wiring | planned | shared | #210 | near-term | 2026-03-21 | replace fixture-backed observability api payload with runtime-derived adapter |
+| #224 | ops / audit evidence integration | planned | shared | #208 | near-term | 2026-03-21 | consume runtime dual-write evidence in repo-level ci/evidence |
+| #225 | ops / doc review phase-2 evaluation | planned | boilermolt | #214 | post-v1 | 2026-03-21 | observe queue automation before any mutation proposal |
 
 ## definition of done (roadmap update)
 A roadmap update is done only when all are true:

@@ -75,6 +75,33 @@ Deterministic linkage fields carried through every transition:
   - `canonicalizeForSignature(value)`
   - `signAttestationEnvelope(unsignedEnvelope, options)`
   - `verifyAttestationEnvelope(envelope, options)`
+
+## Actor attestation seam (#209)
+
+The first executable identity slice now treats the attestation envelope as the contract surface and keeps registry/storage choices intentionally secondary.
+
+Versioned role model / action binding expectations:
+- actor classes: `human_owner`, `human_operator`, `agent_operator`, `governance_reviewer`, `service_emitter`
+- required signed envelope fields include:
+  - `subject`
+  - `action`
+  - `required_role`
+  - `constraints_hash`
+  - `nonce`
+  - `issued_at_utc`
+  - `expires_at_utc`
+  - `issuer_actor_id`
+  - `issuer_kid`
+- verifier must enforce: signature validity, action declaration, role binding, expiry, and revocation before accept
+
+Deterministic fixture set lives under:
+- `packages/policy-engine/fixtures/identity-attestation/`
+
+Revocation / rotation assumptions for this first slice:
+- revocation is a hard gate in verification, not a post-check
+- envelopes issued at or after key revocation must reject deterministically
+- rotated replacement keys may verify successfully once active, without weakening prior revocation semantics
+- this slice does **not** yet define an on-chain registry deployment shape; it defines the executable verification contract that later registry work must honor
 - oracle bridge helpers:
   - `createOracleBridgeRequest(input)`
   - `createOracleBridgeContext(input)`

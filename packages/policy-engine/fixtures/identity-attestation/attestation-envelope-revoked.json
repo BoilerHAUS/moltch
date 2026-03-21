@@ -1,0 +1,11 @@
+{
+  "subject": "decision:launch-gate:154",
+  "action": "contracts.sign",
+  "required_role": "agent_operator",
+  "constraints_hash": "sha256:abc123",
+  "nonce": "nonce-154-d",
+  "issued_at_utc": "2026-03-18T00:10:00Z",
+  "expires_at_utc": "2026-03-18T00:15:00Z",
+  "issuer_actor_id": "agent:boilerclaw",
+  "issuer_kid": "agent-key-old"
+}

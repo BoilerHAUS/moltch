@@ -12,7 +12,9 @@ export const ATTESTATION_ERROR = Object.freeze({
   ENVELOPE_EXPIRED: "ERR_ENVELOPE_EXPIRED",
   ENVELOPE_NOT_YET_VALID: "ERR_ENVELOPE_NOT_YET_VALID",
   SIGNATURE_INVALID: "ERR_SIGNATURE_INVALID",
-  UNSUPPORTED_ALGORITHM: "ERR_UNSUPPORTED_ALGORITHM"
+  UNSUPPORTED_ALGORITHM: "ERR_UNSUPPORTED_ALGORITHM",
+  ROLE_BINDING_INVALID: "ERR_ROLE_BINDING_INVALID",
+  ACTION_UNDECLARED: "ERR_ACTION_UNDECLARED"
 });
 
 const ACTOR_TYPES = new Set(["human", "agent", "service"]);
@@ -20,6 +22,7 @@ const SUPPORTED_ALGORITHMS = new Set(["ed25519"]);
 const REQUIRED_UNSIGNED_FIELDS = [
   "subject",
   "action",
+  "required_role",
   "constraints_hash",
   "nonce",
   "issued_at_utc",
@@ -68,12 +71,38 @@ export function validateActorIdentitySchema(schema) {
   if (!schema.version) {
     throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, "schema.version is required");
   }
+  if (!schema.actor_role_claim_schema || typeof schema.actor_role_claim_schema !== "object") {
+    throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, "schema.actor_role_claim_schema is required");
+  }
+  const actorClasses = schema.actor_role_claim_schema.actor_classes;
+  const actionRoleBindings = schema.actor_role_claim_schema.action_role_bindings;
+  if (!Array.isArray(actorClasses) || actorClasses.length === 0) {
+    throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, "actor_role_claim_schema.actor_classes must be non-empty");
+  }
+  if (!actionRoleBindings || typeof actionRoleBindings !== "object") {
+    throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, "actor_role_claim_schema.action_role_bindings is required");
+  }
   if (!Array.isArray(schema.actors) || schema.actors.length === 0) {
     throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, "schema.actors must be a non-empty array");
   }
 
+  const actorClassSet = new Set(actorClasses);
   const actorIds = new Set();
   const keyRefs = new Set();
+
+  for (const [action, roles] of Object.entries(actionRoleBindings)) {
+    if (!action) {
+      throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, "action_role_bindings action key must be non-empty");
+    }
+    if (!Array.isArray(roles) || roles.length === 0) {
+      throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, `action_role_bindings.${action} must be a non-empty array`);
+    }
+    for (const role of roles) {
+      if (!actorClassSet.has(role)) {
+        throw fail(ATTESTATION_ERROR.SCHEMA_INVALID, `action ${action} references unknown role ${role}`);
+      }
+    }
+  }
 
   for (const actor of schema.actors) {
     if (!actor?.actor_id) {
@@ -86,6 +115,14 @@ export function validateActorIdentitySchema(schema) {
 
     if (!ACTOR_TYPES.has(actor.actor_type)) {
       throw fail(ATTESTATION_ERROR.ACTOR_INVALID, `unsupported actor_type: ${actor.actor_type}`);
+    }
+    if (!Array.isArray(actor.role_claims) || actor.role_claims.length === 0) {
+      throw fail(ATTESTATION_ERROR.ACTOR_INVALID, `actor ${actor.actor_id} must define at least one role_claim`);
+    }
+    for (const role of actor.role_claims) {
+      if (!actorClassSet.has(role)) {
+        throw fail(ATTESTATION_ERROR.ACTOR_INVALID, `actor ${actor.actor_id} references unknown role_claim ${role}`);
+      }
     }
     if (!Array.isArray(actor.keys) || actor.keys.length === 0) {
       throw fail(ATTESTATION_ERROR.KEYSET_INVALID, `actor ${actor.actor_id} must define at least one key`);
@@ -137,7 +174,12 @@ export function buildActorIdentityIndex(schema) {
     }
   }
 
-  return { version: schema.version, actors, keys };
+  return {
+    version: schema.version,
+    actor_role_claim_schema: schema.actor_role_claim_schema,
+    actors,
+    keys
+  };
 }
 
 export function validateUnsignedAttestationEnvelope(envelope) {
@@ -170,6 +212,7 @@ export function validateUnsignedAttestationEnvelope(envelope) {
   return {
     subject: envelope.subject,
     action: envelope.action,
+    required_role: envelope.required_role,
     constraints_hash: envelope.constraints_hash,
     nonce: envelope.nonce,
     issued_at_utc: envelope.issued_at_utc,
@@ -255,10 +298,21 @@ export function verifyAttestationEnvelope(envelope, { actorIndex, now = new Date
     throw fail(ATTESTATION_ERROR.SIGNATURE_INVALID, "attestation signature verification failed");
   }
 
+  const actorRecord = actorIndex.actors.get(keyRecord.actor_id);
+  const requiredRole = unsignedPayload.required_role;
+  const allowedRoles = actorIndex.actor_role_claim_schema?.action_role_bindings?.[unsignedPayload.action];
+  if (!allowedRoles) {
+    throw fail(ATTESTATION_ERROR.ACTION_UNDECLARED, `action ${unsignedPayload.action} is not declared in action_role_bindings`);
+  }
+  if (!actorRecord?.role_claims?.includes(requiredRole) || !allowedRoles.includes(requiredRole)) {
+    throw fail(ATTESTATION_ERROR.ROLE_BINDING_INVALID, `actor ${keyRecord.actor_id} is not authorized for role ${requiredRole} on action ${unsignedPayload.action}`);
+  }
+
   return {
     ok: true,
     actor_id: keyRecord.actor_id,
     actor_type: keyRecord.actor_type,
+    role_claims: actorRecord.role_claims,
     kid: keyRecord.kid,
     alg: envelope.signature_alg,
     envelope: unsignedPayload
