@@ -27,3 +27,20 @@ npm run check
 - `artifacts/checksums.sha256`
 
 Both outputs are deterministic for unchanged interface inputs.
+
+## On-chain prototype slice
+
+This package now also contains a first Solidity prototype contract surface:
+- `contracts/PolicyDecisionSurfaceV1.sol`
+- `docs/POLICY_DECISION_SURFACE_V1.md`
+
+The prototype intentionally keeps on-chain responsibility narrow:
+- deterministic request/evaluate/verdict/record lifecycle
+- stable request/evaluation/record events
+- explicit invalid-transition rejection
+
+Still deferred:
+- policy authoring
+- oracle economics / bridge execution
+- attestation registry enforcement
+- proxy upgrade framework
