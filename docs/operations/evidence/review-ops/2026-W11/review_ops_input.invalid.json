@@ -1,0 +1,51 @@
+{
+  "week": "2026-W11",
+  "status": "complete",
+  "metrics": {
+    "pr_review_latency_hours": {
+      "label": "PR review latency (hours)",
+      "current": 14.2,
+      "prior": 18.6,
+      "trend": "sideways",
+      "slo_band": "yellow"
+    },
+    "blocker_over_48h_count": {
+      "label": "Blocker age >48h (count)",
+      "current": 1,
+      "prior": 3,
+      "trend": "down",
+      "slo_band": "yellow"
+    },
+    "handoff_latency_hours": {
+      "label": "Handoff latency (hours)",
+      "current": 7.8,
+      "prior": 11.4,
+      "trend": "down",
+      "slo_band": "green"
+    },
+    "reopen_rate_pct": {
+      "label": "Reopen rate (%)",
+      "current": 6.1,
+      "prior": 4.8,
+      "trend": "up",
+      "slo_band": "yellow"
+    }
+  },
+  "bottlenecks": [
+    {
+      "name": "Sample invalid fixture",
+      "owner": "boilermolt",
+      "corrective_action": "N/A",
+      "due_date": "2026-03-20"
+    }
+  ],
+  "action_ledger": [
+    {
+      "action": "N/A",
+      "owner": "boilermolt",
+      "due_date": "2026-03-20",
+      "last_week_status": "not_started",
+      "this_week_status": "in_progress"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "week": "2026-W11",
+  "status": "complete",
+  "metrics": {
+    "pr_review_latency_hours": {
+      "label": "PR review latency (hours)",
+      "current": 14.2,
+      "prior": 18.6,
+      "trend": "down",
+      "slo_band": "yellow"
+    },
+    "blocker_over_48h_count": {
+      "label": "Blocker age >48h (count)",
+      "current": 1,
+      "prior": 3,
+      "trend": "down",
+      "slo_band": "yellow"
+    },
+    "handoff_latency_hours": {
+      "label": "Handoff latency (hours)",
+      "current": 7.8,
+      "prior": 11.4,
+      "trend": "down",
+      "slo_band": "green"
+    },
+    "reopen_rate_pct": {
+      "label": "Reopen rate (%)",
+      "current": 6.1,
+      "prior": 4.8,
+      "trend": "up",
+      "slo_band": "yellow"
+    }
+  },
+  "bottlenecks": [
+    {
+      "name": "Roadmap mapping misses on newly opened quality issues",
+      "owner": "boilermolt",
+      "corrective_action": "Add same-PR roadmap row update checklist in PR template.",
+      "due_date": "2026-03-18"
+    },
+    {
+      "name": "Review feedback turn-around bursts",
+      "owner": "shared",
+      "corrective_action": "Batch review windows twice daily with explicit ownership handoff.",
+      "due_date": "2026-03-19"
+    },
+    {
+      "name": "Contract hardening follow-ups split across issues",
+      "owner": "boilermolt",
+      "corrective_action": "Group #122/#123/#124/#127 into one execution board slice.",
+      "due_date": "2026-03-20"
+    }
+  ],
+  "action_ledger": [
+    {
+      "action": "Enforce fail-closed docs checks on launch packet",
+      "owner": "boilermolt",
+      "due_date": "2026-03-14",
+      "last_week_status": "partial",
+      "this_week_status": "done"
+    },
+    {
+      "action": "Add soak hold-path dry-run artifact",
+      "owner": "boilermolt",
+      "due_date": "2026-03-14",
+      "last_week_status": "not_started",
+      "this_week_status": "done"
+    },
+    {
+      "action": "Define verdict-computation contract follow-up",
+      "owner": "boilermolt",
+      "due_date": "2026-03-20",
+      "last_week_status": "not_started",
+      "this_week_status": "in_progress"
+    }
+  ]
+}

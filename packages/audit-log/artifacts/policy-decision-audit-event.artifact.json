@@ -1,0 +1,52 @@
+{
+  "generatedAt": "deterministic",
+  "interface": {
+    "name": "PolicyDecisionAuditEventV1",
+    "version": "1.0.0",
+    "description": "Versioned audit event schema for dual-writing policy decisions to off-chain logs and on-chain-compatible emitters.",
+    "eventType": "policy.decision.audit",
+    "requiredFields": [
+      "schema_version",
+      "event_id",
+      "event_type",
+      "decision_id",
+      "correlation_id",
+      "lifecycle_state",
+      "verdict",
+      "reason_codes",
+      "actor_ids",
+      "timestamp",
+      "input_digest"
+    ],
+    "parityFields": [
+      "schema_version",
+      "decision_id",
+      "correlation_id",
+      "lifecycle_state",
+      "verdict",
+      "reason_codes",
+      "actor_ids",
+      "timestamp",
+      "input_digest",
+      "offchain_log_id"
+    ],
+    "lifecycleStates": [
+      "requested",
+      "evaluating",
+      "go",
+      "hold",
+      "no_go",
+      "recorded"
+    ],
+    "verdictValues": [
+      "go",
+      "hold",
+      "no_go"
+    ],
+    "notes": {
+      "idempotencyKey": "sha256(schema_version, decision_id, lifecycle_state, verdict, timestamp, input_digest)",
+      "actorIds": "Canonical actor identities participating in the decision lifecycle",
+      "inputDigest": "Stable digest of canonicalized decision inputs for off-chain/on-chain parity checks"
+    }
+  }
+}

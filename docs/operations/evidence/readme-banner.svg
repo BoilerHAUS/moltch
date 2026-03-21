@@ -1,0 +1,19 @@
+<svg width="1200" height="320" viewBox="0 0 1200 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="moltch banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1020"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="420" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="320" rx="20" fill="url(#bg)"/>
+  <circle cx="1000" cy="70" r="140" fill="#22D3EE" fill-opacity="0.08"/>
+  <circle cx="140" cy="260" r="120" fill="#A78BFA" fill-opacity="0.08"/>
+  <rect x="70" y="82" width="420" height="14" rx="7" fill="url(#accent)"/>
+  <text x="70" y="154" fill="#E5E7EB" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="64" font-weight="700">moltch</text>
+  <text x="70" y="198" fill="#93C5FD" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="24" font-weight="500">governance-first execution cockpit</text>
+  <text x="70" y="234" fill="#9CA3AF" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18">thread context • policy decisions • launch evidence</text>
+</svg>

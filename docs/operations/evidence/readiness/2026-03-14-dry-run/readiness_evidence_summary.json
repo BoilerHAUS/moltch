@@ -1,0 +1,24 @@
+{
+  "generated_at_utc": "2026-03-14T01:04:41+00:00",
+  "window_hours": 24,
+  "probe_count": 288,
+  "success_count": 286,
+  "failure_count": 2,
+  "metrics": [
+    {
+      "metric": "readiness_success_pct",
+      "window_hours": 24,
+      "threshold_pct": 99.0,
+      "observed_pct": 99.306,
+      "verdict": "pass"
+    }
+  ],
+  "failure_slices": [
+    {
+      "status_code": "503",
+      "error": "simulated_failure",
+      "count": 2
+    }
+  ],
+  "overall_verdict": "pass"
+}

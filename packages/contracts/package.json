@@ -1,0 +1,13 @@
+{
+  "name": "@moltch/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Policy-decision seam contracts and invariants for moltch",
+  "scripts": {
+    "lint": "node scripts/lint.mjs",
+    "test": "node --test test/*.test.mjs",
+    "build": "node scripts/build-artifacts.mjs",
+    "check": "npm run lint && npm run test && npm run build"
+  }
+}

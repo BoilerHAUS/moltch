@@ -1,0 +1,32 @@
+{
+  "events": [
+    {
+      "event_id": "evt-x1",
+      "event_version": "decision_event.v1",
+      "emitted_at_utc": "2026-03-21T00:00:00Z",
+      "correlation_id": "corr-one",
+      "decision_id": "dec-shared",
+      "from_state": "draft",
+      "to_state": "proposed",
+      "reason_code": "admissibility_passed",
+      "actor_role": "agent_reviewer",
+      "lane": "core",
+      "result": "success",
+      "latency_ms": 1000
+    },
+    {
+      "event_id": "evt-x2",
+      "event_version": "decision_event.v1",
+      "emitted_at_utc": "2026-03-21T00:01:00Z",
+      "correlation_id": "corr-two",
+      "decision_id": "dec-shared",
+      "from_state": "proposed",
+      "to_state": "under_review",
+      "reason_code": "approval_quorum_satisfied",
+      "actor_role": "governance_reviewer",
+      "lane": "core",
+      "result": "success",
+      "latency_ms": 60000
+    }
+  ]
+}

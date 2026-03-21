@@ -1,0 +1,22 @@
+{
+  "fixture": "docs/governance/fixtures/policy_reason_code_replay_compat_v1.json",
+  "migration_map": "packages/policy-engine/data/reason-code-migration-map.v1.json",
+  "report": {
+    "total_records": 1,
+    "migrated_records": 1,
+    "policy_status_counts": {
+      "active": 1
+    },
+    "mappings": {
+      "approval_missing": "missing_approval"
+    },
+    "results": [
+      {
+        "original": "approval_missing",
+        "resolved": "missing_approval",
+        "policy_status": "active",
+        "mapping_applied": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "artifact_version": "context_boundary_handoff.v1",
+  "generated_at_utc": "2026-03-21T00:10:00Z",
+  "handoff_id": "handoff-188-invalid-promotion-01",
+  "trace_id": "trace-188-invalid-promotion-01",
+  "source_domain": "private_agent",
+  "target_domain": "task_shared",
+  "sender": "agent-a",
+  "receiver": "agent-b",
+  "purpose": "share scoped task context and incorrectly mark it as trusted",
+  "classification": "task_scoped_internal",
+  "policy_basis": "A1 task coordination handoff approved by boundary contract v1",
+  "import_outcome": "accepted_as_external_assertion",
+  "content_summary": "Scoped notes that should remain attributed external context.",
+  "promoted_to_native_truth": true
+}
