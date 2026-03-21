@@ -15,7 +15,13 @@ const required = [
   "data/reason-code-registry.v1.json",
   "data/reason-code-migration-map.v1.json",
   "test/stateMachine.test.mjs",
-  "test/decisionLoopSimulation.test.mjs"
+  "test/decisionLoopSimulation.test.mjs",
+  "test/identityAttestation.test.mjs",
+  "fixtures/identity-attestation/actor-attestation-schema.v1.json",
+  "fixtures/identity-attestation/attestation-envelope-valid.json",
+  "fixtures/identity-attestation/attestation-envelope-wrong-role.json",
+  "fixtures/identity-attestation/attestation-envelope-expired.json",
+  "fixtures/identity-attestation/attestation-envelope-revoked.json"
 ];
 
 for (const rel of required) {

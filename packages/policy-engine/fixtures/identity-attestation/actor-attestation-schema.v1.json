@@ -1,0 +1,58 @@
+{
+  "version": "v1.0.0",
+  "actor_role_claim_schema": {
+    "version": "v1.0.0",
+    "actor_classes": [
+      "human_owner",
+      "human_operator",
+      "agent_operator",
+      "governance_reviewer",
+      "service_emitter"
+    ],
+    "action_role_bindings": {
+      "contracts.sign": ["human_owner", "human_operator", "agent_operator"],
+      "contracts.approve": ["human_owner", "governance_reviewer"],
+      "contracts.emit": ["service_emitter", "agent_operator"]
+    }
+  },
+  "actors": [
+    {
+      "actor_id": "agent:boilerclaw",
+      "actor_type": "agent",
+      "role_claims": ["agent_operator"],
+      "keys": [
+        {
+          "kid": "agent-key-old",
+          "alg": "ed25519",
+          "public_key_pem": "__FIXTURE_INJECTED__",
+          "created_at_utc": "2026-03-15T00:00:00Z",
+          "valid_from_utc": "2026-03-15T00:00:00Z",
+          "revoked_at_utc": "2026-03-18T00:00:00Z"
+        },
+        {
+          "kid": "agent-key-new",
+          "alg": "ed25519",
+          "public_key_pem": "__FIXTURE_INJECTED__",
+          "created_at_utc": "2026-03-18T00:00:00Z",
+          "valid_from_utc": "2026-03-18T00:00:00Z",
+          "expires_at_utc": "2026-06-01T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "actor_id": "human:boiler",
+      "actor_type": "human",
+      "role_claims": ["human_owner", "human_operator"],
+      "keys": [
+        {
+          "kid": "human-key-1",
+          "alg": "ed25519",
+          "public_key_pem": "__FIXTURE_INJECTED__",
+          "created_at_utc": "2026-03-01T00:00:00Z",
+          "valid_from_utc": "2026-03-01T00:00:00Z",
+          "expires_at_utc": "2026-06-01T00:00:00Z"
+        }
+      ]
+    }
+  ]
+}
