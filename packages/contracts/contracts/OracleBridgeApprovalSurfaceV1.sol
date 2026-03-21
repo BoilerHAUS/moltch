@@ -142,6 +142,37 @@ contract OracleBridgeApprovalSurfaceV1 {
         emit BridgeExecutionRecorded(bridgeRequestId, executionId, nextState, reasonCode, actor);
     }
 
+    function recordTimeout(bytes32 bridgeRequestId, bytes32 reasonCode, bytes32 actor) external {
+        BridgeRecord storage record = _mustGetRecord(bridgeRequestId);
+        _requireNonZero(reasonCode, actor, bridgeRequestId);
+        _transition(record, BridgeState.TimedOut);
+        record.reasonCode = reasonCode;
+        record.actor = actor;
+
+        if (record.approvalId == bytes32(0)) {
+            emit BridgeApprovalRecorded(bridgeRequestId, bytes32(0), BridgeState.TimedOut, reasonCode, actor);
+        } else {
+            emit BridgeExecutionRecorded(bridgeRequestId, record.executionId, BridgeState.TimedOut, reasonCode, actor);
+        }
+    }
+
+    function retryApproval(bytes32 bridgeRequestId, bytes32 actor) external {
+        BridgeRecord storage record = _mustGetRecord(bridgeRequestId);
+        _requireNonZero(actor);
+        _transition(record, BridgeState.ApprovalPending);
+        record.actor = actor;
+        emit BridgeApprovalRecorded(bridgeRequestId, record.approvalId, BridgeState.ApprovalPending, record.reasonCode, actor);
+    }
+
+    function reconcile(bytes32 bridgeRequestId, bytes32 reasonCode, bytes32 actor) external {
+        BridgeRecord storage record = _mustGetRecord(bridgeRequestId);
+        _requireNonZero(reasonCode, actor, bridgeRequestId);
+        _transition(record, BridgeState.Reconciled);
+        record.reasonCode = reasonCode;
+        record.actor = actor;
+        emit BridgeExecutionRecorded(bridgeRequestId, record.executionId, BridgeState.Reconciled, reasonCode, actor);
+    }
+
     function getBridgeRecord(bytes32 bridgeRequestId) external view returns (BridgeRecord memory) {
         return _mustGetRecordMemory(bridgeRequestId);
     }
@@ -150,9 +181,11 @@ contract OracleBridgeApprovalSurfaceV1 {
         BridgeState current = record.state;
         bool valid =
             (current == BridgeState.Requested && nextState == BridgeState.ApprovalPending) ||
-            (current == BridgeState.ApprovalPending && (nextState == BridgeState.Approved || nextState == BridgeState.Denied)) ||
-            (current == BridgeState.Approved && nextState == BridgeState.Executing) ||
-            (current == BridgeState.Executing && (nextState == BridgeState.Executed || nextState == BridgeState.ExecutionFailed));
+            (current == BridgeState.ApprovalPending && (nextState == BridgeState.Approved || nextState == BridgeState.Denied || nextState == BridgeState.TimedOut)) ||
+            (current == BridgeState.Approved && (nextState == BridgeState.Executing || nextState == BridgeState.TimedOut)) ||
+            (current == BridgeState.Executing && (nextState == BridgeState.Executed || nextState == BridgeState.ExecutionFailed || nextState == BridgeState.TimedOut)) ||
+            (current == BridgeState.TimedOut && (nextState == BridgeState.ApprovalPending || nextState == BridgeState.Reconciled)) ||
+            ((current == BridgeState.Denied || current == BridgeState.Executed || current == BridgeState.ExecutionFailed) && nextState == BridgeState.Reconciled);
 
         if (!valid) {
             revert ErrInvalidBridgeTransition(current, nextState);

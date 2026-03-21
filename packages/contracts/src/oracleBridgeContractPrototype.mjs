@@ -38,9 +38,11 @@ export function createOracleBridgePrototypeRuntime() {
   function assertTransition(current, nextState) {
     const valid =
       (current === OracleBridgeLifecycleState.Requested && nextState === OracleBridgeLifecycleState.ApprovalPending) ||
-      (current === OracleBridgeLifecycleState.ApprovalPending && [OracleBridgeLifecycleState.Approved, OracleBridgeLifecycleState.Denied].includes(nextState)) ||
-      (current === OracleBridgeLifecycleState.Approved && nextState === OracleBridgeLifecycleState.Executing) ||
-      (current === OracleBridgeLifecycleState.Executing && [OracleBridgeLifecycleState.Executed, OracleBridgeLifecycleState.ExecutionFailed].includes(nextState));
+      (current === OracleBridgeLifecycleState.ApprovalPending && [OracleBridgeLifecycleState.Approved, OracleBridgeLifecycleState.Denied, OracleBridgeLifecycleState.TimedOut].includes(nextState)) ||
+      (current === OracleBridgeLifecycleState.Approved && [OracleBridgeLifecycleState.Executing, OracleBridgeLifecycleState.TimedOut].includes(nextState)) ||
+      (current === OracleBridgeLifecycleState.Executing && [OracleBridgeLifecycleState.Executed, OracleBridgeLifecycleState.ExecutionFailed, OracleBridgeLifecycleState.TimedOut].includes(nextState)) ||
+      (current === OracleBridgeLifecycleState.TimedOut && [OracleBridgeLifecycleState.ApprovalPending, OracleBridgeLifecycleState.Reconciled].includes(nextState)) ||
+      ([OracleBridgeLifecycleState.Denied, OracleBridgeLifecycleState.Executed, OracleBridgeLifecycleState.ExecutionFailed].includes(current) && nextState === OracleBridgeLifecycleState.Reconciled);
 
     if (!valid) throw new Error(`ERR_INVALID_BRIDGE_TRANSITION:${current}->${nextState}`);
   }
@@ -122,6 +124,42 @@ export function createOracleBridgePrototypeRuntime() {
     return structuredClone(record);
   }
 
+  function recordTimeout({ bridgeRequestId, reasonCode, actor }) {
+    requireNonZero(bridgeRequestId, reasonCode, actor);
+    const record = getRecord(bridgeRequestId);
+    assertTransition(record.state, OracleBridgeLifecycleState.TimedOut);
+    record.reasonCode = reasonCode;
+    record.actor = actor;
+    record.state = OracleBridgeLifecycleState.TimedOut;
+    if (!record.approvalId) {
+      events.push({ type: "BridgeApprovalRecorded", bridgeRequestId, approvalId: null, nextState: record.state, reasonCode, actor });
+    } else {
+      events.push({ type: "BridgeExecutionRecorded", bridgeRequestId, executionId: record.executionId, nextState: record.state, reasonCode, actor });
+    }
+    return structuredClone(record);
+  }
+
+  function retryApproval({ bridgeRequestId, actor }) {
+    requireNonZero(bridgeRequestId, actor);
+    const record = getRecord(bridgeRequestId);
+    assertTransition(record.state, OracleBridgeLifecycleState.ApprovalPending);
+    record.actor = actor;
+    record.state = OracleBridgeLifecycleState.ApprovalPending;
+    events.push({ type: "BridgeApprovalRecorded", bridgeRequestId, approvalId: record.approvalId, nextState: record.state, reasonCode: record.reasonCode, actor });
+    return structuredClone(record);
+  }
+
+  function reconcile({ bridgeRequestId, reasonCode, actor }) {
+    requireNonZero(bridgeRequestId, reasonCode, actor);
+    const record = getRecord(bridgeRequestId);
+    assertTransition(record.state, OracleBridgeLifecycleState.Reconciled);
+    record.reasonCode = reasonCode;
+    record.actor = actor;
+    record.state = OracleBridgeLifecycleState.Reconciled;
+    events.push({ type: "BridgeExecutionRecorded", bridgeRequestId, executionId: record.executionId, nextState: record.state, reasonCode, actor });
+    return structuredClone(record);
+  }
+
   return {
     events,
     submitBridgeRequest,
@@ -129,6 +167,9 @@ export function createOracleBridgePrototypeRuntime() {
     recordApprovalDecision,
     beginExecution,
     recordExecutionOutcome,
+    recordTimeout,
+    retryApproval,
+    reconcile,
     getBridgeRecord(bridgeRequestId) {
       return structuredClone(getRecord(bridgeRequestId));
     }
