@@ -24,6 +24,7 @@ Single navigation hub for product, governance, operations, and contribution docs
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
+- issue priority taxonomy v1: `docs/operations/PRIORITY_TAXONOMY_V1.md`
 
 ### contribution
 - contributor guide: `docs/CONTRIBUTING.md`

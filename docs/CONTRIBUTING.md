@@ -10,6 +10,13 @@ All work MUST follow issue-first, fork-branch, PR-gated execution.
 5. wait for required review + checks
 6. merge via PR only (no direct push to `main`)
 
+## issue triage priority rule
+- every open issue must have exactly one `priority:p*` label (`p0`..`p5`)
+- legacy labels `priority:now|next|later` are retired for active triage
+- if priority changes, add a one-line rationale comment on the issue
+
+See: `docs/operations/PRIORITY_TAXONOMY_V1.md`
+
 ## PR quality bar
 PR description MUST include:
 - summary
