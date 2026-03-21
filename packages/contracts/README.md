@@ -30,17 +30,22 @@ Both outputs are deterministic for unchanged interface inputs.
 
 ## On-chain prototype slice
 
-This package now also contains a first Solidity prototype contract surface:
+This package now also contains executable Solidity prototype contract surfaces:
 - `contracts/PolicyDecisionSurfaceV1.sol`
 - `docs/POLICY_DECISION_SURFACE_V1.md`
+- `contracts/OracleBridgeApprovalSurfaceV1.sol`
+- `docs/ORACLE_BRIDGE_APPROVAL_SURFACE_V1.md`
 
-The prototype intentionally keeps on-chain responsibility narrow:
+The prototypes intentionally keep on-chain responsibility narrow:
 - deterministic request/evaluate/verdict/record lifecycle
+- deterministic bridge request/approval/execution lifecycle
 - stable request/evaluation/record events
+- stable bridge request/approval/execution events
 - explicit invalid-transition rejection
 
 Still deferred:
 - policy authoring
-- oracle economics / bridge execution
+- timeout/retry/reconciliation depth for the oracle bridge lane
+- oracle economics / bridge execution semantics beyond the prototype surface
 - attestation registry enforcement
 - proxy upgrade framework
