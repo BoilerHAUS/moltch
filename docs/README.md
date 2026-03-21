@@ -77,6 +77,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - treasury approval flow v1: `docs/operations/TREASURY_APPROVAL_FLOW_V1.md`
 - audit-log dual-write v1: `docs/operations/AUDIT_LOG_DUAL_WRITE_V1.md`
 - launch-gate evidence package schema v1: `docs/operations/LAUNCH_GATE_EVIDENCE_PACKAGE_SCHEMA_V1.md`
+- contracts policy decision surface v1 mapping note: `packages/contracts/docs/POLICY_DECISION_SURFACE_V1.md`
 - roadmap open-issue reconciliation v1: `docs/operations/ROADMAP_OPEN_ISSUE_RECONCILIATION_V1.md`
 - issue classification and pr admission v1: `docs/operations/ISSUE_CLASSIFICATION_PR_ADMISSION_V1.md`
 - context boundary handoff v1: `docs/operations/CONTEXT_BOUNDARY_HANDOFF_V1.md`
