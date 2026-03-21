@@ -11,6 +11,13 @@ Keep collaboration predictable, reviewable, and safe.
 5. wait for required review and checks
 6. merge through PR only (no direct push to `main`)
 
+## issue triage priority rule
+- every open issue must have exactly one `priority:p*` label (`p0`..`p5`)
+- legacy labels `priority:now|next|later` are retired for active triage
+- if priority changes, add a one-line rationale comment on the issue
+
+See: `docs/operations/PRIORITY_TAXONOMY_V1.md`
+
 ## PR quality bar
 Every PR must include:
 - summary
