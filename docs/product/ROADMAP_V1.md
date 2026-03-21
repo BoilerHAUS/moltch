@@ -77,8 +77,9 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #160 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #161 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #162 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
-| #183 | v2 contracts | planned | shared | #83 | post-v1 | 2026-03-21 | n/a |
 | #205 | ops / workflow hygiene | planned | shared | none | near-term | 2026-03-21 | n/a |
+| #212 | ops / agent delivery automation | planned | shared | #205 | near-term | 2026-03-21 | n/a |
+| #214 | ops / docs review automation | planned | shared | none | post-v1 | 2026-03-21 | n/a |
 | #206 | v2 contracts | planned | boilerclaw | #183 | near-term | 2026-03-21 | n/a |
 | #207 | v2 contracts | planned | boilerclaw | #206 | near-term | 2026-03-21 | n/a |
 | #208 | v2 web3 audit seam | planned | boilerclaw | #186,#206 | near-term | 2026-03-21 | n/a |
