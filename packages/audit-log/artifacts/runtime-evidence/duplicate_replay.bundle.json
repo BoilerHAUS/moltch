@@ -1,0 +1,50 @@
+{
+  "schema_version": "audit_log_runtime_evidence.v1",
+  "scenario": "duplicate_replay",
+  "generated_at": "deterministic",
+  "input_fixture": {
+    "decisionId": "dec-replay",
+    "correlationId": "corr-replay",
+    "lifecycleState": "recorded",
+    "verdict": "go",
+    "reasonCodes": [
+      "executed"
+    ],
+    "actorIds": [
+      "policy_engine",
+      "launch_gate"
+    ],
+    "timestamp": "2026-03-21T14:30:00Z",
+    "decisionInput": {
+      "scenario": "duplicate_replay",
+      "approvals_required": 1,
+      "approvals_received": 1,
+      "artifacts": [
+        "run:123",
+        "scenario:duplicate_replay"
+      ]
+    },
+    "offchainLogId": "log-replay"
+  },
+  "expected_events_emitted": [
+    {
+      "event_id": "0021bb4c1fa6da5a03a81aea30bd76b2ccef29b7b972e2a04a5f4ff8c669098b",
+      "decision_id": "dec-replay",
+      "correlation_id": "corr-replay",
+      "lifecycle_state": "recorded",
+      "verdict": "go"
+    }
+  ],
+  "expected_blocked_actions": [],
+  "expected_skipped_actions": [
+    "duplicate_replay_write"
+  ],
+  "verdict_summary": {
+    "verdict": "replayed",
+    "offchain_write_count": 1,
+    "onchain_write_count": 1,
+    "replayed": true,
+    "dual_write_enabled": true
+  },
+  "manifest_hash": "0acccb9f46a6dd7c3bb81bfbc2ba6bf33c3a7d9ff512dc70de4447fcd6ef3de7"
+}

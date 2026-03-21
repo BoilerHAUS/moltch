@@ -1,0 +1,31 @@
+{
+  "schema_version": "audit_log_runtime_evidence_manifest.v1",
+  "generated_at": "deterministic",
+  "bundles": [
+    {
+      "scenario": "fail_open",
+      "file": "fail_open.bundle.json",
+      "sha256": "946b967ff97f462f8265ca4d7c59e4332409d3e4058163f3f1a8c544f4bb5a6a"
+    },
+    {
+      "scenario": "fail_closed",
+      "file": "fail_closed.bundle.json",
+      "sha256": "8ebef7706e499e3ef56f8cd6fc84cd085a5c9e8e2d316ce6ddd3948310066440"
+    },
+    {
+      "scenario": "duplicate_replay",
+      "file": "duplicate_replay.bundle.json",
+      "sha256": "f5250238a2f2bade25fc5d55ea85dd19788ca82b33bb75ce5edb997cb7f30f49"
+    },
+    {
+      "scenario": "reconcile_success",
+      "file": "reconcile_success.bundle.json",
+      "sha256": "5768eb202bee2dfb018c1c56255952f47338ee5a7a556795c978e558d153734c"
+    },
+    {
+      "scenario": "reconcile_timeout",
+      "file": "reconcile_timeout.bundle.json",
+      "sha256": "4bb953ab5db1c713231a7d247c9afbf262486d0ebcf284e3c7fda7ff073291a7"
+    }
+  ]
+}
