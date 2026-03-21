@@ -1,0 +1,37 @@
+{
+  "profile_version": "decision_alert_threshold_profile.v1",
+  "generated_at_utc": "2026-03-21T01:05:00Z",
+  "owner_role": "agent_product_governance",
+  "max_auto_retries": 2,
+  "alerts": {
+    "decision_stuck_age_breach": {
+      "severity": "sev2",
+      "thresholds": {
+        "max_state_age_ms": 1800000
+      },
+      "default_next_action": "investigate",
+      "fail_closed_required": true,
+      "auto_remediation_allowed": false
+    },
+    "validation_failures_repeating_by_lane": {
+      "severity": "sev3",
+      "thresholds": {
+        "window_minutes": 15,
+        "count_threshold": 3
+      },
+      "default_next_action": "retry",
+      "fail_closed_required": false,
+      "auto_remediation_allowed": true
+    },
+    "hold_or_no_go_spike_vs_baseline": {
+      "severity": "sev3",
+      "thresholds": {
+        "baseline_multiplier": 2,
+        "consecutive_windows": 2
+      },
+      "default_next_action": "escalate",
+      "fail_closed_required": true,
+      "auto_remediation_allowed": false
+    }
+  }
+}

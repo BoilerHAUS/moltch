@@ -26,6 +26,7 @@ This slice does **not** define:
 - canonical events: `docs/operations/DECISION_EVENT_SCHEMA_V1.md`
 - metric definitions: `docs/operations/DECISION_METRIC_DICTIONARY_V1.md`
 - incident procedure: `docs/operations/DECISION_INCIDENT_TRIAGE_RUNBOOK_V1.md`
+- threshold/action profile: `docs/operations/DECISION_ALERT_THRESHOLD_PROFILE_V1.md`
 
 ## severity model
 - `sev2`: governance-significant failure requiring prompt operator attention
@@ -77,6 +78,7 @@ This slice does **not** define:
 - duplicate alerts for the same root condition should collapse within the active incident window
 - every fired alert must have a named owner role
 - every sev2/sev3 alert must point to the incident triage runbook
+- every sev2/sev3 alert class must map to a threshold profile entry with explicit `default_next_action`
 - if input parity is incomplete, the system should fail closed on execution-critical flows and emit an observability gap record rather than silently suppressing the alert
 
 ## routing expectations

@@ -71,6 +71,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - decision event schema v1: `docs/operations/DECISION_EVENT_SCHEMA_V1.md`
 - decision metric dictionary v1: `docs/operations/DECISION_METRIC_DICTIONARY_V1.md`
 - decision alert contract v1: `docs/operations/DECISION_ALERT_CONTRACT_V1.md`
+- decision alert threshold profile v1: `docs/operations/DECISION_ALERT_THRESHOLD_PROFILE_V1.md`
 - decision incident triage runbook v1: `docs/operations/DECISION_INCIDENT_TRIAGE_RUNBOOK_V1.md`
 - treasury approval flow v1: `docs/operations/TREASURY_APPROVAL_FLOW_V1.md`
 - audit-log dual-write v1: `docs/operations/AUDIT_LOG_DUAL_WRITE_V1.md`
@@ -89,6 +90,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - soak evidence memo template: `docs/operations/evidence/soak/SOAK_EVIDENCE_MEMO_TEMPLATE.md`
 - soak hold-path dry-run artifact (2026-03-14): `docs/operations/evidence/soak/SOAK_HOLD_PATH_DRY_RUN_2026-03-14.md`
 - decision observability simulated incident evidence (2026-03-21): `docs/operations/evidence/decision-observability/2026-03-21/DECISION_OBSERVABILITY_SIMULATED_INCIDENT_EVIDENCE_2026-03-21.md`
+- decision alert threshold profile artifact (2026-03-21): `docs/operations/evidence/decision-observability/2026-03-21/decision_alert_threshold_profile_v1.json`
 - review-ops scoreboard spec v1: `docs/operations/REVIEW_OPS_SCOREBOARD_SPEC_V1.md`
 - review-ops scoreboard sample input (2026-W11): `docs/operations/evidence/review-ops/2026-W11/review_ops_input.sample.json`
 - review-ops scoreboard baseline report (2026-W11): `docs/operations/evidence/review-ops/2026-W11/review_ops_scoreboard.md`

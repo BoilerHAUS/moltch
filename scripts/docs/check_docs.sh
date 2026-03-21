@@ -250,6 +250,19 @@ check_review_ops_scoreboard_generator() {
   pass "review-ops scoreboard generation validation passed"
 }
 
+
+check_decision_alert_threshold_profile() {
+  local validator="scripts/ops/validate_decision_alert_threshold_profile.py"
+  local profile="docs/operations/evidence/decision-observability/2026-03-21/decision_alert_threshold_profile_v1.json"
+
+  [[ -f "$validator" ]] || fail "$validator missing"
+  [[ -f "$profile" ]] || fail "$profile missing"
+
+  python3 "$validator" --input "$profile" >/dev/null
+
+  pass "decision alert threshold profile validation passed"
+}
+
 check_policy_decision_conformance() {
   local runner="scripts/ops/run_policy_decision_conformance.py"
   local fixtures="docs/governance/fixtures/policy_decision_conformance_cases_v1.json"
@@ -387,7 +400,8 @@ check_context_boundary_handoff_validator
 check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
 check_review_ops_scoreboard_generator
+check_decision_alert_threshold_profile
 check_policy_decision_conformance
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, context boundary handoff validator, evidence schema, launch-readiness packet, review-ops scoreboard, policy conformance, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, context boundary handoff validator, evidence schema, launch-readiness packet, review-ops scoreboard, decision alert threshold profile, policy conformance, and roadmap mapping checks passed"
