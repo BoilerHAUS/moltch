@@ -52,6 +52,12 @@ function run() {
   const resultA = deriveDecisionMetrics(fixture.events, fixture.options);
   const resultB = deriveDecisionMetrics(fixture.events, fixture.options);
 
+  const mismatchFixture = loadFixture('decision-observability-correlation-mismatch.json');
+  assert.throws(
+    () => deriveDecisionMetrics(mismatchFixture.events),
+    /correlation_id invariant violated/
+  );
+
   assert.deepEqual(resultA, resultB);
   assert.equal(resultA.events.length, 10, 'duplicate event_id should be deduped');
   assert.equal(resultA.aggregate.decision_latency_ms.terminal_count, 3);
