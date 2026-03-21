@@ -263,6 +263,39 @@ check_decision_alert_threshold_profile() {
   pass "decision alert threshold profile validation passed"
 }
 
+check_decision_parity_validation() {
+  local validator="scripts/ops/validate_decision_parity.py"
+  local strict_match="docs/operations/evidence/decision-observability/2026-03-21/decision_parity_fixture_strict_match_v1.json"
+  local semantic_match="docs/operations/evidence/decision-observability/2026-03-21/decision_parity_fixture_semantic_match_v1.json"
+  local lineage_mismatch="docs/operations/evidence/decision-observability/2026-03-21/decision_parity_fixture_lineage_mismatch_v1.json"
+  local verdict_mismatch="docs/operations/evidence/decision-observability/2026-03-21/decision_parity_fixture_verdict_mismatch_v1.json"
+  local missing_required="docs/operations/evidence/decision-observability/2026-03-21/decision_parity_fixture_missing_required_v1.json"
+  local out_json="docs/operations/evidence/decision-observability/2026-03-21/decision_parity_validation_result_v1.json"
+  local out_md="docs/operations/evidence/decision-observability/2026-03-21/decision_parity_validation_result_v1.md"
+
+  [[ -f "$validator" ]] || fail "$validator missing"
+  [[ -f "$strict_match" ]] || fail "$strict_match missing"
+  [[ -f "$semantic_match" ]] || fail "$semantic_match missing"
+  [[ -f "$lineage_mismatch" ]] || fail "$lineage_mismatch missing"
+  [[ -f "$verdict_mismatch" ]] || fail "$verdict_mismatch missing"
+  [[ -f "$missing_required" ]] || fail "$missing_required missing"
+
+  python3 "$validator" --input "$strict_match" --write-json "$out_json" --write-md "$out_md" >/dev/null
+  python3 "$validator" --input "$semantic_match" >/dev/null
+
+  if python3 "$validator" --input "$lineage_mismatch" >/dev/null 2>&1; then
+    fail "lineage mismatch parity fixture unexpectedly passed"
+  fi
+  if python3 "$validator" --input "$verdict_mismatch" >/dev/null 2>&1; then
+    fail "verdict mismatch parity fixture unexpectedly passed"
+  fi
+  if python3 "$validator" --input "$missing_required" >/dev/null 2>&1; then
+    fail "missing required parity fixture unexpectedly passed"
+  fi
+
+  pass "decision parity validation passed"
+}
+
 check_policy_decision_conformance() {
   local runner="scripts/ops/run_policy_decision_conformance.py"
   local fixtures="docs/governance/fixtures/policy_decision_conformance_cases_v1.json"
@@ -401,7 +434,8 @@ check_launch_gate_evidence_schema
 check_launch_readiness_packet_builder
 check_review_ops_scoreboard_generator
 check_decision_alert_threshold_profile
+check_decision_parity_validation
 check_policy_decision_conformance
 check_roadmap_issue_mapping
 
-pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, context boundary handoff validator, evidence schema, launch-readiness packet, review-ops scoreboard, decision alert threshold profile, policy conformance, and roadmap mapping checks passed"
+pass "metadata, links, index coverage, PR template delivery contract, issue classification validator, context boundary handoff validator, evidence schema, launch-readiness packet, review-ops scoreboard, decision alert threshold profile, decision parity validation, policy conformance, and roadmap mapping checks passed"

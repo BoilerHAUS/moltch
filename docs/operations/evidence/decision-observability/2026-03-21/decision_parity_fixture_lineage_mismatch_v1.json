@@ -1,0 +1,25 @@
+{
+  "fixture_name": "lineage_mismatch",
+  "offchain": {
+    "decision_id": "dec-003",
+    "correlation_id": "corr-003",
+    "lineage_id": "lin-003",
+    "from_state": "under_review",
+    "to_state": "approved",
+    "result": "success",
+    "reason_code": "approval_quorum_satisfied",
+    "lane": "launch-gate",
+    "risk_class": "standard"
+  },
+  "onchain": {
+    "decision_id": "dec-003",
+    "correlation_id": "corr-999",
+    "lineage_id": "lin-003",
+    "from_state": "under_review",
+    "to_state": "approved",
+    "result": "success",
+    "reason_code": "approval_quorum_satisfied",
+    "lane": "launch-gate",
+    "risk_class": "standard"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "fixture_name": "missing_required",
+  "offchain": {
+    "decision_id": "dec-005",
+    "correlation_id": "corr-005",
+    "lineage_id": "lin-005",
+    "from_state": "proposed",
+    "to_state": "under_review",
+    "result": "success",
+    "reason_code": "admissibility_passed",
+    "lane": "core"
+  },
+  "onchain": {
+    "decision_id": "dec-005",
+    "correlation_id": "corr-005",
+    "lineage_id": "lin-005",
+    "from_state": "proposed",
+    "to_state": "under_review",
+    "result": "success",
+    "reason_code": "admissibility_passed",
+    "lane": "core",
+    "risk_class": "standard"
+  }
+}

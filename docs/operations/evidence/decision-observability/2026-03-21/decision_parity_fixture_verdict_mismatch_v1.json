@@ -1,0 +1,25 @@
+{
+  "fixture_name": "verdict_mismatch",
+  "offchain": {
+    "decision_id": "dec-004",
+    "correlation_id": "corr-004",
+    "lineage_id": "lin-004",
+    "from_state": "under_review",
+    "to_state": "rejected",
+    "result": "hold",
+    "reason_code": "manual_review_required",
+    "lane": "core",
+    "risk_class": "standard"
+  },
+  "onchain": {
+    "decision_id": "dec-004",
+    "correlation_id": "corr-004",
+    "lineage_id": "lin-004",
+    "from_state": "under_review",
+    "to_state": "rejected",
+    "result": "no_go",
+    "reason_code": "policy_check_failed",
+    "lane": "core",
+    "risk_class": "standard"
+  }
+}

@@ -79,7 +79,6 @@ v1.1 and v2/web3 items are deferred to protect v1 launch reliability and avoid c
 | #162 | docs/article track | planned | boilermolt | core lane complete | post-core | 2026-03-17 | n/a |
 | #167 | core observability | planned | shared | #153,#166 | post-v1 | 2026-03-17 | n/a |
 | #183 | v2 contracts | planned | shared | #83 | post-v1 | 2026-03-20 | n/a |
-| #185 | v2 core observability | planned | shared | #184 | post-v1 | 2026-03-20 | n/a |
 | #186 | v2 web3 audit seam | planned | shared | #153,#183 | post-v1 | 2026-03-20 | n/a |
 
 ## definition of done (roadmap update)
