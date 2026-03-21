@@ -1,0 +1,40 @@
+{
+  "schema_version": "decision_parity_validation.v1",
+  "fixture_name": "strict_match",
+  "normalized_offchain": {
+    "decision_id": "dec-001",
+    "correlation_id": "corr-001",
+    "lineage_id": "lin-001",
+    "from_state": "proposed",
+    "to_state": "under_review",
+    "result": "success",
+    "reason_code": "admissibility_passed",
+    "lane": "core",
+    "risk_class": "standard",
+    "metadata": {
+      "source": "offchain"
+    },
+    "notes": "",
+    "extra_context": {}
+  },
+  "normalized_onchain": {
+    "decision_id": "dec-001",
+    "correlation_id": "corr-001",
+    "lineage_id": "lin-001",
+    "from_state": "proposed",
+    "to_state": "under_review",
+    "result": "success",
+    "reason_code": "admissibility_passed",
+    "lane": "core",
+    "risk_class": "standard",
+    "metadata": {
+      "source": "onchain"
+    },
+    "notes": "",
+    "extra_context": {}
+  },
+  "parity_verdict": "pass",
+  "mismatch_types": [],
+  "fail_behavior": "fail_open",
+  "details": {}
+}

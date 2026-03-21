@@ -1,0 +1,66 @@
+{
+  "suite_version": "v1.0.0",
+  "generated_for": "A0-A3 policy decision conformance",
+  "cases": [
+    {
+      "id": "A0-validation-fail",
+      "action_class": "A0",
+      "scenario": "payload schema invalid",
+      "expected_decision": "deny",
+      "expected_reason_code": "validation_failed",
+      "expected_policy_outcome": "deny",
+      "expected_operator_action": "fix_payload_and_resubmit",
+      "actual": {
+        "decision": "deny",
+        "reason_code": "validation_failed",
+        "policy_outcome": "deny",
+        "operator_action": "fix_payload_and_resubmit"
+      }
+    },
+    {
+      "id": "A1-allow-executed",
+      "action_class": "A1",
+      "scenario": "authorized low-risk action",
+      "expected_decision": "allow",
+      "expected_reason_code": "executed",
+      "expected_policy_outcome": "allow",
+      "expected_operator_action": "record_and_close",
+      "actual": {
+        "decision": "allow",
+        "reason_code": "executed",
+        "policy_outcome": "allow",
+        "operator_action": "record_and_close"
+      }
+    },
+    {
+      "id": "A2-threshold-unmet",
+      "action_class": "A2",
+      "scenario": "insufficient approver quorum",
+      "expected_decision": "deny",
+      "expected_reason_code": "threshold_unmet",
+      "expected_policy_outcome": "deny",
+      "expected_operator_action": "collect_additional_approval",
+      "actual": {
+        "decision": "deny",
+        "reason_code": "threshold_unmet",
+        "policy_outcome": "deny",
+        "operator_action": "collect_additional_approval"
+      }
+    },
+    {
+      "id": "A3-requires-human",
+      "action_class": "A3",
+      "scenario": "ambiguous exceptional governance request",
+      "expected_decision": "blocked_needs_human",
+      "expected_reason_code": "blocked_needs_human",
+      "expected_policy_outcome": "blocked",
+      "expected_operator_action": "escalate_to_human_owner_with_options",
+      "actual": {
+        "decision": "blocked_needs_human",
+        "reason_code": "blocked_needs_human",
+        "policy_outcome": "blocked",
+        "operator_action": "escalate_to_human_owner_with_options"
+      }
+    }
+  ]
+}

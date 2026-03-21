@@ -1,0 +1,18 @@
+{
+  "bundle_name": "launch-evidence-pack-missing-artifact-2026-03-17",
+  "evidence_index_doc": "docs/operations/evidence/LAUNCH_EVIDENCE_INDEX_2026-03.md",
+  "sources": [
+    {
+      "type": "issue",
+      "id": "issue-165",
+      "url": "https://github.com/BoilerHAUS/moltch/issues/165"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "missing-artifact",
+      "kind": "json",
+      "path": "docs/operations/evidence/launch-readiness/2026-03-14-dry-run/does_not_exist.json"
+    }
+  ]
+}

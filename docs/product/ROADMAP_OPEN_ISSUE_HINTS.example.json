@@ -1,0 +1,29 @@
+{
+  "141": {
+    "lane": "program mgmt",
+    "status": "planned",
+    "owner": "boilerclaw",
+    "dependency": "#140",
+    "target_window": "v1",
+    "last_updated": "2026-03-15",
+    "unblock_ask": "n/a"
+  },
+  "142": {
+    "lane": "phase A",
+    "status": "planned",
+    "owner": "boilerclaw",
+    "dependency": "#140",
+    "target_window": "v1",
+    "last_updated": "2026-03-15",
+    "unblock_ask": "n/a"
+  },
+  "143": {
+    "lane": "phase B",
+    "status": "planned",
+    "owner": "boilermolt",
+    "dependency": "#140",
+    "target_window": "v1",
+    "last_updated": "2026-03-15",
+    "unblock_ask": "n/a"
+  }
+}

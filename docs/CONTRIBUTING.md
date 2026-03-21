@@ -1,14 +1,15 @@
 # contributing to moltch
 
-## required workflow
-All work MUST follow issue-first, fork-branch, PR-gated execution.
+## objective
+Keep collaboration predictable, reviewable, and safe.
 
+## required workflow
 1. start from an open issue
 2. create a branch in your fork (`<actor>/issue-<id>-<slug>`)
 3. open PR to `BoilerHAUS/moltch:main`
 4. include `Closes #<issue>` in PR body
-5. wait for required review + checks
-6. merge via PR only (no direct push to `main`)
+5. wait for required review and checks
+6. merge through PR only (no direct push to `main`)
 
 ## issue triage priority rule
 - every open issue must have exactly one `priority:p*` label (`p0`..`p5`)
@@ -18,38 +19,79 @@ All work MUST follow issue-first, fork-branch, PR-gated execution.
 See: `docs/operations/PRIORITY_TAXONOMY_V1.md`
 
 ## PR quality bar
-PR description MUST include:
+Every PR must include:
 - summary
 - linked issue
 - validation evidence
 - risk impact
 - rollback plan
 
-Use the repository PR template for format consistency.
+Use the repository PR template.
 
-## role lanes
+Agent-owned PR follow-through is governed by `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md`.
+
+## lane ownership
 - boilermolt: product/governance/commercial/docs
 - boilerclaw: technical architecture/deploy/repo
-- tie-breaks: human owner
+- tie-break: human owner
 
-Ambiguous task default resolution:
-- use issue label + first assignee role as default lane owner
-- escalate only if assignment still conflicts
+Ambiguous task rule:
+- default lane owner = issue label + first assignee role
+- escalate only if conflict remains
 
 ## blocker protocol
 If blocked >15 minutes:
 - post blocker
 - show attempts
-- offer 2-3 options
+- provide 2-3 options
 - recommend one
 - tag `needs-human`
 
-## docs expectations
-- docs changes SHOULD be issue-linked and scoped.
-- policy and operations docs MUST include owner_role, review cadence, and next review date.
-- keep docs concise and executable (decision-usable).
+## docs requirements
+- doc changes should be issue-linked and scoped
+- governed docs scope (strict metadata enforcement):
+  - docs/governance/*V1*.md
+  - docs/product/*V1*.md
+  - docs/operations/*V1*.md
+- governed docs must include metadata block exactly:
+  - `## metadata`
+  - `- version: v<major>.<minor>.<patch>`
+  - `- owner_role: agent_product_governance|agent_technical_delivery`
+  - `- review_cadence: daily|weekly|biweekly|monthly|quarterly`
+  - `- next_review_due: YYYY-MM-DD`
+- docs index coverage rule:
+  - every docs markdown file (except docs/README.md) must be listed in docs/README.md
+- cross-link rule:
+  - any docs markdown link/path referenced in docs must resolve to an existing file
+- run docs quality gate before PR:
+```bash
+./scripts/docs/check_docs.sh
+```
 
-For policy/ops doc PRs, include:
+For policy/ops/product doc PRs, include:
 - changed sections summary
-- downstream docs touched (or explicit `none`)
-- review-date updates when metadata changes.
+- downstream docs touched (or `none`)
+- review-date updates when metadata changes
+
+Roadmap mapping discipline:
+- every open issue must appear in `docs/product/ROADMAP_V1.md` mapping table, or
+- be listed in `excluded issues` with explicit rationale
+- CI enforces this via:
+```bash
+./scripts/docs/check_docs.sh
+```
+
+Issue classification and PR-lane admission:
+- roadmap tracking/exclusion coverage is not the same thing as PR readiness
+- use `docs/operations/ISSUE_CLASSIFICATION_PR_ADMISSION_V1.md` when an issue moves toward active delivery
+- do not treat an open PR as proof of readiness; record explicit admission basis instead
+
+Context boundary / handoff discipline:
+- use `docs/operations/CONTEXT_BOUNDARY_HANDOFF_V1.md` for cross-domain context movement
+- imported context may be accepted as external assertion, quarantined, or rejected
+- accepted import is still not native/shared truth; promotion/re-export requires a new governed boundary crossing
+
+Local troubleshooting (tokened run):
+```bash
+GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" ./scripts/docs/check_docs.sh
+```

@@ -1,5 +1,11 @@
 # staging image versioning + immutable deploys
 
+## metadata
+- version: v1.0.1
+- owner_role: agent_technical_delivery
+- review_cadence: biweekly
+- next_review_due: 2026-03-22
+
 ## goal
 Deploy staging with explicit immutable image tags for safe rollback and traceability.
 

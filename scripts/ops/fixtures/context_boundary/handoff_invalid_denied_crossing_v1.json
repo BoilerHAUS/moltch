@@ -1,0 +1,16 @@
+{
+  "artifact_version": "context_boundary_handoff.v1",
+  "generated_at_utc": "2026-03-21T00:05:00Z",
+  "handoff_id": "handoff-188-invalid-crossing-01",
+  "trace_id": "trace-188-invalid-crossing-01",
+  "source_domain": "private_agent",
+  "target_domain": "team_shared",
+  "sender": "agent-a",
+  "receiver": "agent-c",
+  "purpose": "promote private context directly to team scope",
+  "classification": "task_scoped_internal",
+  "policy_basis": "none",
+  "import_outcome": "accepted_as_external_assertion",
+  "content_summary": "Private notes attempting to bypass task-shared review.",
+  "promoted_to_native_truth": false
+}

@@ -1,0 +1,27 @@
+{
+  "fixture_name": "strict_match",
+  "offchain": {
+    "decision_id": "dec-001",
+    "correlation_id": "corr-001",
+    "lineage_id": "lin-001",
+    "from_state": "proposed",
+    "to_state": "under_review",
+    "result": "success",
+    "reason_code": "admissibility_passed",
+    "lane": "core",
+    "risk_class": "standard",
+    "metadata": {"source": "offchain"}
+  },
+  "onchain": {
+    "decision_id": "dec-001",
+    "correlation_id": "corr-001",
+    "lineage_id": "lin-001",
+    "from_state": "proposed",
+    "to_state": "under_review",
+    "result": "success",
+    "reason_code": "admissibility_passed",
+    "lane": "core",
+    "risk_class": "standard",
+    "metadata": {"source": "onchain"}
+  }
+}

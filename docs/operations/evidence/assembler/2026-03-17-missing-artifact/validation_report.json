@@ -1,0 +1,13 @@
+{
+  "config_path": "docs/operations/evidence/assembler/evidence_pack_config_missing_artifact_v1.json",
+  "errors": [
+    {
+      "category": "reference_unreachable",
+      "hint": "Generate artifact first or fix path.",
+      "message": "artifact file missing: docs/operations/evidence/launch-readiness/2026-03-14-dry-run/does_not_exist.json",
+      "path": "$.artifacts[0].path",
+      "rule": "exists"
+    }
+  ],
+  "status": "fail"
+}

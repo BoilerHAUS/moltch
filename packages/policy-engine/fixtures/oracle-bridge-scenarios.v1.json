@@ -1,0 +1,57 @@
+{
+  "suite_version": "v1.0.0",
+  "seed": "issue-155-oracle-bridge-v1",
+  "generated_at_utc": "2026-03-18T00:00:00Z",
+  "scenarios": [
+    {
+      "id": "approve-execute-success",
+      "issue_id": 1551,
+      "title": "approval lands on-chain and off-chain execution reports success",
+      "request": {
+        "actor": "offchain_executor",
+        "max_attempts": 2,
+        "timeout_seconds": 300,
+        "evidence_refs": ["evidence:approval-packet.json"]
+      },
+      "events": [
+        {"phase": "bridge_request", "status": "submitted", "actor": "bridge_adapter", "next_state": "approval_pending", "attempt": 1},
+        {"phase": "bridge_approval", "status": "approved", "actor": "bridge_contract", "next_state": "approved", "approval_id": "apr-success-1", "decision_reason_code": "executed", "attempt": 1},
+        {"phase": "bridge_execution", "status": "started", "actor": "offchain_executor", "next_state": "executing", "approval_id": "apr-success-1", "attempt": 1},
+        {"phase": "bridge_result", "status": "executed", "actor": "offchain_executor", "next_state": "executed", "approval_id": "apr-success-1", "execution_id": "exe-success-1", "result_reason_code": "executed", "result_refs": ["result:exe-success-1"], "attempt": 1},
+        {"phase": "bridge_reconcile", "status": "reconciled", "actor": "bridge_reconciler", "next_state": "reconciled", "approval_id": "apr-success-1", "execution_id": "exe-success-1", "result_reason_code": "executed", "result_refs": ["result:exe-success-1"], "attempt": 1}
+      ]
+    },
+    {
+      "id": "deny-on-chain",
+      "issue_id": 1552,
+      "title": "approval is denied on-chain with an auditable reason code",
+      "request": {
+        "actor": "offchain_executor",
+        "max_attempts": 1,
+        "timeout_seconds": 300,
+        "evidence_refs": ["evidence:approval-packet.json"]
+      },
+      "events": [
+        {"phase": "bridge_request", "status": "submitted", "actor": "bridge_adapter", "next_state": "approval_pending", "attempt": 1},
+        {"phase": "bridge_approval", "status": "denied", "actor": "bridge_contract", "next_state": "denied", "decision_reason_code": "permission_denied", "attempt": 1},
+        {"phase": "bridge_reconcile", "status": "reconciled", "actor": "bridge_reconciler", "next_state": "reconciled", "decision_reason_code": "permission_denied", "attempt": 1}
+      ]
+    },
+    {
+      "id": "timeout-then-reconcile",
+      "issue_id": 1553,
+      "title": "approval times out deterministically and reconciles after retry budget is spent",
+      "request": {
+        "actor": "offchain_executor",
+        "max_attempts": 1,
+        "timeout_seconds": 300,
+        "evidence_refs": ["evidence:approval-packet.json"]
+      },
+      "events": [
+        {"phase": "bridge_request", "status": "submitted", "actor": "bridge_adapter", "next_state": "approval_pending", "attempt": 1},
+        {"phase": "bridge_timeout", "status": "timeout", "actor": "bridge_adapter", "next_state": "timed_out", "decision_reason_code": "approval_stale", "attempt": 1},
+        {"phase": "bridge_reconcile", "status": "reconciled", "actor": "bridge_reconciler", "next_state": "reconciled", "decision_reason_code": "approval_stale", "attempt": 1}
+      ]
+    }
+  ]
+}

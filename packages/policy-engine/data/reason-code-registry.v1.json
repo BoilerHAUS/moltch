@@ -1,0 +1,18 @@
+{
+  "version": "v1.3.0",
+  "updated_at_utc": "2026-03-17T00:00:00Z",
+  "codes": [
+    {"code":"executed","status":"active","category":"execution","description":"all checks passed and side effect completed"},
+    {"code":"permission_denied","status":"active","category":"identity","description":"actor lacks required role/capability"},
+    {"code":"missing_approval","status":"active","category":"approval","description":"required approver has not approved"},
+    {"code":"threshold_unmet","status":"active","category":"approval","description":"required approval threshold/topology is not met"},
+    {"code":"validation_failed","status":"active","category":"validation","description":"payload/schema/hash/constraint validation failed"},
+    {"code":"execution_failed","status":"active","category":"execution","description":"policy approved but downstream execution failed"},
+    {"code":"blocked_needs_human","status":"active","category":"escalation","description":"ambiguous/exceptional case requiring manual judgment"},
+    {"code":"approval_stale","status":"active","category":"approval","description":"approval exists but expired outside approval window"},
+    {"code":"idempotency_replay","status":"active","category":"validation","description":"duplicate idempotency key/request hash replay"},
+    {"code":"sod_violation","status":"active","category":"approval","description":"separation-of-duties boundary violated"},
+    {"code":"actor_unmapped","status":"active","category":"identity","description":"actor identity not registered in policy registry"},
+    {"code":"actor_inactive","status":"active","category":"identity","description":"actor is registered but inactive/suspended"}
+  ]
+}

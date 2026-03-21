@@ -1,0 +1,10 @@
+{
+  "source_version": "v1.2.0",
+  "events": [
+    {
+      "decision_id": "dec-legacy-1",
+      "reason_code": "approval_missing",
+      "expected_resolved": "missing_approval"
+    }
+  ]
+}

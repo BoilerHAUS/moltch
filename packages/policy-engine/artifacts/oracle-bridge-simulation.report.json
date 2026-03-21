@@ -1,0 +1,235 @@
+{
+  "suite_version": "v1.0.0",
+  "seed": "issue-155-oracle-bridge-v1",
+  "generated_at_utc": "2026-03-18T00:00:00Z",
+  "total_scenarios": 3,
+  "scenarios": [
+    {
+      "scenario_id": "approve-execute-success",
+      "issue_id": 1551,
+      "title": "approval lands on-chain and off-chain execution reports success",
+      "final_state": "reconciled",
+      "transitions": [
+        "requested->approval_pending",
+        "approval_pending->approved",
+        "approved->executing",
+        "executing->executed",
+        "executed->reconciled"
+      ],
+      "correlation_id": "corr-approve-execute-success-749656501f",
+      "bridge_request_id": "obr-approve-execute-success-ad34c22e54",
+      "decision_id": "dec-77349ced0b7c",
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "bridge_request",
+          "status": "submitted",
+          "state": "approval_pending",
+          "correlation_id": "corr-approve-execute-success-749656501f",
+          "bridge_request_id": "obr-approve-execute-success-ad34c22e54",
+          "approval_id": null,
+          "execution_id": null,
+          "decision_reason_code": null,
+          "result_reason_code": null,
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "bridge_approval",
+          "status": "approved",
+          "state": "approved",
+          "correlation_id": "corr-approve-execute-success-749656501f",
+          "bridge_request_id": "obr-approve-execute-success-ad34c22e54",
+          "approval_id": "apr-success-1",
+          "execution_id": null,
+          "decision_reason_code": "executed",
+          "result_reason_code": null,
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "bridge_execution",
+          "status": "started",
+          "state": "executing",
+          "correlation_id": "corr-approve-execute-success-749656501f",
+          "bridge_request_id": "obr-approve-execute-success-ad34c22e54",
+          "approval_id": "apr-success-1",
+          "execution_id": null,
+          "decision_reason_code": null,
+          "result_reason_code": null,
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:03:00Z",
+          "phase": "bridge_result",
+          "status": "executed",
+          "state": "executed",
+          "correlation_id": "corr-approve-execute-success-749656501f",
+          "bridge_request_id": "obr-approve-execute-success-ad34c22e54",
+          "approval_id": "apr-success-1",
+          "execution_id": "exe-success-1",
+          "decision_reason_code": null,
+          "result_reason_code": "executed",
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:04:00Z",
+          "phase": "bridge_reconcile",
+          "status": "reconciled",
+          "state": "reconciled",
+          "correlation_id": "corr-approve-execute-success-749656501f",
+          "bridge_request_id": "obr-approve-execute-success-ad34c22e54",
+          "approval_id": "apr-success-1",
+          "execution_id": "exe-success-1",
+          "decision_reason_code": null,
+          "result_reason_code": "executed",
+          "attempt": 1
+        }
+      ]
+    },
+    {
+      "scenario_id": "deny-on-chain",
+      "issue_id": 1552,
+      "title": "approval is denied on-chain with an auditable reason code",
+      "final_state": "reconciled",
+      "transitions": [
+        "requested->approval_pending",
+        "approval_pending->denied",
+        "denied->reconciled"
+      ],
+      "correlation_id": "corr-deny-on-chain-44b0631d4a",
+      "bridge_request_id": "obr-deny-on-chain-124d68f531",
+      "decision_id": "dec-f60c3a2e7c41",
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "bridge_request",
+          "status": "submitted",
+          "state": "approval_pending",
+          "correlation_id": "corr-deny-on-chain-44b0631d4a",
+          "bridge_request_id": "obr-deny-on-chain-124d68f531",
+          "approval_id": null,
+          "execution_id": null,
+          "decision_reason_code": null,
+          "result_reason_code": null,
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "bridge_approval",
+          "status": "denied",
+          "state": "denied",
+          "correlation_id": "corr-deny-on-chain-44b0631d4a",
+          "bridge_request_id": "obr-deny-on-chain-124d68f531",
+          "approval_id": null,
+          "execution_id": null,
+          "decision_reason_code": "permission_denied",
+          "result_reason_code": null,
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "bridge_reconcile",
+          "status": "reconciled",
+          "state": "reconciled",
+          "correlation_id": "corr-deny-on-chain-44b0631d4a",
+          "bridge_request_id": "obr-deny-on-chain-124d68f531",
+          "approval_id": null,
+          "execution_id": null,
+          "decision_reason_code": "permission_denied",
+          "result_reason_code": null,
+          "attempt": 1
+        }
+      ]
+    },
+    {
+      "scenario_id": "timeout-then-reconcile",
+      "issue_id": 1553,
+      "title": "approval times out deterministically and reconciles after retry budget is spent",
+      "final_state": "reconciled",
+      "transitions": [
+        "requested->approval_pending",
+        "approval_pending->timed_out",
+        "timed_out->reconciled"
+      ],
+      "correlation_id": "corr-timeout-then-reconcile-78b10fb926",
+      "bridge_request_id": "obr-timeout-then-reconcile-03843ee214",
+      "decision_id": "dec-20f06ab27345",
+      "trace": [
+        {
+          "at": "2026-03-18T00:00:00Z",
+          "phase": "bridge_request",
+          "status": "submitted",
+          "state": "approval_pending",
+          "correlation_id": "corr-timeout-then-reconcile-78b10fb926",
+          "bridge_request_id": "obr-timeout-then-reconcile-03843ee214",
+          "approval_id": null,
+          "execution_id": null,
+          "decision_reason_code": null,
+          "result_reason_code": null,
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:01:00Z",
+          "phase": "bridge_timeout",
+          "status": "timeout",
+          "state": "timed_out",
+          "correlation_id": "corr-timeout-then-reconcile-78b10fb926",
+          "bridge_request_id": "obr-timeout-then-reconcile-03843ee214",
+          "approval_id": null,
+          "execution_id": null,
+          "decision_reason_code": "approval_stale",
+          "result_reason_code": null,
+          "attempt": 1
+        },
+        {
+          "at": "2026-03-18T00:02:00Z",
+          "phase": "bridge_reconcile",
+          "status": "reconciled",
+          "state": "reconciled",
+          "correlation_id": "corr-timeout-then-reconcile-78b10fb926",
+          "bridge_request_id": "obr-timeout-then-reconcile-03843ee214",
+          "approval_id": null,
+          "execution_id": null,
+          "decision_reason_code": "approval_stale",
+          "result_reason_code": null,
+          "attempt": 1
+        }
+      ]
+    }
+  ],
+  "scenario_matrix": [
+    {
+      "scenario_id": "approve-execute-success",
+      "final_state": "reconciled",
+      "transitions": [
+        "requested->approval_pending",
+        "approval_pending->approved",
+        "approved->executing",
+        "executing->executed",
+        "executed->reconciled"
+      ],
+      "trace_events": 5
+    },
+    {
+      "scenario_id": "deny-on-chain",
+      "final_state": "reconciled",
+      "transitions": [
+        "requested->approval_pending",
+        "approval_pending->denied",
+        "denied->reconciled"
+      ],
+      "trace_events": 3
+    },
+    {
+      "scenario_id": "timeout-then-reconcile",
+      "final_state": "reconciled",
+      "transitions": [
+        "requested->approval_pending",
+        "approval_pending->timed_out",
+        "timed_out->reconciled"
+      ],
+      "trace_events": 3
+    }
+  ]
+}

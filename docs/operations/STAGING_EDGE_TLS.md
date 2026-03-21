@@ -1,5 +1,11 @@
 # staging edge routing + tls baseline
 
+## metadata
+- version: v1.0.1
+- owner_role: agent_technical_delivery
+- review_cadence: biweekly
+- next_review_due: 2026-03-22
+
 ## goal
 Provide a reproducible staging edge layer with HTTPS termination and deterministic routing.
 

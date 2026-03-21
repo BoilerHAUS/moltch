@@ -1,5 +1,11 @@
 # staging deploy baseline (web + api)
 
+## metadata
+- version: v1.0.1
+- owner_role: agent_technical_delivery
+- review_cadence: biweekly
+- next_review_due: 2026-03-22
+
 ## goal
 Deploy the current `apps/web` and `services/api` baselines to a single staging host using Docker Compose.
 
@@ -90,6 +96,29 @@ docker compose --env-file infra/environments/staging/.env.staging -f docker-comp
 ```bash
 docker compose --env-file infra/environments/staging/.env.staging -f docker-compose.staging.yml up -d
 ```
+
+## deploy guardrails CI mapping (issue #65)
+Acceptance-criteria mapping:
+- AC1 (`CI fails when staging deploy integrity checks fail`)
+  - workflow step: `AC1 - staging compose/env/docs integrity (fail-closed)`
+  - script: `scripts/staging/check_deploy_integrity.sh`
+- AC1 (immutable image checks)
+  - workflow step: `AC1 - immutable image-ref guardrail (fail-closed)`
+  - script: `scripts/staging/check_image_refs_immutable.sh`
+- AC3 (`smoke test script wiring validated in CI path`)
+  - workflow step: `AC3 - smoke script wiring sanity (pass path)`
+  - script: `scripts/staging/smoke.sh`
+- AC3 intentional-failure evidence
+  - workflow step: `AC3 - smoke script fail-closed proof (intentional failure)`
+  - expected outcome: step passes only when smoke script exits non-zero and reports `"result":"fail"`
+
+## branch protection required checks delta
+Before:
+- `repo-baseline`
+
+After:
+- `repo-baseline`
+- `deploy-guardrails` (required for PRs touching staging deploy/docs/guardrail paths)
 
 ## notes
 - This is a staging-first baseline, not production HA.
