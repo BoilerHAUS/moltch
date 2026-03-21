@@ -29,6 +29,7 @@ Every PR must include:
 Use the repository PR template.
 
 Agent-owned PR follow-through is governed by `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md`.
+Autonomous PR opening/readiness and deterministic recovery expectations are governed by `docs/operations/AGENT_PR_AUTONOMY_CONTRACT_V1.md`.
 
 ## lane ownership
 - boilermolt: product/governance/commercial/docs

@@ -1,0 +1,16 @@
+{
+  "artifact_version": "pr_autonomy_readiness.v1",
+  "generated_at_utc": "2026-03-21T13:45:00Z",
+  "issue_number": 212,
+  "state": "auto_pr_opened",
+  "ready": true,
+  "reasons": [
+    "claims a PR was opened but no URL was recorded"
+  ],
+  "thread_signals": {
+    "acceptance_criteria_explicit": true,
+    "scope_bounded": true,
+    "policy_ambiguity_resolved": true,
+    "rollback_noted": true
+  }
+}

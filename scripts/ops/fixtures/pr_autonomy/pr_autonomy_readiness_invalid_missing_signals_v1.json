@@ -1,0 +1,16 @@
+{
+  "artifact_version": "pr_autonomy_readiness.v1",
+  "generated_at_utc": "2026-03-21T13:45:00Z",
+  "issue_number": 212,
+  "state": "implementation_ready",
+  "ready": true,
+  "reasons": [
+    "claims readiness despite unresolved ambiguity"
+  ],
+  "thread_signals": {
+    "acceptance_criteria_explicit": true,
+    "scope_bounded": true,
+    "policy_ambiguity_resolved": false,
+    "rollback_noted": true
+  }
+}
