@@ -1,0 +1,42 @@
+{
+  "schema_version": "audit_log_runtime_evidence.v1",
+  "scenario": "reconcile_timeout",
+  "generated_at": "deterministic",
+  "input_fixture": {
+    "decisionId": "dec-reconcile_timeout",
+    "correlationId": "corr-reconcile_timeout",
+    "lifecycleState": "recorded",
+    "verdict": "go",
+    "reasonCodes": [
+      "executed"
+    ],
+    "actorIds": [
+      "policy_engine",
+      "launch_gate"
+    ],
+    "timestamp": "2026-03-21T14:30:00Z",
+    "decisionInput": {
+      "scenario": "reconcile_timeout",
+      "approvals_required": 1,
+      "approvals_received": 1,
+      "artifacts": [
+        "run:123",
+        "scenario:reconcile_timeout"
+      ]
+    },
+    "offchainLogId": "log-reconcile_timeout"
+  },
+  "expected_events_emitted": [],
+  "expected_blocked_actions": [],
+  "expected_skipped_actions": [
+    "onchain_emit_feature_flag_disabled"
+  ],
+  "verdict_summary": {
+    "verdict": "success",
+    "offchain_write_count": 1,
+    "onchain_write_count": 0,
+    "replayed": false,
+    "dual_write_enabled": false
+  },
+  "manifest_hash": "b146acb2affe3311eb5735ebbf41e25052dcee03b389134323382a0a8474d227"
+}

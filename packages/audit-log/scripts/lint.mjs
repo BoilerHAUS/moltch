@@ -4,8 +4,11 @@ import path from "node:path";
 const root = new URL("../", import.meta.url);
 const files = [
   "src/index.mjs",
+  "src/runtimeEvidence.mjs",
   "test/dualWrite.test.mjs",
+  "test/runtimeEvidence.test.mjs",
   "README.md",
+  "fixtures/runtime-evidence-scenarios.json",
   "interfaces/policy-decision-audit-event.interface.json"
 ];
 

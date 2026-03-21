@@ -1,0 +1,48 @@
+{
+  "schema_version": "audit_log_runtime_evidence.v1",
+  "scenario": "reconcile_success",
+  "generated_at": "deterministic",
+  "input_fixture": {
+    "decisionId": "dec-reconcile_success",
+    "correlationId": "corr-reconcile_success",
+    "lifecycleState": "recorded",
+    "verdict": "go",
+    "reasonCodes": [
+      "executed"
+    ],
+    "actorIds": [
+      "policy_engine",
+      "launch_gate"
+    ],
+    "timestamp": "2026-03-21T14:30:00Z",
+    "decisionInput": {
+      "scenario": "reconcile_success",
+      "approvals_required": 1,
+      "approvals_received": 1,
+      "artifacts": [
+        "run:123",
+        "scenario:reconcile_success"
+      ]
+    },
+    "offchainLogId": "log-reconcile_success"
+  },
+  "expected_events_emitted": [
+    {
+      "event_id": "256eb824f33577fc4eb4db7efcf1aa043ea826ab1546fa5d5c764a9e2971f76d",
+      "decision_id": "dec-reconcile_success",
+      "correlation_id": "corr-reconcile_success",
+      "lifecycle_state": "recorded",
+      "verdict": "go"
+    }
+  ],
+  "expected_blocked_actions": [],
+  "expected_skipped_actions": [],
+  "verdict_summary": {
+    "verdict": "success",
+    "offchain_write_count": 1,
+    "onchain_write_count": 1,
+    "replayed": false,
+    "dual_write_enabled": true
+  },
+  "manifest_hash": "e64894a0ac0d308f98e22477f2074e72aa0be9b3c53a8354e9062d8eabc9ec43"
+}

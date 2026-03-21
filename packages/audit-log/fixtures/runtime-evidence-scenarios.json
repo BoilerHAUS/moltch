@@ -1,0 +1,9 @@
+{
+  "scenarios": [
+    "fail_open",
+    "fail_closed",
+    "duplicate_replay",
+    "reconcile_success",
+    "reconcile_timeout"
+  ]
+}

@@ -65,3 +65,19 @@ Repeated writes with the same payload return `replayed` without duplicating eith
 cd packages/audit-log
 npm run check
 ```
+
+## Runtime evidence bundles
+
+This package also emits deterministic runtime evidence bundles for canonical dual-write scenarios:
+- `fail_open`
+- `fail_closed`
+- `duplicate_replay`
+- `reconcile_success`
+- `reconcile_timeout`
+
+Bundle outputs include:
+- input fixture
+- expected emitted events
+- expected blocked/skipped actions
+- deterministic verdict summary
+- manifest hash / checksum coverage for CI drift detection
