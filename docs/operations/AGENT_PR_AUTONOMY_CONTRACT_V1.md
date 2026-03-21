@@ -74,6 +74,17 @@ Any autonomous PR opening or remediation action must leave a concise status bloc
 - `next`: expected next machine/human step
 - `blocked`: `none` or exact blocker
 
+## appendix: deterministic remediation playbook baseline
+| fix_class | allowed_actions | required_post_fix_checks | escalation_boundary |
+|---|---|---|---|
+| `docs_index_sync` | add missing docs index entry, remove stale index entry, repair index path after doc rename | `bash scripts/docs/check_docs.sh` | escalate if the fix requires deciding whether a doc should exist, be retired, or be excluded from governed coverage |
+| `roadmap_reconcile` | remove stale closed-issue row, add missing open-issue row, update tracking row presence to match live open issue set without changing roadmap semantics | `GH_TOKEN="$(gh auth token)" GITHUB_REPOSITORY="BoilerHAUS/moltch" bash scripts/docs/check_docs.sh` | escalate if reconciliation would require changing lane/owner/dependency/target-window semantics rather than restoring canonical tracking truth |
+| `deterministic_fixture_regen` | rerun deterministic artifact/fixture/checksum generators already committed in repo workflows, keep regenerated outputs only when they match current source truth | changed package `npm run check` plus `bash scripts/docs/check_docs.sh` when docs/artifacts are touched | escalate if regeneration changes accepted product/policy semantics, introduces nondeterministic drift, or depends on missing external credentials |
+| `pr_body_hygiene` | patch `Closes`/`Refs`, rollback note, validation evidence, and required `done / next / blocked` status text in the PR body or thread | `gh pr view <pr> --repo BoilerHAUS/moltch` and confirm required template fields are present | escalate if the missing body content reflects unresolved scope ambiguity rather than a formatting/traceability omission |
+| `stale_base_refresh` | rebase or merge latest `main` into the PR branch, resolve conflicts without dropping accepted content, rerun in-scope validations, and force-push only to the fork branch when needed | in-scope package checks plus `bash scripts/docs/check_docs.sh` before push | escalate if conflict resolution requires a new product/policy decision or cannot be completed without altering accepted contract behavior |
+
+Fail-closed rule: if a candidate remediation would change accepted semantics rather than restore repo truth, do not auto-fix; move the PR to `blocked_needs_human` with a concise blocker summary.
+
 ## acceptance criteria for this contract
 - implementation-ready issues may be admitted to autonomous PR opening without a human “please open PR” nudge
 - automation must not infer readiness from PR existence alone
