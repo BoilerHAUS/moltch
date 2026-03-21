@@ -1,0 +1,42 @@
+{
+  "schema_version": "audit_log_runtime_evidence.v1",
+  "scenario": "fail_closed",
+  "generated_at": "deterministic",
+  "input_fixture": {
+    "decisionId": "dec-fail_closed",
+    "correlationId": "corr-fail_closed",
+    "lifecycleState": "recorded",
+    "verdict": "hold",
+    "reasonCodes": [
+      "validation_failed"
+    ],
+    "actorIds": [
+      "policy_engine",
+      "launch_gate"
+    ],
+    "timestamp": "2026-03-21T14:30:00Z",
+    "decisionInput": {
+      "scenario": "fail_closed",
+      "approvals_required": 1,
+      "approvals_received": 1,
+      "artifacts": [
+        "run:123",
+        "scenario:fail_closed"
+      ]
+    },
+    "offchainLogId": "log-fail_closed"
+  },
+  "expected_events_emitted": [],
+  "expected_blocked_actions": [
+    "onchain_emit"
+  ],
+  "expected_skipped_actions": [],
+  "verdict_summary": {
+    "verdict": "blocked",
+    "offchain_write_count": 1,
+    "onchain_write_count": 0,
+    "replayed": false,
+    "dual_write_enabled": true
+  },
+  "manifest_hash": "02551f067941ba0c9324010348eca3c80157fdcd0552c239ea10eb9560704b61"
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "audit_log_runtime_evidence.v1",
+  "scenario": "fail_open",
+  "generated_at": "deterministic",
+  "input_fixture": {
+    "decisionId": "dec-fail_open",
+    "correlationId": "corr-fail_open",
+    "lifecycleState": "recorded",
+    "verdict": "go",
+    "reasonCodes": [
+      "executed"
+    ],
+    "actorIds": [
+      "policy_engine",
+      "launch_gate"
+    ],
+    "timestamp": "2026-03-21T14:30:00Z",
+    "decisionInput": {
+      "scenario": "fail_open",
+      "approvals_required": 1,
+      "approvals_received": 1,
+      "artifacts": [
+        "run:123",
+        "scenario:fail_open"
+      ]
+    },
+    "offchainLogId": "log-fail_open"
+  },
+  "expected_events_emitted": [],
+  "expected_blocked_actions": [],
+  "expected_skipped_actions": [
+    "onchain_emit"
+  ],
+  "verdict_summary": {
+    "verdict": "partial_success",
+    "offchain_write_count": 1,
+    "onchain_write_count": 0,
+    "replayed": false,
+    "dual_write_enabled": true
+  },
+  "manifest_hash": "6a14450a1909d5e26f7bb8f8a456815ea5fa09e424a1dcb06cf79cb02f1da123"
+}

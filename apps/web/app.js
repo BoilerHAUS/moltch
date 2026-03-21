@@ -37,6 +37,13 @@ const DECISIONS_FIXTURE = [
   }
 ];
 
+
+const observabilityPanel = window.ObservabilityPanel || {
+  getObservabilityPanelState: () => 'unavailable',
+  normalizeObservabilitySummary: (x) => x || { totals: {}, aggregate: {}, items: [], states: { empty: true } },
+  normalizeCorrelation: (x) => x || { correlation_id: 'n/a', state: 'unavailable', events: [] }
+};
+
 const decisionWorkflow = window.DecisionWorkflow || {
   getReasonCodeOptions: () => [],
   validateDecisionSubmission: () => ['decision workflow module unavailable']
@@ -61,7 +68,8 @@ const el = {
   threads: document.getElementById('threads-content'),
   tasks: document.getElementById('tasks-content'),
   analytics: document.getElementById('analytics-content'),
-  decisions: document.getElementById('decisions-content')
+  decisions: document.getElementById('decisions-content'),
+  observability: document.getElementById('observability-content')
 };
 
 function escapeHtml(text) {
@@ -444,5 +452,49 @@ async function loadAnalytics() {
 }
 
 loadThreads();
+loadObservability();
 loadAnalytics();
 renderDecisionWorkflow();
+
+function renderObservabilityState(mode, text) {
+  if (!el.observability) return;
+  el.observability.innerHTML = `<div class="state ${mode}">${text}</div>`;
+}
+
+function renderObservabilitySummary(summary) {
+  const data = observabilityPanel.normalizeObservabilitySummary(summary);
+  const first = data.items[0] || null;
+  const rows = [
+    ['decisions', data.totals.decisions ?? 0],
+    ['terminal', data.totals.terminal ?? 0],
+    ['alerts', data.totals.alerts ?? 0],
+    ['retry_rate', data.aggregate.retry_rate ?? 'n/a'],
+    ['hold_rate', data.aggregate.hold_rate ?? 'n/a']
+  ].map(([name, value]) => `<li class="row-item"><div><strong>${name}</strong></div><div class="right"><span class="pill">${value}</span></div></li>`).join('');
+
+  const detail = first ? `<div class="state ok">correlation drilldown ready: <span class="mono-code">${first.correlation_id}</span> · state=${first.last_state}</div>` : '<div class="state empty">no decisions available</div>';
+
+  el.observability.innerHTML = `
+    <div class="state ok">source=${data.source} · fetched_at=${data.fetched_at} · mock_mode=${data.states.mock_mode === true ? 'true' : 'false'}</div>
+    <ul class="list">${rows}</ul>
+    ${detail}
+  `;
+}
+
+async function loadObservability() {
+  if (!el.observability) return;
+  renderObservabilityState('loading', 'loading observability summary…');
+  try {
+    const res = await fetch('/api/v1/decision-observability/summary', { headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error(`observability unavailable (${res.status})`);
+    const data = await res.json();
+    const mode = observabilityPanel.getObservabilityPanelState({ summary: data });
+    if (mode === 'empty') {
+      renderObservabilityState('empty', 'no observability data available');
+      return;
+    }
+    renderObservabilitySummary(data);
+  } catch (err) {
+    renderObservabilityState('error', `${err.message} (explicit unavailable state)`);
+  }
+}

@@ -13,6 +13,8 @@ Endpoints:
 - `GET /sync/github` -> normalized open issues/PRs for one configured repo
 - `GET /cockpit/summary` -> pane summary contract for web shell (threads/tasks/treasury + health)
 - `GET /v1/threads` -> thread list + linked item counts (read-only)
+- `GET /v1/decision-observability/summary` -> minimal observability panel summary contract
+- `GET /v1/decision-observability/correlation/:correlation_id` -> correlation drilldown contract
 - `GET /v1/threads/:thread_id/tasks` -> linked issue/PR status for selected thread
 
 `/sync/github` payload fields:

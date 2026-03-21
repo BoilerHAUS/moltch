@@ -1,0 +1,51 @@
+{
+  "version": "decision_observability.v1",
+  "generated_at": "2026-03-21T14:25:00Z",
+  "summary": {
+    "source": "fixture",
+    "fetched_at": "2026-03-21T14:25:00Z",
+    "totals": {
+      "decisions": 4,
+      "terminal": 3,
+      "alerts": 3
+    },
+    "aggregate": {
+      "decision_latency_ms": { "terminal_count": 3, "average": 91000, "p50": 60000, "p95": 210000 },
+      "hold_rate": 0.3333333333,
+      "no_go_rate": 0.3333333333,
+      "retry_rate": 0.3333333333,
+      "missing_artifact_catch_rate": 0.25
+    },
+    "states": {
+      "loading": false,
+      "empty": false,
+      "unavailable": false,
+      "mock_mode": true
+    },
+    "items": [
+      { "decision_id": "dec-alpha", "correlation_id": "corr-alpha", "lane": "core", "terminal_result": "hold", "last_state": "expired", "alert_count": 1 },
+      { "decision_id": "dec-beta", "correlation_id": "corr-beta", "lane": "core", "terminal_result": "error", "last_state": "rejected", "alert_count": 1 },
+      { "decision_id": "dec-gamma", "correlation_id": "corr-gamma", "lane": "core", "terminal_result": "no_go", "last_state": "cancelled", "alert_count": 1 },
+      { "decision_id": "dec-delta", "correlation_id": "corr-delta", "lane": "core", "terminal_result": null, "last_state": "under_review", "alert_count": 1 }
+    ]
+  },
+  "correlations": {
+    "corr-alpha": {
+      "version": "decision_observability.correlation.v1",
+      "correlation_id": "corr-alpha",
+      "state": "available",
+      "decision": { "decision_id": "dec-alpha", "lane": "core", "terminal_result": "hold", "last_state": "expired", "attempts": 2 },
+      "events": [
+        { "event_id": "evt-a1", "from_state": "draft", "to_state": "proposed", "reason_code": "admissibility_passed", "result": "success" },
+        { "event_id": "evt-a5", "from_state": "under_review", "to_state": "expired", "reason_code": "stuck_timeout", "result": "hold" }
+      ]
+    },
+    "corr-missing": {
+      "version": "decision_observability.correlation.v1",
+      "correlation_id": "corr-missing",
+      "state": "unavailable",
+      "decision": null,
+      "events": []
+    }
+  }
+}

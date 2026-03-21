@@ -8,7 +8,8 @@
     "test:contract": "node tests/pane-contract.test.js",
     "test:decision-workflow": "node tests/decision-workflow.test.js",
     "test:decision-observability": "node tests/decision-observability.test.js",
-    "test": "npm run test:contract && npm run test:decision-workflow && npm run test:decision-observability && npm run test:asset-pack",
-    "test:asset-pack": "node tests/asset-pack.test.js"
+    "test": "npm run test:contract && npm run test:decision-workflow && npm run test:decision-observability && npm run test:observability-panel && npm run test:asset-pack",
+    "test:asset-pack": "node tests/asset-pack.test.js",
+    "test:observability-panel": "node tests/observability-panel.test.js"
   }
 }
