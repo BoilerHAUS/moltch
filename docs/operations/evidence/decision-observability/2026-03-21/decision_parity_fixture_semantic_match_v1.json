@@ -1,0 +1,29 @@
+{
+  "fixture_name": "semantic_match",
+  "offchain": {
+    "decision_id": "dec-002",
+    "correlation_id": "corr-002",
+    "lineage_id": "lin-002",
+    "from_state": "under_review",
+    "to_state": "approved",
+    "result": " success ",
+    "reason_code": "approval_quorum_satisfied",
+    "lane": "core",
+    "risk_class": "standard",
+    "metadata": {"a": 1, "b": 2},
+    "notes": " ok "
+  },
+  "onchain": {
+    "notes": "ok",
+    "metadata": {"b": 2, "a": 1},
+    "risk_class": "standard",
+    "lane": "core",
+    "reason_code": "approval_quorum_satisfied",
+    "result": "success",
+    "to_state": "approved",
+    "from_state": "under_review",
+    "lineage_id": "lin-002",
+    "correlation_id": "corr-002",
+    "decision_id": "dec-002"
+  }
+}
