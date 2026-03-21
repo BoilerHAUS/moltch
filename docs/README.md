@@ -65,6 +65,7 @@ Provide one navigation hub for product, governance, operations, and contribution
 - staging deploy baseline: `docs/operations/DEPLOY_STAGING.md`
 - staging edge + TLS: `docs/operations/STAGING_EDGE_TLS.md`
 - staging image versioning: `docs/operations/STAGING_IMAGE_VERSIONING.md`
+- doc review automation v1: `docs/operations/DOC_REVIEW_AUTOMATION_V1.md`
 - issue priority taxonomy v1: `docs/operations/PRIORITY_TAXONOMY_V1.md`
 - agent key rotation + revocation policy v1: `docs/operations/AGENT_KEY_ROTATION_AND_REVOCATION_V1.md`
 - agent PR delivery contract v1: `docs/operations/AGENT_PR_DELIVERY_CONTRACT_V1.md`
