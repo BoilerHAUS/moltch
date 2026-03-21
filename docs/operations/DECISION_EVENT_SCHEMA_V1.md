@@ -87,6 +87,53 @@ At minimum, emit events for:
 
 If a terminal state is reached without an event, observability is non-conformant.
 
+## fixture examples (v1 in-doc)
+### valid example
+```json
+{
+  "event_id": "evt_valid_001",
+  "event_version": "decision_event.v1",
+  "emitted_at_utc": "2026-03-21T00:00:00Z",
+  "correlation_id": "corr_alpha",
+  "decision_id": "dec_alpha",
+  "from_state": "proposed",
+  "to_state": "under_review",
+  "reason_code": "admissibility_passed",
+  "actor_role": "agent_reviewer",
+  "lane": "core",
+  "result": "success",
+  "latency_ms": 1200
+}
+```
+
+Why valid:
+- includes all required fields
+- UTC timestamp and non-negative latency
+- `from_state` differs from `to_state`
+- `result` and `event_version` are in-policy
+
+### invalid example
+```json
+{
+  "event_id": "evt_invalid_001",
+  "event_version": "decision_event.v1",
+  "emitted_at_utc": "2026-03-21T00:05:00Z",
+  "correlation_id": "corr_alpha",
+  "decision_id": "dec_alpha",
+  "from_state": "under_review",
+  "to_state": "under_review",
+  "reason_code": "validation_failed",
+  "actor_role": "agent_reviewer",
+  "lane": "core",
+  "result": "success",
+  "latency_ms": -50
+}
+```
+
+Why invalid:
+- `from_state == to_state` (no transition occurred)
+- `latency_ms` is negative
+
 ## idempotency and replay
 - producers should guarantee at-least-once emission
 - consumers should deduplicate by `event_id`
