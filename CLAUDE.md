@@ -11,10 +11,10 @@ moltch coordinates human and agent work with explicit approvals, issue-linked de
 ```
 apps/web/            # Cockpit frontend shell (Node.js, vanilla JS/HTML/CSS)
 services/api/        # Orchestration API (Node.js + Express)
-packages/            # Shared libraries (policy-engine, integrations-github, audit-log)
+packages/            # Shared libraries (policy-engine, integrations-github, audit-log, contracts)
 infra/               # Deployment environments (staging)
 docs/                # Documentation hub (product, governance, operations)
-scripts/             # Automation and quality gate scripts
+scripts/             # Automation and quality gate scripts (docs/, staging/, ops/)
 .github/             # Workflows, CODEOWNERS, PR template
 ```
 
@@ -33,8 +33,17 @@ cd services/api && npm start
 ### Staging (Docker)
 
 ```bash
+# Standard staging
 docker compose --env-file infra/environments/staging/.env.staging \
   -f docker-compose.staging.yml up -d --build
+
+# With TLS edge overlay
+docker compose --env-file infra/environments/staging/.env.staging \
+  -f docker-compose.staging.yml -f docker-compose.staging.edge.yml up -d --build
+
+# Pre-built images variant
+docker compose --env-file infra/environments/staging/.env.staging \
+  -f docker-compose.staging.images.yml up -d
 ```
 
 ### Quality Gates
@@ -45,6 +54,20 @@ bash ./scripts/docs/check_docs.sh
 
 # Verify compose + env consistency
 bash ./scripts/staging/check_deploy_integrity.sh
+
+# Verify image refs are pinned/immutable
+bash ./scripts/staging/check_image_refs_immutable.sh
+
+# Staging smoke test
+bash ./scripts/staging/smoke.sh
+
+# Per-package: lint + test + build + simulation/reason-code checks
+cd packages/policy-engine && npm run check
+cd packages/audit-log && npm run check
+cd packages/contracts && npm run check
+
+# Web cockpit tests
+cd apps/web && npm test
 ```
 
 ### Health Checks
@@ -71,10 +94,15 @@ Key variables:
 This project follows a strict **issue-first, PR-gated** workflow:
 
 1. All work must be linked to an open issue
-2. Use fork-branch execution pattern
-3. Never push directly to `main` — PRs only
-4. Fill out the PR template fully (summary, linked issue, scope, validation, rollback plan)
-5. Lane ownership is enforced via `.github/CODEOWNERS`
+2. Branch naming: `<actor>/issue-<id>-<slug>`
+3. Open PR to `BoilerHAUS/moltch:main`; include `Closes #<issue>` in the PR body
+4. Never push directly to `main` — PRs only
+5. Fill out the PR template fully (summary, linked issue, scope, validation, rollback plan)
+6. Lane ownership is enforced via `.github/CODEOWNERS`
+
+**Lane ownership:** `boilermolt` owns product/governance/commercial/docs; `boilerclaw` owns technical architecture/deploy/repo. Ties escalate to the human owner.
+
+**Issue priority:** Every open issue must have exactly one `priority:p*` label (`p0`–`p5`). Legacy `priority:now|next|later` labels are retired.
 
 ## Documentation Standards
 
@@ -94,10 +122,11 @@ The CI check (`scripts/docs/check_docs.sh`) enforces these standards. Exemptions
 ## Architecture
 
 See `docs/ARCHITECTURE.md` for the full system design. Key points:
-- Stateful domains: approvals, issues, audit log
-- Security baseline: token-gated readiness, no secrets in compose files
+- Stateful domains: coordination threads, issue/PR-linked tasks, treasury proposals, approvals, execution outcomes, audit log
+- Policy-engine seam (`packages/policy-engine`) is the stable interface between `services/api` and the evaluator — do not bypass it
+- Security baseline: token-gated readiness, no secrets in compose files, tamper-evident audit records
 - GitHub sync is the primary external integration
 
 ## Contributing
 
-See `docs/CONTRIBUTING.md` for the full workflow. Blockers must be escalated within 24 hours via the blocker protocol documented there.
+See `docs/CONTRIBUTING.md` for the full workflow. If blocked for more than 15 minutes: post the blocker, show attempts, provide 2–3 options with a recommendation, and tag `needs-human`.
